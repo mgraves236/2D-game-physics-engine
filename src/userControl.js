@@ -10,9 +10,7 @@ window.addEventListener("keydown", function (event) {
 
     switch (event.key) {
         case "ArrowDown":
-            context.strokeRect(Math.random() * width,
-                Math.random() * height,
-                Math.random() * 30 + 10, Math.random() * 30 + 10);
+
             break;
         case "ArrowUp":
             // code for "up arrow" key press.
