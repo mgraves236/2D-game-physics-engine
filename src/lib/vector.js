@@ -13,9 +13,9 @@ class Vector {
      */
     constructor(x, y, x0, y0) {
         this.x = x;
-        this.y = y;
+        this.y = _engine.Core.map(y);
         this.x0 = x0 || 0;
-        this.y0 = y0 || 0;
+        this.y0 =  _engine.Core.map(y0) || 0;
     }
 
     /**
@@ -75,32 +75,30 @@ class Vector {
         return this.x * a.x + this.y * a.y;
     }
 
+    /**
+     * Method to rotate a vector
+     * @param deg
+     * @return {Vector}
+     */
     rotate(deg) {
         // switch to polar coordinates
-        deg = deg * Math.PI / 180.0;
-        // console.log(deg);
-        // let r = this.mag();
-        // let angle = Math.acos((this.x - this.x0) / r);
-        // console.log(Math.acos((this.x - this.x0) / r) * 180 / Math.PI);
-        // angle = Math.PI / 2 - angle - deg;
-        // let x = r * Math.cos(angle);
-        // let y = r * Math.sin(angle);
-        // return new Vector(x, y, this.x0, this.y0);
-        let xTemp = this.x;
-        let x = this.x*Math.cos(deg) - this.y*Math.sin(deg);
-        let y = xTemp*Math.sin(deg) + this.y*Math.cos(deg);
-        return new Vector(x, y, this.x0, this.y0);
+        deg = Math.PI - deg * Math.PI / 180.0;
+        let r = this.mag();
+        let angle = Math.acos((this.x - this.x0) / r);
+        let x = r * Math.cos(2 * Math.PI - angle + deg) + this.x0;
+        let y = r * Math.sin(angle + deg) + this.y0;
+        console.log("y " + y + "  x " + x + " x0 " + this.x0
+        + " y0 " + _engine.Core.map(this.y0))
+        return new Vector(x,  _engine.Core.map(y), this.x0,  _engine.Core.map(this.y0));
     }
 
-    draw() {
-        _engine.Core.mContext.strokeStyle = 'black';
+    draw(color) {
+        _engine.Core.mContext.strokeStyle = color;
         _engine.Core.mContext.lineWidth = 2;
         _engine.Core.mContext.beginPath();
 
         _engine.Core.mContext.moveTo(this.x0, this.y0);
         _engine.Core.mContext.lineTo(this.x, this.y);
         _engine.Core.mContext.stroke();
-
     }
-
 }
