@@ -1,6 +1,6 @@
 /**
- * A class that represents a vector
- * using Cartesian coordinates
+ * A class that represents a vector using Cartesian coordinates
+ * @class Vector
  */
 class Vector {
 
@@ -20,7 +20,7 @@ class Vector {
 
     /**
      * Method to add two vectors
-     * @param a vector added to a vector that called the method
+     * @param a {Vector} vector added to a vector that called the method
      * @returns {Vector}
      */
     add(a) {
