@@ -8,6 +8,14 @@ export {Vector};
 class Vector {
 
     /**
+     * Function to map y coordinate into a system with changed origin to the bottom of the canvas
+     * To reverse mapping enter a negative parameter, i.e. -a
+     * @param a y coordinate that will be mapped
+     * @return {number} mapped y coordinate
+     */
+    map = (a) =>  _engine.Core.mHeight - a;
+
+    /**
      * Constructor of the Vector class
      * @param x x coordinate of a vector
      * @param y y coordinate of a vector

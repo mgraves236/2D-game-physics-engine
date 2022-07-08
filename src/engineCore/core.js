@@ -1,5 +1,5 @@
 import data from './config.json' assert {type: 'json'};
-import {Vector} from "../lib/vector";
+import {Vector} from "../lib/vector.js";
 export {_engine};
 
 /**
@@ -19,13 +19,6 @@ _engine.Core = (function () {
     mCanvas.width = data.canvasWidth;
 
     /**
-     * Function to map y coordinate into a system with changed origin to the bottom of the canvas
-     * To reverse mapping enter a negative parameter, i.e. -a
-     * @param a y coordinate that will be mapped
-     * @return {number} mapped y coordinate
-     */
-    let map = (a) =>  mHeight - a;
-    /**
      *
      * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}} TODO czy to do dokumentacji
      */
@@ -33,9 +26,8 @@ _engine.Core = (function () {
         mWidth: mCanvas.weight,
         mHeight: mCanvas.height,
         mContext: mContext,
-        map: map,
         mAllObjects: mAllObjects,
-        mGravity: new Vector(0, data.accGravity),
+      //  mGravity: new Vector(0, data.accGravity),
         /***
          * Enable/disable object movements
          * @type boolean
