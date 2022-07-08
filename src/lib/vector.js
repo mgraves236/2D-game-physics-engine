@@ -1,7 +1,10 @@
+import {_engine} from "../engineCore/core.js";
+export {Vector};
 /**
  * A class that represents a vector using Cartesian coordinates
  * @class Vector
  */
+
 class Vector {
 
     /**

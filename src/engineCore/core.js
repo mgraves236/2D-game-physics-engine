@@ -1,3 +1,7 @@
+import data from './config.json' assert {type: 'json'};
+import {Vector} from "../lib/vector";
+export {_engine};
+
 /**
  * Create a namespace
  * @type {{}|{}}
@@ -7,13 +11,12 @@ var _engine = _engine || {};
  * Stores all the physics engine core functionality
  */
 _engine.Core = (function () {
-    let mWidth = 800;
-    let mHeight = 450;
+
     let mCanvas = document.getElementById('canvas');
     let mContext = mCanvas.getContext('2d');
     let mAllObjects = [];
-    mCanvas.height = mHeight;
-    mCanvas.width = mWidth;
+    mCanvas.height = data.canvasHeight;
+    mCanvas.width = data.canvasWidth;
 
     /**
      * Function to map y coordinate into a system with changed origin to the bottom of the canvas
@@ -27,11 +30,17 @@ _engine.Core = (function () {
      * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}} TODO czy to do dokumentacji
      */
     let mPublic = {
-        mWidth: mWidth,
-        mHeight: mHeight,
+        mWidth: mCanvas.weight,
+        mHeight: mCanvas.height,
         mContext: mContext,
         map: map,
-        mAllObjects: mAllObjects
+        mAllObjects: mAllObjects,
+        mGravity: new Vector(0, data.accGravity),
+        /***
+         * Enable/disable object movements
+         * @type boolean
+         */
+        mMovement: false
     };
     return mPublic;
 }());

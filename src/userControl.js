@@ -1,3 +1,5 @@
+import {_engine} from "./engineCore/core.js";
+
 window.addEventListener("keydown", function (event) {
 
     var width = _engine.Core.mWidth;
