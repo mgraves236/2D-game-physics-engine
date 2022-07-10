@@ -1,33 +1,27 @@
-import data from './config.json' assert {type: 'json'};
-import {Vector} from "../lib/vector.js";
-export {_engine};
+import data from './config.json' assert { type: 'json' };
+import { Vector } from "../lib/vector.js";
 
 /**
- * Create a namespace
- * @type {{}|{}}
+ * Create a namespace to store all the physics engine core functionality
+ * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}}
+ * @private
  */
-var _engine = _engine || {};
-/**
- * Stores all the physics engine core functionality
- */
-_engine.Core = (function () {
-
-    let mCanvas = document.getElementById('canvas');
-    let mContext = mCanvas.getContext('2d');
+var _engineCore = (function () {
     let mAllObjects = [];
-    mCanvas.height = data.canvasHeight;
-    mCanvas.width = data.canvasWidth;
-
+    let mGravity = new Vector(0,10);
     /**
-     *
-     * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}} TODO czy to do dokumentacji
+     * Variables to implement the Engine Loop Component
      */
+    let mCurrentTime, mElapsedTime, mPreviousTime = Date.now();
+    let mLagTime = 0;
+    const kFPS = 60; // Frames per second
+    const kFrameTime = 1 / kFPS;
+    let mUpdateIntervalInSeconds = kFrameTime;
+    const kMPF = 1000 * kFrameTime; // Milliseconds per frame.
+
     let mPublic = {
-        mWidth: mCanvas.weight,
-        mHeight: mCanvas.height,
-        mContext: mContext,
         mAllObjects: mAllObjects,
-      //  mGravity: new Vector(0, data.accGravity),
+        mGravity: mGravity,
         /***
          * Enable/disable object movements
          * @type boolean
@@ -36,3 +30,7 @@ _engine.Core = (function () {
     };
     return mPublic;
 }());
+
+export {_engineCore};
+
+

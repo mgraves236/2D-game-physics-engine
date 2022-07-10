@@ -1,19 +1,13 @@
-import {_engine} from "../engineCore/core.js";
-export {Vector};
+import { _engineCore as engineCore } from "../engineCore/core.js";
+import { map } from "../engineCore/screen.js";
+
 /**
  * A class that represents a vector using Cartesian coordinates
  * @class Vector
  */
 
-class Vector {
 
-    /**
-     * Function to map y coordinate into a system with changed origin to the bottom of the canvas
-     * To reverse mapping enter a negative parameter, i.e. -a
-     * @param a y coordinate that will be mapped
-     * @return {number} mapped y coordinate
-     */
-    map = (a) =>  _engine.Core.mHeight - a;
+class Vector {
 
     /**
      * Constructor of the Vector class
@@ -24,9 +18,9 @@ class Vector {
      */
     constructor(x, y, x0, y0) {
         this.x = x;
-        this.y = _engine.Core.map(y);
+        this.y = map(y);
         this.x0 = x0 || 0;
-        this.y0 =  _engine.Core.map(y0) || 0;
+        this.y0 =  map(y0) || 0;
     }
 
     /**
@@ -98,18 +92,17 @@ class Vector {
         let angle = Math.acos((this.x - this.x0) / r);
         let x = r * Math.cos(2 * Math.PI - angle + deg) + this.x0;
         let y = r * Math.sin(angle + deg) + this.y0;
-        console.log("y " + y + "  x " + x + " x0 " + this.x0
-        + " y0 " + _engine.Core.map(this.y0))
-        return new Vector(x,  _engine.Core.map(y), this.x0,  _engine.Core.map(this.y0));
+        return new Vector(x, map(y), this.x0, map(this.y0));
     }
 
     draw(color) {
-        _engine.Core.mContext.strokeStyle = color;
-        _engine.Core.mContext.lineWidth = 2;
-        _engine.Core.mContext.beginPath();
-
-        _engine.Core.mContext.moveTo(this.x0, this.y0);
-        _engine.Core.mContext.lineTo(this.x, this.y);
-        _engine.Core.mContext.stroke();
+        engineCore.mContext.strokeStyle = color;
+        engineCore.mContext.lineWidth = 2;
+        engineCore.mContext.beginPath();
+        engineCore.mContext.moveTo(this.x0, this.y0);
+        engineCore.mContext.lineTo(this.x, this.y);
+        engineCore.mContext.stroke();
     }
 }
+
+export { Vector };

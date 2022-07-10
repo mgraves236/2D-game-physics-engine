@@ -1,10 +1,10 @@
-import {_engine} from "./engineCore/core.js";
+import {_engineCore as engineCore} from "./engineCore/core.js";
 
 window.addEventListener("keydown", function (event) {
 
-    var width = _engine.Core.mWidth;
-    var height = _engine.Core.mHeight;
-    var context = _engine.Core.mContext;
+    var width = engineCore.mWidth;
+    var height = engineCore.mHeight;
+    var context = engineCore.mContext;
 
     if (event.defaultPrevented) {
         return;
