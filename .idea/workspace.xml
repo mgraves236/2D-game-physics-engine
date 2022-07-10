@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="wroking on frame animation">
-      <change afterPath="$PROJECT_DIR$/src/game/level.js" afterDir="false" />
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="bullet class added">
+      <change afterPath="$PROJECT_DIR$/src/bullet/source.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bullet/bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/bullet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/engineCore/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/vector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/vector.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +67,7 @@
       <workItem from="1657058582592" duration="112000" />
       <workItem from="1657120434207" duration="10156000" />
       <workItem from="1657134354388" duration="57739000" />
-      <workItem from="1657454553941" duration="16946000" />
+      <workItem from="1657454553941" duration="23117000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -126,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657457018753</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="bullet class added">
+      <created>1657479024022</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1657479024022</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,6 +156,7 @@
     <MESSAGE value="config json import" />
     <MESSAGE value="moved map to Vector class" />
     <MESSAGE value="wroking on frame animation" />
-    <option name="LAST_COMMIT_MESSAGE" value="wroking on frame animation" />
+    <MESSAGE value="bullet class added" />
+    <option name="LAST_COMMIT_MESSAGE" value="bullet class added" />
   </component>
 </project>

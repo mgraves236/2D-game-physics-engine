@@ -9,20 +9,21 @@ export class Bullet {
      * @param loc
      * @param vel
      */
-    constructor(loc, vel) {
+    constructor(loc, vel, acc) {
         // initialize types
         this.location = new Vector(0, 0);
         this.velocity = new Vector(0, 0);
+        this.acceleration = acc || new Vector(0, 0);
         this.location = loc;
         this.velocity = vel;
-        this.acceleration = engineCore.mGravity;
+        this.acceleration.add(engineCore.mGravity) ;
     }
 
     display() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.clearRect(0, 0, screen.mWidth, screen.mHeight);
-        drawLevel();
+        //ctx.clearRect(0, 0, screen.mWidth, screen.mHeight);
+       // drawLevel();
         ctx.fillStyle = 'black'; /* TODO define global styles for the app */
         ctx.beginPath();
         ctx.ellipse(this.location.x, this.location.y,
@@ -35,7 +36,7 @@ export class Bullet {
         ctx.restore();
     }
 
-    update() {
+    updateBullet() {
         if ((this.location.x > screen.mWidth + 2) ||
             (this.location.y > screen.mHeight + 2)) {
         } else {
