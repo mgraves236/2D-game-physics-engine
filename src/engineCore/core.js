@@ -8,7 +8,7 @@ import { Vector } from "../lib/vector.js";
  */
 var _engineCore = (function () {
     let mAllObjects = [];
-    let mGravity = new Vector(0,10);
+    let mGravity = new Vector(0, data.accGravity);
     /**
      * Variables to implement the Engine Loop Component
      */
