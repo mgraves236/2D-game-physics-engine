@@ -2,12 +2,6 @@ import {Bullet} from "./bullet.js";
 import {Vector} from "../lib/vector.js";
 import {map, screen} from "../engineCore/screen.js";
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-var test = 3;
-
 /**
  * A class that represent a bullet source
  */
@@ -25,7 +19,7 @@ export class bulletSource {
         this.velocityBullet.add(this.velocity);
         this.shot = 0;
         this.previousMillis = 0;
-        this.interval = 2000;
+        this.interval = 4000;
     }
 
     shoot() {
@@ -37,8 +31,19 @@ export class bulletSource {
     }
 
     update() {
-        if ((this.location.x > screen.mWidth + 2) ||
-            (this.location.y > screen.mHeight + 2)) {
+        console.log(this.location.y)
+        if (this.location.x > screen.mWidth) {
+            this.velocity = new Vector(-this.velocity.x, map(this.velocity.y));
+            this.location.add(this.velocity);
+        } else if (this.location.x < 0) {
+            this.velocity = new Vector(-this.velocity.x, map(this.velocity.y));
+            this.location.add(this.velocity);
+        } else if (this.location.y > screen.mHeight) {
+            this.velocity = new Vector(this.velocity.x, -map(this.velocity.y));
+            this.location.add(this.velocity);
+        } else if (this.location.y < 0) {
+            this.velocity = new Vector(this.velocity.x, -map(this.velocity.y));
+            this.location.add(this.velocity);
         } else {
             this.location.add(this.velocity);
         }
@@ -68,7 +73,6 @@ export class bulletSource {
         ctx.closePath();
         ctx.restore();
         if (this.shot !== 0) {
-            console.log(this.shot);
             for (let i = 0; i < this.shot; i++) {
                 this.bulletsArr[i].display();
             }

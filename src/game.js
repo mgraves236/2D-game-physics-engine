@@ -12,7 +12,7 @@ function startGame() {
     let loc = new Vector(10,400);
     let vel = new Vector(0,1);
     let velBull = new Vector(1,0);
-    var source = new bulletSource(3, loc, vel, velBull);
+    var source = new bulletSource(10, loc, vel, velBull);
     engineCore.mAllObjects.push(source);
     window.requestAnimationFrame(engineCore.initializeEngineCore);
 }

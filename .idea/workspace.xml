@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="source class added, needs bug fixes">
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="source class added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bullet/bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/bullet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bullet/source.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/source.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/engineCore/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +66,7 @@
       <workItem from="1657058582592" duration="112000" />
       <workItem from="1657120434207" duration="10156000" />
       <workItem from="1657134354388" duration="57739000" />
-      <workItem from="1657454553941" duration="33934000" />
+      <workItem from="1657454553941" duration="35433000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -139,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657492107094</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="source class added">
+      <created>1657569440340</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1657569440340</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +171,7 @@
     <MESSAGE value="wroking on frame animation" />
     <MESSAGE value="bullet class added" />
     <MESSAGE value="source class added, needs bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="source class added, needs bug fixes" />
+    <MESSAGE value="source class added" />
+    <option name="LAST_COMMIT_MESSAGE" value="source class added" />
   </component>
 </project>
