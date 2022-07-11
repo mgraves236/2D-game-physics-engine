@@ -3,13 +3,18 @@ import { Vector } from "../lib/vector.js";
 import { drawLevel } from "../game/level.js";
 import { _engineCore as engineCore} from "../engineCore/core.js";
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 export class Bullet {
     /**
      *
      * @param loc
      * @param vel
      */
-    constructor(loc, vel, acc) {
+    constructor(loc, vel, acc, delay) {
         // initialize types
         this.location = new Vector(0, 0);
         this.velocity = new Vector(0, 0);
@@ -17,13 +22,12 @@ export class Bullet {
         this.location = loc;
         this.velocity = vel;
         this.acceleration.add(engineCore.mGravity) ;
+        this.delay = delay || 0;
     }
 
     display() {
         let ctx = screen.mContext;
         ctx.save();
-        //ctx.clearRect(0, 0, screen.mWidth, screen.mHeight);
-       // drawLevel();
         ctx.fillStyle = 'black'; /* TODO define global styles for the app */
         ctx.beginPath();
         ctx.ellipse(this.location.x, this.location.y,
@@ -36,13 +40,16 @@ export class Bullet {
         ctx.restore();
     }
 
-    updateBullet() {
-        if ((this.location.x > screen.mWidth + 2) ||
-            (this.location.y > screen.mHeight + 2)) {
-        } else {
-            this.velocity.add(this.acceleration);
-            this.location.add(this.velocity);
-        }
-      // console.log(this.location);
+    update() {
+        sleep(this.delay).then(() => {
+            if ((this.location.x > screen.mWidth + 2) ||
+                (this.location.y > screen.mHeight + 2)) {
+            } else {
+                this.velocity.add(this.acceleration);
+                this.location.add(this.velocity);
+            }
+        });
+
+       //console.log(this.location);
     }
 }
