@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="source class added">
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="source bounds checked">
+      <change afterPath="$PROJECT_DIR$/src/dragArea/dragArea.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bullet/bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/bullet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bullet/source.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/source.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/engineCore/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/vector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/vector.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,17 +39,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "C:/Users/Magda/IdeaProjects/Snake_Game",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Magda/IdeaProjects/Snake_Game&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Magda\Desktop\thesis\2D-game-physics-engine\src\rigidBody" />
@@ -66,7 +69,9 @@
       <workItem from="1657058582592" duration="112000" />
       <workItem from="1657120434207" duration="10156000" />
       <workItem from="1657134354388" duration="57739000" />
-      <workItem from="1657454553941" duration="35433000" />
+      <workItem from="1657454553941" duration="37075000" />
+      <workItem from="1657654725450" duration="10539000" />
+      <workItem from="1657821237579" duration="13095000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -145,7 +150,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657569440340</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="source bounds checked">
+      <created>1657570947499</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1657570947499</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,6 +184,7 @@
     <MESSAGE value="bullet class added" />
     <MESSAGE value="source class added, needs bug fixes" />
     <MESSAGE value="source class added" />
-    <option name="LAST_COMMIT_MESSAGE" value="source class added" />
+    <MESSAGE value="source bounds checked" />
+    <option name="LAST_COMMIT_MESSAGE" value="source bounds checked" />
   </component>
 </project>

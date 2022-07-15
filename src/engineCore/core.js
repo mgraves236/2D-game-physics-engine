@@ -10,6 +10,7 @@ import {bulletSource} from "../bullet/source.js";
  */
 var _engineCore = (function () {
     let mAllObjects = [];
+    let mDragAreas = [];
     let mGravity = new Vector(0, data.accGravity);
     /**
      * Engine Loop Component
@@ -21,13 +22,16 @@ var _engineCore = (function () {
         const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
         if (secondsSinceLastRender < 1 / 60) return;
         lastRenderTime = currentTime;
-       // console.log("1 " + mAllObjects[0].bulletsArr[0].location.y)
-       // console.log("2 " + mAllObjects[0].bulletsArr[1].location.y)
         drawLevel();
+        if (mDragAreas !== null) {
+            for (let i = 0; i < mDragAreas.length; i++) {
+                mDragAreas[i].update();
+                mDragAreas[i].display();
+            }
+        }
         if (mAllObjects !== null) {
             for (let i = 0; i < mAllObjects.length; i++) {
                 mAllObjects[i].update();
-                // engineCore.mAllObjects[0].display();
                 mAllObjects[i].display();
             }
         }
@@ -36,6 +40,7 @@ var _engineCore = (function () {
     let mPublic = {
         initializeEngineCore: mainGame,
         mAllObjects: mAllObjects,
+        mDragAreas: mDragAreas,
         mGravity: mGravity,
         /***
          * Enable/disable object movements

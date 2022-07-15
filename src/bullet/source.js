@@ -1,6 +1,7 @@
 import {Bullet} from "./bullet.js";
 import {Vector} from "../lib/vector.js";
 import {map, screen} from "../engineCore/screen.js";
+import data from './../engineCore/config.json' assert { type: 'json' };
 
 /**
  * A class that represent a bullet source
@@ -26,12 +27,12 @@ export class bulletSource {
         let bulletsVel = new Vector(this.velocityBullet.x, map(this.velocityBullet.y));
         let loc2 = new Vector(this.location.x, map(this.location.y));
         let bullet = new Bullet(loc2, bulletsVel);
+        //let drag = new Vector(0, map(0));
         this.bulletsArr.push(bullet);
         this.shot = this.shot + 1;
     }
 
     update() {
-        console.log(this.location.y)
         if (this.location.x > screen.mWidth) {
             this.velocity = new Vector(-this.velocity.x, map(this.velocity.y));
             this.location.add(this.velocity);

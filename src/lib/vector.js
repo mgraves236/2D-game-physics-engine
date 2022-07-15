@@ -48,12 +48,13 @@ class Vector {
     /**
      * Method to multiply (scale) a vector by a scalar n
      * @param n scalar by which the vector is multiplied
-     * @returns {Vector}
      */
     mult(n) {
-        // this.x = n * this.x;
-        // this.y = n * this.y;
-        return new Vector(n * this.x, n * this.y)
+         this.x = n * this.x;
+         let yTemp = map( this.y);
+         yTemp = n * yTemp;
+         this.y = map(-yTemp);
+       // return new Vector(n * this.x, n * this.y)
     }
 
     /**

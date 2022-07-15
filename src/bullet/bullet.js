@@ -1,7 +1,9 @@
-import { screen } from "../engineCore/screen.js";
+import { screen, map } from "../engineCore/screen.js";
 import { Vector } from "../lib/vector.js";
 import { drawLevel } from "../game/level.js";
 import { _engineCore as engineCore} from "../engineCore/core.js";
+import data from './../engineCore/config.json' assert { type: 'json' };
+import {DragArea} from "../dragArea/dragArea.js";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -16,13 +18,20 @@ export class Bullet {
      */
     constructor(loc, vel, acc, delay) {
         // initialize types
+        this.mass = data.bulletMass;
         this.location = new Vector(0, 0);
         this.velocity = new Vector(0, 0);
         this.acceleration = acc || new Vector(0, 0);
         this.location = loc;
         this.velocity = vel;
-        this.acceleration.add(engineCore.mGravity) ;
+        this.acceleration.add(engineCore.mGravity);
         this.delay = delay || 0;
+    }
+
+    applyForce(force) {
+        let f = force;
+        f.mult(1 / this.mass);
+        this.acceleration.add(f);
     }
 
     display() {
@@ -45,11 +54,39 @@ export class Bullet {
             if ((this.location.x > screen.mWidth + 2) ||
                 (this.location.y > screen.mHeight + 2)) {
             } else {
+                for (let i = 0; i < engineCore.mDragAreas.length; i++) {
+                    let area = engineCore.mDragAreas[i];
+                    if (this.isInside(area)) {
+                        this.drag(area);
+                    }
+                }
+                console.log(this.acceleration)
                 this.velocity.add(this.acceleration);
                 this.location.add(this.velocity);
             }
         });
+    }
 
-       //console.log(this.location);
+    isInside(area) {
+            if (this.location.x > area.x &&
+                this.location.x < area.x + area.w &&
+                this.location.y > area.y &&
+                this.location.y < area.y + area.h) {
+                return true;
+            } else {
+                return false;
+            }
+    }
+
+    drag(dragObj) {
+        let speed = this.velocity.mag();
+        let dragMagnitude = dragObj.c * speed * speed;
+        let drag = new Vector(0,0);
+        drag.x = this.velocity.x;
+        drag.y = this.velocity.y;
+        drag.mult(-1);
+        drag.normalize();
+        drag.mult(dragMagnitude);
+        this.applyForce(drag);
     }
 }
