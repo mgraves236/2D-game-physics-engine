@@ -1,3 +1,3 @@
 class Rectangle extends RigidShape {
-/* TODO implement rectangle */
+    /* TODO implement rectangle */
 }

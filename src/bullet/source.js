@@ -1,7 +1,7 @@
 import {Bullet} from "./bullet.js";
 import {Vector} from "../lib/vector.js";
 import {map, screen} from "../engineCore/screen.js";
-import data from './../engineCore/config.json' assert { type: 'json' };
+import data from './../engineCore/config.json' assert {type: 'json'};
 
 /**
  * A class that represent a bullet source

@@ -1,8 +1,8 @@
-import { screen, map } from "../engineCore/screen.js";
-import { Vector } from "../lib/vector.js";
-import { drawLevel } from "../game/level.js";
-import { _engineCore as engineCore} from "../engineCore/core.js";
-import data from './../engineCore/config.json' assert { type: 'json' };
+import {screen, map} from "../engineCore/screen.js";
+import {Vector} from "../lib/vector.js";
+import {drawLevel} from "../game/level.js";
+import {_engineCore as engineCore} from "../engineCore/core.js";
+import data from './../engineCore/config.json' assert {type: 'json'};
 import {DragArea} from "../dragArea/dragArea.js";
 
 function sleep(ms) {
@@ -60,7 +60,6 @@ export class Bullet {
                         this.drag(area);
                     }
                 }
-                console.log(this.acceleration)
                 this.velocity.add(this.acceleration);
                 this.location.add(this.velocity);
             }
@@ -68,20 +67,20 @@ export class Bullet {
     }
 
     isInside(area) {
-            if (this.location.x > area.x &&
-                this.location.x < area.x + area.w &&
-                this.location.y > area.y &&
-                this.location.y < area.y + area.h) {
-                return true;
-            } else {
-                return false;
-            }
+        if (this.location.x > area.x &&
+            this.location.x < area.x + area.w &&
+            this.location.y > area.y &&
+            this.location.y < area.y + area.h) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     drag(dragObj) {
         let speed = this.velocity.mag();
         let dragMagnitude = dragObj.c * speed * speed;
-        let drag = new Vector(0,0);
+        let drag = new Vector(0, 0);
         drag.x = this.velocity.x;
         drag.y = this.velocity.y;
         drag.mult(-1);

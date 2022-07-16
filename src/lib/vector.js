@@ -1,5 +1,5 @@
-import { _engineCore as engineCore } from "../engineCore/core.js";
-import { map } from "../engineCore/screen.js";
+import {_engineCore as engineCore} from "../engineCore/core.js";
+import {map} from "../engineCore/screen.js";
 
 /**
  * A class that represents a vector using Cartesian coordinates
@@ -20,7 +20,7 @@ class Vector {
         this.x = x;
         this.y = map(y);
         this.x0 = x0 || 0;
-        this.y0 =  map(y0) || 0;
+        this.y0 = map(y0) || 0;
     }
 
     /**
@@ -29,8 +29,8 @@ class Vector {
      * @returns {Vector}
      */
     add(a) {
-         this.x = this.x + a.x;
-         this.y = this.y + map(a.y);
+        this.x = this.x + a.x;
+        this.y = this.y + map(a.y);
         //return new Vector(this.x + a.x, this.y + a.y)
     }
 
@@ -50,11 +50,11 @@ class Vector {
      * @param n scalar by which the vector is multiplied
      */
     mult(n) {
-         this.x = n * this.x;
-         let yTemp = map( this.y);
-         yTemp = n * yTemp;
-         this.y = map(-yTemp);
-       // return new Vector(n * this.x, n * this.y)
+        this.x = n * this.x;
+        let yTemp = map(this.y);
+        yTemp = n * yTemp;
+        this.y = map(-yTemp);
+        // return new Vector(n * this.x, n * this.y)
     }
 
     /**
@@ -73,7 +73,7 @@ class Vector {
      */
     normalize() {
         let mag = this.mag();
-        if(mag !== 0)
+        if (mag !== 0)
             this.mult(1 / mag);
     }
 
@@ -106,4 +106,4 @@ class Vector {
     }
 }
 
-export { Vector };
+export {Vector};

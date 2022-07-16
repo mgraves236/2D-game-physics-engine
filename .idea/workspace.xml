@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="source bounds checked">
-      <change afterPath="$PROJECT_DIR$/src/dragArea/dragArea.js" afterDir="false" />
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="added drag areas class">
+      <change afterPath="$PROJECT_DIR$/src/lib/sineWave.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bullet/bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/bullet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bullet/source.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/source.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/engineCore/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dragArea/dragArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dragArea/dragArea.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engineCore/screen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/screen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/level.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/level.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/vector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/vector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rigidBody/rectangle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rigidBody/rectangle.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +74,7 @@
       <workItem from="1657134354388" duration="57739000" />
       <workItem from="1657454553941" duration="37075000" />
       <workItem from="1657654725450" duration="10539000" />
-      <workItem from="1657821237579" duration="13095000" />
+      <workItem from="1657821237579" duration="37953000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -157,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657570947499</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added drag areas class">
+      <created>1657866172604</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1657866172604</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +195,7 @@
     <MESSAGE value="source class added, needs bug fixes" />
     <MESSAGE value="source class added" />
     <MESSAGE value="source bounds checked" />
-    <option name="LAST_COMMIT_MESSAGE" value="source bounds checked" />
+    <MESSAGE value="added drag areas class" />
+    <option name="LAST_COMMIT_MESSAGE" value="added drag areas class" />
   </component>
 </project>

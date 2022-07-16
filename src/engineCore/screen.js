@@ -1,6 +1,6 @@
-import data from "./config.json" assert { type: 'json' };
+import data from "./config.json" assert {type: 'json'};
 
-var screen = (function() {
+var screen = (function () {
     let mCanvas = document.getElementById('canvas');
     let mContext = mCanvas.getContext('2d');
     mCanvas.height = data.canvasHeight;
@@ -20,8 +20,8 @@ var screen = (function() {
  * @param a y coordinate that will be mapped
  * @return {number} mapped y coordinate
  */
-function  map (a) {
+function map(a) {
     return screen.mHeight - a;
 }
 
-export { screen, map};
+export {screen, map};

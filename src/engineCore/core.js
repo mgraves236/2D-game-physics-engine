@@ -1,14 +1,15 @@
-import data from './config.json' assert { type: 'json' };
-import { Vector } from "../lib/vector.js";
-import { drawLevel } from "../game/level.js";
+import data from './config.json' assert {type: 'json'};
+import {Vector} from "../lib/vector.js";
+import {drawLevel} from "../game/level.js";
 import {bulletSource} from "../bullet/source.js";
+import {screen} from "./screen.js";
 
 /**
  * Create a namespace to store all the physics engine core functionality
  * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}}
  * @private
  */
-var _engineCore = (function () {
+let _engineCore = (function () {
     let mAllObjects = [];
     let mDragAreas = [];
     let mGravity = new Vector(0, data.accGravity);
@@ -16,6 +17,7 @@ var _engineCore = (function () {
      * Engine Loop Component
      */
     let lastRenderTime = 0;
+
     function mainGame(currentTime) {
 
         window.requestAnimationFrame(mainGame);
@@ -35,6 +37,7 @@ var _engineCore = (function () {
                 mAllObjects[i].display();
             }
         }
+
     }
 
     let mPublic = {

@@ -1,10 +1,10 @@
-import { screen } from "../engineCore/screen.js";
+import {screen} from "../engineCore/screen.js";
 
 export function drawLevel() {
     //console.log('here')
     let ctx = screen.mContext;
     ctx.save();
-    let grd = ctx.createLinearGradient(0,0, 0, 500);
+    let grd = ctx.createLinearGradient(0, 0, 0, 500);
     grd.addColorStop(0, "#B989D9");
     grd.addColorStop(1, "#FEC2A9");
     ctx.fillStyle = grd;
