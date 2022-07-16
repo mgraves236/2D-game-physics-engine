@@ -12,44 +12,22 @@ export class DragArea {
         this.h = h;
         this.theta1 = 0;
         this.theta2 = 0;
+        this.waveArray = new Array;
     }
 
     display() {
-        // let ctx = screen.mContext;
-        // ctx.save();
-        // ctx.fillStyle = 'rgba(128,11,115,0.42)';
-        // ctx.beginPath();
-        // ctx.fillRect(this.x, this.y, this.w, this.h);
-        // ctx.fill();
-        // ctx.strokeStyle = 'white';
-        // ctx.lineWidth = 1;
-        // ctx.stroke();
-        // ctx.closePath();
-        // ctx.restore();
-    }
-
-    update() {
-        /*
-        * individual sine wave
-         */
-        let wave1 = new SineWave(this.x, this.y);
-        let wave2 = new SineWave(this.x + 2, this.y + 15);
-        let waveArray = new Array;
-        let wave = [wave1, wave2];
-        waveArray.push(wave);
-
-        let step = 2;
         let ctx = screen.mContext;
         ctx.save();
+        let step = 2;
 
-        let wavePatch = new Path2D();
-        let xPrev = waveArray[0][0].x;
-        let yPrev = waveArray[0][0].y;
-        for (let j = 0; j < waveArray.length; j++) {
-            let wave = waveArray[j];
+        for (let j = 0; j < this.waveArray.length; j++) {
+            let wave = this.waveArray[j];
+            let xPrev = wave[0].x;
+            let yPrev = wave[0].y;
             ctx.beginPath();
             ctx.moveTo(xPrev, yPrev);
-            for (let i = 0; i < this.w / 8 + 8; i += step) {
+            let length = this.w / 8 + 8;
+            for (let i = 0; i < length; i += step) {
                 let x = wave[0].x + i;
                 let y = wave[0].y + Math.sin(i * wave[0].length + this.theta1) * wave[0].amplitude;
                 ctx.lineTo(x, y);
@@ -58,7 +36,7 @@ export class DragArea {
                 yPrev = y;
                 this.theta1 = this.theta1 + wave[0].speed;
             }
-            for (let i = this.w / 8 + 8; i > 0; i -= step) {
+            for (let i = length; i > 0; i -= step) {
                 let x = wave[1].x + i;
                 let y = wave[1].y + Math.sin(i * wave[1].length + this.theta2 + Math.PI) * wave[1].amplitude;
                 ctx.lineTo(x, y);
@@ -68,11 +46,29 @@ export class DragArea {
                 this.theta2 = this.theta2 + wave[1].speed;
             }
             ctx.lineTo(wave[0].x, wave[0].y);
-            ctx.fillStyle = 'rgba(131,66,124,0.1)';
+            ctx.fillStyle = 'rgba(131,66,124,0.15)';
             ctx.closePath();
             ctx.fill();
+
         }
         ctx.restore();
+    }
+
+    update() {
+        this.waveArray = new Array;
+
+        for (let j = 0; j < this.h; j+=50) {
+            for (let i = 1; i < this.w; i += 60) {
+                let wave1 = new SineWave(this.x + i, this.y + j, this.c * 500);
+                let wave2 = new SineWave(this.x + i + 2, this.y + j + 7, this.c * 500);
+
+                let wave = [wave1, wave2];
+                this.waveArray.push(wave);
+            }
+        }
+        this.display();
+
+
     }
 
 }

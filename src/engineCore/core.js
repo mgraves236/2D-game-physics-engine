@@ -28,7 +28,6 @@ let _engineCore = (function () {
         if (mDragAreas !== null) {
             for (let i = 0; i < mDragAreas.length; i++) {
                 mDragAreas[i].update();
-                mDragAreas[i].display();
             }
         }
         if (mAllObjects !== null) {
