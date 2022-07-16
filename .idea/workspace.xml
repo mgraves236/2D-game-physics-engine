@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="added drag areas animation">
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="drag done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dragArea/dragArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dragArea/dragArea.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/sineWave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/sineWave.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +66,9 @@
       <workItem from="1657134354388" duration="57739000" />
       <workItem from="1657454553941" duration="37075000" />
       <workItem from="1657654725450" duration="10539000" />
-      <workItem from="1657821237579" duration="41543000" />
+      <workItem from="1657821237579" duration="41582000" />
+      <workItem from="1657999979177" duration="467000" />
+      <workItem from="1658000603363" duration="1345000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -168,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657993490466</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="drag done">
+      <created>1657997307660</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1657997307660</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +205,7 @@
     <MESSAGE value="source bounds checked" />
     <MESSAGE value="added drag areas class" />
     <MESSAGE value="added drag areas animation" />
-    <option name="LAST_COMMIT_MESSAGE" value="added drag areas animation" />
+    <MESSAGE value="drag done" />
+    <option name="LAST_COMMIT_MESSAGE" value="drag done" />
   </component>
 </project>

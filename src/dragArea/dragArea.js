@@ -20,6 +20,9 @@ export class DragArea {
         ctx.save();
         let step = 2;
 
+      //  ctx.strokeRect(this.x, this.y, this.w, this.h);
+
+
         for (let j = 0; j < this.waveArray.length; j++) {
             let wave = this.waveArray[j];
             let xPrev = wave[0].x;
@@ -56,14 +59,21 @@ export class DragArea {
 
     update() {
         this.waveArray = new Array;
-
+        console.log(this.w / 120)
         for (let j = 0; j < this.h; j+=50) {
-            for (let i = 1; i < this.w; i += 60) {
-                let wave1 = new SineWave(this.x + i, this.y + j, this.c * 500);
-                let wave2 = new SineWave(this.x + i + 2, this.y + j + 7, this.c * 500);
+            for (let i = 0; i < this.w / 120; i++ ) {
 
+                if (j%100 == 0) {
+                    var wave1 = new SineWave(this.x + i * 100, this.y + j, this.c );
+                    var wave2 = new SineWave(this.x + i * 100 + 2, this.y + j + 7, this.c );
+                } else {
+                    var wave1 = new SineWave(this.x + (i + 1) * 40 + 80*i , this.y + j, this.c);
+                    var wave2 = new SineWave(this.x + (i + 1) * 40 + 80*i  + 2, this.y + j + 7, this.c);
+
+                }
                 let wave = [wave1, wave2];
                 this.waveArray.push(wave);
+
             }
         }
         this.display();
