@@ -13,6 +13,10 @@ export class DragArea {
         this.theta1 = 0;
         this.theta2 = 0;
         this.waveArray = new Array;
+        let wave1 = new SineWave(this.x, this.y, this.c);
+        let wave2 = new SineWave(this.x, this.y, this.c);
+        let wave = [wave1, wave2];
+        this.waveArray.push(wave);
     }
 
     display() {
@@ -20,8 +24,7 @@ export class DragArea {
         ctx.save();
         let step = 2;
 
-      //  ctx.strokeRect(this.x, this.y, this.w, this.h);
-
+        //  ctx.strokeRect(this.x, this.y, this.w, this.h);
 
         for (let j = 0; j < this.waveArray.length; j++) {
             let wave = this.waveArray[j];
@@ -60,25 +63,22 @@ export class DragArea {
     update() {
         this.waveArray = new Array;
         console.log(this.w / 120)
-        for (let j = 0; j < this.h; j+=50) {
-            for (let i = 0; i < this.w / 120; i++ ) {
+        for (let j = 0; j < this.h; j += 40) {
+            for (let i = 0; i < this.w / 120; i++) {
 
-                if (j%100 == 0) {
-                    var wave1 = new SineWave(this.x + i * 100, this.y + j, this.c );
-                    var wave2 = new SineWave(this.x + i * 100 + 2, this.y + j + 7, this.c );
+                if (j % 80 == 0) {
+                    var wave1 = new SineWave(this.x + i * 80, this.y + j, this.c);
+                    var wave2 = new SineWave(this.x + i * 80 + 2, this.y + j + 5, this.c);
                 } else {
-                    var wave1 = new SineWave(this.x + (i + 1) * 40 + 80*i , this.y + j, this.c);
-                    var wave2 = new SineWave(this.x + (i + 1) * 40 + 80*i  + 2, this.y + j + 7, this.c);
-
+                    var wave1 = new SineWave(this.x + (i + 1) * 40 + 40 * i, this.y + j, this.c);
+                    var wave2 = new SineWave(this.x + (i + 1) * 40 + 40 * i + 2, this.y + j + 5, this.c);
                 }
                 let wave = [wave1, wave2];
                 this.waveArray.push(wave);
-
             }
         }
         this.display();
-
-
+        delete SineWave.wave1;
+        delete SineWave.wave2;
     }
-
 }

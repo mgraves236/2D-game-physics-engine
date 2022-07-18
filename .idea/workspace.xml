@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="drag done">
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="enhanced design">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dragArea/dragArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dragArea/dragArea.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/sineWave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/sineWave.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +69,9 @@
       <workItem from="1657654725450" duration="10539000" />
       <workItem from="1657821237579" duration="41582000" />
       <workItem from="1657999979177" duration="467000" />
-      <workItem from="1658000603363" duration="1345000" />
+      <workItem from="1658000603363" duration="1483000" />
+      <workItem from="1658002733189" duration="1592000" />
+      <workItem from="1658151967766" duration="4372000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -175,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657997307660</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="enhanced design">
+      <created>1658001983661</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1658001983661</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +216,7 @@
     <MESSAGE value="added drag areas class" />
     <MESSAGE value="added drag areas animation" />
     <MESSAGE value="drag done" />
-    <option name="LAST_COMMIT_MESSAGE" value="drag done" />
+    <MESSAGE value="enhanced design" />
+    <option name="LAST_COMMIT_MESSAGE" value="enhanced design" />
   </component>
 </project>

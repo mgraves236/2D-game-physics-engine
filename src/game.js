@@ -8,7 +8,7 @@ import {DragArea} from "./dragArea/dragArea.js"
  * initial scene
  */
 function startGame() {
-    let liquid = new DragArea(300, map(350), 200, 200);
+    let liquid = new DragArea(300, map(300), 200, 50);
     _engineCore.mDragAreas.push(liquid);
     console.log()
     let loc = new Vector(10, 600);
