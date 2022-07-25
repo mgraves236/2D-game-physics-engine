@@ -1,4 +1,4 @@
-import {screen} from "../engineCore/screen.js";
+import { screen } from "../engineCore/screen.js";
 
 export function drawLevel() {
     //console.log('here')

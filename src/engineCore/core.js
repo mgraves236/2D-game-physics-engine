@@ -1,8 +1,6 @@
 import data from './config.json' assert {type: 'json'};
-import {Vector} from "../lib/vector.js";
-import {drawLevel} from "../game/level.js";
-import {bulletSource} from "../bullet/source.js";
-import {screen} from "./screen.js";
+import { Vector } from "../lib/vector.js";
+import { drawLevel } from "../game/level.js";
 
 /**
  * Create a namespace to store all the physics engine core functionality

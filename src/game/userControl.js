@@ -1,4 +1,4 @@
-import {_engineCore as engineCore} from "./engineCore/core.js";
+import { _engineCore as engineCore } from "../engineCore/core.js";
 
 window.addEventListener("keydown", function (event) {
 

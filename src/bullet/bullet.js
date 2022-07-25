@@ -1,14 +1,11 @@
-import {screen, map} from "../engineCore/screen.js";
-import {Vector} from "../lib/vector.js";
-import {drawLevel} from "../game/level.js";
-import {_engineCore as engineCore} from "../engineCore/core.js";
+import { screen, map } from "../engineCore/screen.js";
+import { Vector } from "../lib/vector.js";
+import { _engineCore as engineCore } from "../engineCore/core.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
-import {DragArea} from "../dragArea/dragArea.js";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 
 export class Bullet {
     /**

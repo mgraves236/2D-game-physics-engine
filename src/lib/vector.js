@@ -1,5 +1,5 @@
-import {_engineCore as engineCore} from "../engineCore/core.js";
-import {map} from "../engineCore/screen.js";
+import { _engineCore as engineCore } from "../engineCore/core.js";
+import {map, screen} from "../engineCore/screen.js";
 
 /**
  * A class that represents a vector using Cartesian coordinates
@@ -97,13 +97,17 @@ class Vector {
     }
 
     draw(color) {
-        engineCore.mContext.strokeStyle = color;
-        engineCore.mContext.lineWidth = 2;
-        engineCore.mContext.beginPath();
-        engineCore.mContext.moveTo(this.x0, this.y0);
-        engineCore.mContext.lineTo(this.x, this.y);
-        engineCore.mContext.stroke();
+        screen.mContext.save();
+        screen.mContext.beginPath();
+        screen.mContext.moveTo(this.x0, this.y0);
+        screen.mContext.lineTo(this.x, this.y);
+        screen.mContext.strokeStyle = color;
+        screen.mContext.lineWidth = 2;
+        screen.mContext.stroke();
+        screen.mContext.restore();
     }
+
+
 }
 
 export {Vector};

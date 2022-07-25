@@ -1,6 +1,6 @@
-import data from './../engineCore/config.json' assert {type: 'json'};
-import {screen} from "../engineCore/screen.js";
-import {SineWave} from "../lib/sineWave.js";
+import data from './../engineCore/config.json' assert { type: 'json' };
+import { screen } from "../engineCore/screen.js";
+import { SineWave } from "../lib/sineWave.js";
 
 export class DragArea {
 
@@ -62,7 +62,6 @@ export class DragArea {
 
     update() {
         this.waveArray = new Array;
-        console.log(this.w / 120)
         for (let j = 0; j < this.h; j += 40) {
             for (let i = 0; i < this.w / 120; i++) {
 

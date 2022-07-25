@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="enhanced design">
+    <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="garbage">
+      <change afterPath="$PROJECT_DIR$/src/game/playerShip.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bullet/bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/bullet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bullet/source.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/source.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dragArea/dragArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dragArea/dragArea.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/sineWave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/sineWave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/level.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/level.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/vector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/vector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/userControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/userControl.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +55,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Magda\Desktop\thesis\2D-game-physics-engine\src\game" />
       <recent name="C:\Users\Magda\Desktop\thesis\2D-game-physics-engine\src\rigidBody" />
       <recent name="C:\Users\Magda\Desktop\thesis\2D-game-physics-engine\src\lib" />
       <recent name="C:\Users\Magda\Desktop\thesis\2D-game-physics-engine\src\engineCore" />
@@ -71,7 +79,9 @@
       <workItem from="1657999979177" duration="467000" />
       <workItem from="1658000603363" duration="1483000" />
       <workItem from="1658002733189" duration="1592000" />
-      <workItem from="1658151967766" duration="4372000" />
+      <workItem from="1658151967766" duration="4424000" />
+      <workItem from="1658240580372" duration="6417000" />
+      <workItem from="1658781319481" duration="3648000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1657058347276</created>
@@ -185,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658001983661</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="garbage">
+      <created>1658178224671</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1658178224671</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,6 +234,7 @@
     <MESSAGE value="added drag areas animation" />
     <MESSAGE value="drag done" />
     <MESSAGE value="enhanced design" />
-    <option name="LAST_COMMIT_MESSAGE" value="enhanced design" />
+    <MESSAGE value="garbage" />
+    <option name="LAST_COMMIT_MESSAGE" value="garbage" />
   </component>
 </project>
