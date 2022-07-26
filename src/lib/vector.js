@@ -1,4 +1,4 @@
-import { _engineCore as engineCore } from "../engineCore/core.js";
+import {_engineCore as engineCore} from "../engineCore/core.js";
 import {map, screen} from "../engineCore/screen.js";
 
 /**
@@ -90,12 +90,31 @@ class Vector {
         // switch to polar coordinates
         deg = Math.PI - deg * Math.PI / 180.0;
         let r = this.mag();
-        let angle = Math.acos((this.x - this.x0) / r);
-        let x = r * Math.cos(2 * Math.PI - angle + deg) + this.x0;
-        let y = r * Math.sin(angle + deg) + this.y0;
+        let x, y;
+
+        let angle = this.angle();
+        x = r * Math.cos(Math.PI - angle - deg) + this.x0;
+        y = r * Math.sin(Math.PI - angle - deg) + this.y0;
+
+        // rotation matrix
+        // let xTemp = this.x;
+        // console.log(this.x + "   " + map(this.x))
+        // let x = this.x*Math.cos(deg) - this.y*Math.sin(deg);
+        // let y = xTemp*Math.sin(deg) + map(this.y)*Math.cos(deg);
+
+
         return new Vector(x, map(y), this.x0, map(this.y0));
+        // this.x = x;
+        // this.y = y;
+        // this.y0 = this.y0;
     }
 
+    angle() {
+        let r = this.mag();
+        let arg = (this.x - this.x0) / r;
+        let angle = Math.acos(arg);
+        return angle;
+    }
     draw(color) {
         screen.mContext.save();
         screen.mContext.beginPath();

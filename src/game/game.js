@@ -3,7 +3,6 @@ import { screen, map } from "../engineCore/screen.js";
 import { Vector } from "../lib/vector.js";
 import { bulletSource } from "../bullet/source.js";
 import { DragArea } from "../dragArea/dragArea.js"
-import { PlayerShip } from "./playerShip.js";
 
 /**
  * initial scene
@@ -20,11 +19,9 @@ function startGame() {
     let source = new bulletSource(10, loc, vel1, velBull);
     let source2 = new bulletSource(10, loc2, vel2, velBull);
     let source3 = new bulletSource(10, loc3, vel2, velBull);
-    let player = new PlayerShip();
     _engineCore.mAllObjects.push(source);
     _engineCore.mAllObjects.push(source2);
     _engineCore.mAllObjects.push(source3);
-    _engineCore.mAllObjects.push(player);
     window.requestAnimationFrame(_engineCore.initializeEngineCore);
 }
 
