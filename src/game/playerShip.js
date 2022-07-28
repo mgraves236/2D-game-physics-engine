@@ -1,4 +1,4 @@
-import { screen, map } from "../engineCore/screen.js";
+import {screen, map} from "../engineCore/screen.js";
 import {Vector} from "../lib/vector.js";
 import {_engineCore as engineCore} from "../engineCore/core.js";
 
@@ -7,8 +7,9 @@ export class PlayerShip {
         this.x = screen.mWidth / 2;
         this.y = screen.mHeight / 2;
         this.location = new Vector(this.x, this.y);
-        this.orientation = new Vector(this.x, this.y + 50, this.x, this.y);
-        this.velocity = new Vector(0, 0, this.x, this.y);
+        this.orientation = new Vector(this.x, this.y + 0.001, this.x, this.y);
+        this.orientation.normalize();
+        this.velocity = new Vector(0, 0, 0, 0);
     }
 
     display() {
@@ -30,9 +31,15 @@ export class PlayerShip {
         if ((this.location.x > screen.mWidth + 2) ||
             (this.location.y > screen.mHeight + 2)) {
         } else {
-           // this.velocity.add(this.acceleration);
+            // this.velocity.add(this.acceleration);
+            //  this.x = this.location.x;
+            //  this.y = this.location.y;
+            //  this.orientation.x0 = this.x;
+            //  this.orientation.y0 = this.y;
+            //  this.velocity.x0 = this.x;
+            //  this.velocity.y0 = this.y;
             this.location.add(this.velocity);
-            console.log(this.location)
+
         }
     }
 }

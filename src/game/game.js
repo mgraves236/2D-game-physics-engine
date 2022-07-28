@@ -2,12 +2,14 @@ import { _engineCore } from "../engineCore/core.js";
 import { screen, map } from "../engineCore/screen.js";
 import { Vector } from "../lib/vector.js";
 import { bulletSource } from "../bullet/source.js";
-import { DragArea } from "../dragArea/dragArea.js"
+import { DragArea } from "../dragArea/dragArea.js";
+
 
 /**
  * initial scene
  */
 function startGame() {
+
     let liquid = new DragArea(300, map(300), 200, 50);
     _engineCore.mDragAreas.push(liquid);
     let loc = new Vector(10, 600);

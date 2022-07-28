@@ -51,9 +51,10 @@ class Vector {
      */
     mult(n) {
         this.x = n * this.x;
-        let yTemp = map(this.y);
-        yTemp = n * yTemp;
-        this.y = map(-yTemp);
+        this.y = n * this.y;
+        // let yTemp = map(this.y);
+        // yTemp = n * yTemp;
+        // this.y = map(-yTemp);
         // return new Vector(n * this.x, n * this.y)
     }
 
@@ -73,8 +74,12 @@ class Vector {
      */
     normalize() {
         let mag = this.mag();
-        if (mag !== 0)
-            this.mult(1 / mag);
+        if (mag !== 0) {
+            let diffX = Math.abs(this.x - this.x0);
+            let diffY = Math.abs(this.y - this.y0);
+            this.x = this.x0 - diffX / mag;
+            this.y = this.y0 - diffY / mag;
+        }
     }
 
     dot(a) {
@@ -112,9 +117,16 @@ class Vector {
     angle() {
         let r = this.mag();
         let arg = (this.x - this.x0) / r;
-        let angle = Math.acos(arg);
+        let angle;
+        if (map(this.y) <= map(this.y0)) {
+            angle = 2 * math.PI - math.acos(arg);
+        } else {
+            angle = math.acos(arg);
+        }
+
         return angle;
     }
+
     draw(color) {
         screen.mContext.save();
         screen.mContext.beginPath();
