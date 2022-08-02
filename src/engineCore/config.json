@@ -3,5 +3,5 @@
   "canvasHeight": 733,
   "accGravity": 0.05,
   "bulletMass": 1,
-  "liquidCoefficient": 0.0000005
+  "liquidCoefficient": 0.000000007
 }

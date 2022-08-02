@@ -77,16 +77,17 @@ export class Bullet {
 
     drag(dragObj) {
         let speed = this.velocity.mag();
+        console.log(this.velocity)
         let dragMagnitude = dragObj.c * speed * speed;
         let drag = new Vector(0, 0);
         drag.x = this.velocity.x;
-        drag.y = this.velocity.y;
+        drag.y = map(this.velocity.y);
         console.log('x  ' + drag.x + '  y   ' + drag.y)
         drag.mult(-1);
         console.log('x  ' + drag.x + '  y   ' + drag.y)
         drag.normalize();
         drag.mult(dragMagnitude);
-        drag.y = map(drag.y);
+        drag.y = map(-drag.y);
         console.log(drag)
         this.applyForce(drag);
     }
