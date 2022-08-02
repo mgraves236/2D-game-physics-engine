@@ -32,7 +32,7 @@ export class PlayerShip {
         } else {
            // this.velocity.add(this.acceleration);
             this.location.add(this.velocity);
-            console.log(this.location)
+          //  console.log(this.location)
         }
     }
 }
