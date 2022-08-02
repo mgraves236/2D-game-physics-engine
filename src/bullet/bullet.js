@@ -83,6 +83,8 @@ export class Bullet {
         drag.mult(-1);
         drag.normalize();
         drag.mult(dragMagnitude);
+        drag.y = map(drag.y);
+        console.log(drag)
         this.applyForce(drag);
     }
 }
