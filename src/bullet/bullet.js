@@ -28,6 +28,7 @@ export class Bullet {
     applyForce(force) {
         let f = force;
         f.mult(1 / this.mass);
+        console.log(f)
         this.acceleration.add(f);
     }
 
@@ -80,7 +81,9 @@ export class Bullet {
         let drag = new Vector(0, 0);
         drag.x = this.velocity.x;
         drag.y = this.velocity.y;
+        console.log('x  ' + drag.x + '  y   ' + drag.y)
         drag.mult(-1);
+        console.log('x  ' + drag.x + '  y   ' + drag.y)
         drag.normalize();
         drag.mult(dragMagnitude);
         drag.y = map(drag.y);
