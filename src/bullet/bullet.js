@@ -28,6 +28,7 @@ export class Bullet {
     applyForce(force) {
         let f = force;
         f.mult(1 / this.mass);
+        console.log(f)
         this.acceleration.add(f);
     }
 

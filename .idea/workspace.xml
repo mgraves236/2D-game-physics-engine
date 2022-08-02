@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62db65fa-dcfe-4e07-b359-2fe1b6dd78b4" name="Changes" comment="started implemetning rotation for player control">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/engineCore/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/engineCore/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/playerShip.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/playerShip.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/userControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/userControl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/vector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/vector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/bullet/bullet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bullet/bullet.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +27,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2BXLJsbtQ9meZkZLlKY0qv6HEnH" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
