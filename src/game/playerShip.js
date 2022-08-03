@@ -1,15 +1,20 @@
 import {screen, map} from "../engineCore/screen.js";
-import {Vector} from "../lib/vector.js";
+import { Vector } from "../lib/vector.js";
+import { Object } from "../lib/object.js";
 import {_engineCore as engineCore} from "../engineCore/core.js";
 
-export class PlayerShip {
+export class PlayerShip extends Object {
     constructor() {
+        super();
+        this.mass = 10000000;
         this.x = screen.mWidth / 2;
         this.y = screen.mHeight / 2;
         this.location = new Vector(this.x, this.y);
         this.orientation = new Vector(this.x, this.y + 0.001, this.x, this.y);
         this.orientation.normalize();
         this.velocity = new Vector(0, 0, 0, 0);
+        this.acceleration = new Vector(0,0);
+        this.accelerationDrag = new Vector(0,0);
     }
 
     display() {
@@ -31,15 +36,15 @@ export class PlayerShip {
         if ((this.location.x > screen.mWidth + 2) ||
             (this.location.y > screen.mHeight + 2)) {
         } else {
-            // this.velocity.add(this.acceleration);
-            //  this.x = this.location.x;
-            //  this.y = this.location.y;
-            //  this.orientation.x0 = this.x;
-            //  this.orientation.y0 = this.y;
-            //  this.velocity.x0 = this.x;
-            //  this.velocity.y0 = this.y;
+            for (let i = 0; i < engineCore.mDragAreas.length; i++) {
+                let area = engineCore.mDragAreas[i];
+                if (this.isInside(area)) {
+                    this.drag(area);
+                    this.velocity.add(this.accelerationDrag);
+                }
+            }
+            //this.velocity.add(this.acceleration);
             this.location.add(this.velocity);
-
         }
     }
 }

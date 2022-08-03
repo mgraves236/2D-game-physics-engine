@@ -2,6 +2,6 @@
   "canvasWidth": 1400,
   "canvasHeight": 733,
   "accGravity": 0.05,
-  "bulletMass": 1,
-  "liquidCoefficient": 0.000000007
+  "bulletMass": 100000,
+  "liquidCoefficient": 0.000000000000000000000007
 }

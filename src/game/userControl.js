@@ -46,11 +46,8 @@ window.addEventListener("keydown", function (event) {
 }, true);
 
 function setVelocity() {
-    console.log(player.velocity)
     let velocity = new Vector(0, 0);
     // direction change only
-    console.log('orient x  ' + player.orientation.x)
-    console.log(player.x)
     if (player.orientation.x < player.x) {
         velocity.x = - math.abs(player.orientation.x - player.orientation.x0);
     } else if (player.orientation.x > player.x) {
@@ -70,4 +67,30 @@ function setVelocity() {
     // TODO  y velocity add gravity
     //velocity.normalize();
     player.velocity = velocity;
+}
+
+function changeDirection() {
+    console.log(player.velocity)
+    let velocity = new Vector(0, 0);
+    // direction change only
+    console.log('orient x  ' + player.orientation.x)
+    console.log(player.x)
+    if (player.orientation.x < player.x) {
+        velocity.x = -math.abs(player.orientation.x - player.orientation.x0);
+    } else if (player.orientation.x > player.x) {
+        velocity.x = math.abs(player.orientation.x - player.orientation.x0);
+    } else {
+        velocity.x = 0;
+    }
+    // console.log('orient  ' + engineCore.mPlayer.orientation.y)
+    // console.log(engineCore.mPlayer.y)
+    if (player.orientation.y < player.y) {
+        velocity.y = map(-math.abs(player.orientation.y - player.orientation.y0));
+    } else if (player.orientation.y > player.y) {
+        velocity.y = map(math.abs(player.orientation.y - player.orientation.y0));
+    } else {
+        velocity.y = map(0);
+    }
+    // TODO  y velocity add gravity
+    //velocity.normalize();
 }
