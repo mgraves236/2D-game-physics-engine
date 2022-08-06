@@ -7,7 +7,7 @@ import {map, screen} from "../engineCore/screen.js";
  */
 
 
-class Vector {
+export class Vector {
 
     /**
      * Constructor of the Vector class
@@ -34,6 +34,10 @@ class Vector {
         //return new Vector(this.x + a.x, this.y + a.y)
     }
 
+    addOrg(a) {
+        this.x = this.x + a.x;
+        this.y = this.y + a.y;
+    }
     /**
      * Method to subtract two vectors
      * @param a vector subtracted from a vector that called the method
@@ -138,7 +142,24 @@ class Vector {
         screen.mContext.restore();
     }
 
+    copy() {
+        let vector = new Vector(0,0);
+        vector.x = this.x;
+        vector.y = this.y;
+        vector.x0 = this.x0;
+        vector.y0 = this.y0;
+        return vector;
+    }
 
+    /**
+     * Get a vector with origin other than (0,0)
+     * @return {Vector}
+     */
+    get() {
+        let vector = new Vector(0,0);
+        vector.x = Math.abs(this.x - this.x0);
+        vector.y = Math.abs(this.y - this.y0);
+        return vector;
+    }
 }
 
-export {Vector};
