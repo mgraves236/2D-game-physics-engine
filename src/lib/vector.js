@@ -36,7 +36,7 @@ export class Vector {
 
     addOrg(a) {
         this.x = this.x + a.x;
-        this.y = this.y + a.y;
+        this.y = this.y - a.y;
     }
     /**
      * Method to subtract two vectors
@@ -44,9 +44,9 @@ export class Vector {
      * @returns {Vector}
      */
     sub(a) {
-        // this.x = this.x - a.x;
-        // this.y = this.y - a.y;
-        return new Vector(this.x - a.x, this.y - a.y)
+         this.x = this.x - a.x;
+         this.y = this.y - map(a.y);
+       // return new Vector(this.x - a.x, this.y - a.y)
     }
 
     /**
