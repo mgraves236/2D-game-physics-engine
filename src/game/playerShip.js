@@ -7,17 +7,17 @@ import data from './../engineCore/config.json' assert {type: 'json'};
 export class PlayerShip extends Object {
     constructor() {
         super();
-        this.mass = 10000;
+        this.mass = 10;
         this.x = screen.mWidth / 2;
-        this.y = screen.mHeight / 2;
+        this.y = screen.mHeight -100;
         this.location = new Vector(this.x, this.y);
         this.angle = 0;
         this.engineOn = false;
         this.rotatingLeft = false;
         this.rotatingRight = false;
-        this.velocity = new Vector(0,0);
-        this.acceleration = new Vector(0, data.accGravity/10);
-        this.accelerationDrag = new Vector(0, 0);
+        this.velocity = new Vector(0,0,0,0, false);
+        this.acceleration = new Vector(0, 0, 0, 0, false);
+        this.accelerationDrag = new Vector(0, 0, 0, 0, false);
     }
 
     display() {
@@ -33,23 +33,17 @@ export class PlayerShip extends Object {
         ctx.stroke(p);
         ctx.restore();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.velocity.draw('red')
-
     }
 
     update() {
-        if ((this.location.x > screen.mWidth + 2) ||
-            (this.location.y > screen.mHeight + 2)) {
-        } else {
-            for (let i = 0; i < engineCore.mDragAreas.length; i++) {
-                let area = engineCore.mDragAreas[i];
-                if (this.isInside(area)) {
-                    console.log('here')
-                    this.drag(area);
-                    this.velocity.add(this.accelerationDrag);
-                    console.log(this.velocity)
-                }
+
+        for (let i = 0; i < engineCore.mDragAreas.length; i++) {
+            let area = engineCore.mDragAreas[i];
+            if (this.isInside(area)) {
+                this.drag(area);
+                this.velocity.add(this.accelerationDrag);
             }
+        }
             //this.velocity.add(this.acceleration);
             // Angle has to be in radians
             const degToRad = Math.PI / 180;
@@ -69,6 +63,5 @@ export class PlayerShip extends Object {
             }
             // Update the velocity depending on gravity
             this.velocity.add(this.acceleration);
-        }
     }
 }

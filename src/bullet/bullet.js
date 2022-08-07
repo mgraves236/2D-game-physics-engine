@@ -19,12 +19,12 @@ export class Bullet extends Object{
         // initialize types
         this.mass = data.bulletMass;
         this.location = new Vector(0, 0);
-        this.velocity = new Vector(0, 0);
-        this.acceleration = acc || new Vector(0, 0);
+        this.velocity = new Vector(0, 0, 0,0,false);
+        this.acceleration = acc || new Vector(0, 0, 0,0,false);
         this.location = loc;
         this.velocity = vel;
         this.acceleration.add(engineCore.mGravity);
-        this.accelerationDrag = new Vector(0, 0);
+        this.accelerationDrag = new Vector(0, 0,0,0, false);
         this.delay = delay || 0;
     }
 
@@ -68,31 +68,5 @@ export class Bullet extends Object{
         });
     }
 
-    // isInside(area) {
-    //     if (this.location.x > area.x &&
-    //         this.location.x < area.x + area.w &&
-    //         this.location.y > area.y &&
-    //         this.location.y < area.y + area.h) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
-    // drag(dragObj) {
-    //     let speed = this.velocity.mag();
-    //     console.log(this.velocity)
-    //     let dragMagnitude = dragObj.c * speed * speed;
-    //     let drag = new Vector(0, 0);
-    //     drag.x = this.velocity.x;
-    //     drag.y = map(this.velocity.y);
-    //     console.log('x  ' + drag.x + '  y   ' + drag.y)
-    //     drag.mult(-1);
-    //     console.log('x  ' + drag.x + '  y   ' + drag.y)
-    //     drag.normalize();
-    //     drag.mult(dragMagnitude);
-    //     drag.y = map(-drag.y);
-    //     console.log(drag)
-    //     this.applyForce(drag);
-    // }
 }

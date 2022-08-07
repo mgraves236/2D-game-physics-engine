@@ -11,7 +11,7 @@ import {PlayerShip} from "../game/playerShip.js";
 let _engineCore = (function () {
     let mAllObjects = [];
     let mDragAreas = [];
-    let mGravity = new Vector(0, data.accGravity);
+    let mGravity = new Vector(0, data.accGravity,0,0,false);
     let mPlayer = new PlayerShip();
 
     /**

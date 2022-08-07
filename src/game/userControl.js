@@ -2,6 +2,7 @@ import {_engineCore as engineCore} from "../engineCore/core.js";
 import {PlayerShip} from "./playerShip.js"
 import {map, screen} from "../engineCore/screen.js";
 import {Vector} from "../lib/vector.js";
+import data from './../engineCore/config.json' assert {type: 'json'};
 
 var player = engineCore.mPlayer;
 
@@ -13,8 +14,12 @@ function handleKeyInput(event) {
     if (keyCode === 39) player.rotatingRight = isKeyDown;
     if (keyCode === 38) player.engineOn = isKeyDown;
     if (keyCode == 40) {
-        let velocity = new Vector(0,0);
+        let velocity = new Vector(0,0, 0, 0, false);
         player.velocity = velocity;
+    }
+    if (keyCode == 16) {
+        console.log('here')
+        player.acceleration = new Vector(0, data.accGravity, 0, 0, false);
     }
 }
 

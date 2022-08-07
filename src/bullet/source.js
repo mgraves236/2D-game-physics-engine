@@ -10,8 +10,8 @@ export class bulletSource {
     constructor(number, loc, vel, velBull) {
         this.numberOfBullets = number;
         this.location = new Vector(0, 0);
-        this.velocity = new Vector(0, 0);
-        this.velocityBullet = new Vector(0, 0);
+        this.velocity = new Vector(0, 0,0,0,false);
+        this.velocityBullet = new Vector(0, 0,0, 0, false);
         this.location = loc;
         this.velocity = vel;
         this.velocityBullet = velBull;
@@ -23,8 +23,8 @@ export class bulletSource {
     }
 
     shoot() {
-        let bulletsVel = new Vector(this.velocityBullet.x, map(this.velocityBullet.y));
-        let loc2 = new Vector(this.location.x, map(this.location.y));
+        let bulletsVel = this.velocityBullet.copy();
+        let loc2 = new Vector(this.location.x, this.location.y, 0,0,false);
         let bullet = new Bullet(loc2, bulletsVel);
         //let drag = new Vector(0, map(0));
         this.bulletsArr.push(bullet);
@@ -33,16 +33,16 @@ export class bulletSource {
 
     update() {
         if (this.location.x > screen.mWidth) {
-            this.velocity = new Vector(-this.velocity.x, map(this.velocity.y));
+            this.velocity = new Vector(-this.velocity.x, this.velocity.y, 0, 0, false);
             this.location.add(this.velocity);
         } else if (this.location.x < 0) {
-            this.velocity = new Vector(-this.velocity.x, map(this.velocity.y));
+            this.velocity = new Vector(-this.velocity.x, this.velocity.y, 0, 0, false);
             this.location.add(this.velocity);
         } else if (this.location.y > screen.mHeight) {
-            this.velocity = new Vector(this.velocity.x, -map(this.velocity.y));
+            this.velocity = new Vector(this.velocity.x, -this.velocity.y, 0, 0, false);
             this.location.add(this.velocity);
         } else if (this.location.y < 0) {
-            this.velocity = new Vector(this.velocity.x, -map(this.velocity.y));
+            this.velocity =new Vector(this.velocity.x, -this.velocity.y, 0, 0, false);
             this.location.add(this.velocity);
         } else {
             this.location.add(this.velocity);
