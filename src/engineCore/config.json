@@ -3,6 +3,6 @@
   "canvasHeight": 633,
   "accGravity": 0.01,
   "bulletMass": 10,
-  "liquidCoefficient": 0.005,
-  "thrust": 3
+  "liquidCoefficient": 0.0008,
+  "thrust": 4
 }

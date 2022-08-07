@@ -15,8 +15,8 @@ export class bulletSource {
         this.location = loc;
         this.velocity = vel;
         this.velocityBullet = velBull;
-        this.bulletsArr = [];
         this.velocityBullet.add(this.velocity);
+        this.bulletsArr = [];
         this.shot = 0;
         this.previousMillis = 0;
         this.interval = 4000;
@@ -24,6 +24,7 @@ export class bulletSource {
 
     shoot() {
         let bulletsVel = this.velocityBullet.copy();
+
         let loc2 = new Vector(this.location.x, this.location.y, 0,0,false);
         let bullet = new Bullet(loc2, bulletsVel);
         //let drag = new Vector(0, map(0));

@@ -31,8 +31,29 @@ export class PlayerShip extends Object {
         ctx.strokeStyle = 'white';
         ctx.lineWidth = '1.5';
         ctx.stroke(p);
+        if (this.engineOn) {
+            ctx.save();
+            const fireYPos = 41;
+            const fireXPos = 0;
+            ctx.beginPath();
+            ctx.moveTo(fireXPos -10, fireYPos);
+            ctx.lineTo(fireXPos +10, fireYPos);
+            ctx.lineTo(fireXPos, fireYPos + Math.random() * 50);
+            ctx.lineTo(fireXPos - 10, fireYPos);
+            ctx.closePath();
+            // ctx.fillStyle = 'orange';
+            let grd = ctx.createLinearGradient(fireXPos, fireYPos, fireXPos, fireYPos+30);
+            grd.addColorStop(0, "red");
+            grd.addColorStop(1, "orange");
+            ctx.fillStyle = grd;
+            ctx.fill();
+            ctx.restore();
+
+        }
         ctx.restore();
+
         ctx.setTransform(1, 0, 0, 1, 0, 0);
+
     }
 
     update() {
