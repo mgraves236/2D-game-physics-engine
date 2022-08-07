@@ -27,21 +27,34 @@ export class Object {
 
     drag(dragObj) {
         let speed = this.velocity.mag();
+        console.log('velocity')
+        console.log(this.velocity)
         let dragMagnitude = dragObj.c * speed * speed;
-        let drag = new Vector(0, 0);
+        let drag = new Vector(0, 0, 0,0,false);
         drag.x = this.velocity.x;
-        drag.y = map(this.velocity.y);
-        drag.mult(-1);
+        drag.y = this.velocity.y;
+        console.log(drag)
         drag.normalize();
+        console.log(drag)
         drag.mult(dragMagnitude);
-        drag.y = map(-drag.y);
+        console.log(drag)
+        drag.mult(-1);
+        console.log(drag)
         this.applyForce(drag);
     }
 
     applyForce(force) {
         let f = force;
         f.mult(1 / this.mass);
-        f.y = map(f.y);
+        //f.y = map(f.y);
         this.accelerationDrag.add(f);
+    }
+
+    update() {
+        throw new Error("Method 'update()' must be implemented.");
+    }
+
+    display() {
+        throw new Error("Method 'display()' must be implemented.");
     }
 }

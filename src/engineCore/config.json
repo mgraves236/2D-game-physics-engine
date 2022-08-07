@@ -1,7 +1,8 @@
 {
-  "canvasWidth": 1400,
-  "canvasHeight": 733,
-  "accGravity": 0.05,
-  "bulletMass": 100000,
-  "liquidCoefficient": 0.000000000000000000000007
+  "canvasWidth": 700,
+  "canvasHeight": 633,
+  "accGravity": 0.01,
+  "bulletMass": 10,
+  "liquidCoefficient": 0.005,
+  "thrust": 3
 }

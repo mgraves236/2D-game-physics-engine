@@ -7,7 +7,7 @@ import {map, screen} from "../engineCore/screen.js";
  */
 
 
-class Vector {
+export class Vector {
 
     /**
      * Constructor of the Vector class
@@ -16,11 +16,17 @@ class Vector {
      * @param x0 optional parameter, x coordinate of the vector origin
      * @param y0 optional parameter, y coordinate of the vector origin
      */
-    constructor(x, y, x0, y0) {
+    constructor(x, y, x0, y0, doMap = true) {
         this.x = x;
-        this.y = map(y);
         this.x0 = x0 || 0;
-        this.y0 = map(y0) || 0;
+        this.doMap = doMap;
+        if (this.doMap) {
+            this.y = map(y);
+            this.y0 = map(y0) || 0;
+        } else {
+            this.y = y;
+            this.y0 = y0;
+        }
     }
 
     /**
@@ -30,19 +36,27 @@ class Vector {
      */
     add(a) {
         this.x = this.x + a.x;
-        this.y = this.y + map(a.y);
+        if (this.doMap && a.doMap) {
+            this.y = this.y + map(a.y);
+        } else {
+            this.y = this.y + a.y;
+        }
         //return new Vector(this.x + a.x, this.y + a.y)
     }
 
+    addOrg(a) {
+        this.x = this.x + a.x;
+        this.y = this.y - a.y;
+    }
     /**
      * Method to subtract two vectors
      * @param a vector subtracted from a vector that called the method
      * @returns {Vector}
      */
     sub(a) {
-        // this.x = this.x - a.x;
-        // this.y = this.y - a.y;
-        return new Vector(this.x - a.x, this.y - a.y)
+         this.x = this.x - a.x;
+         this.y = this.y - map(a.y);
+       // return new Vector(this.x - a.x, this.y - a.y)
     }
 
     /**
@@ -75,10 +89,12 @@ class Vector {
     normalize() {
         let mag = this.mag();
         if (mag !== 0) {
-            let diffX = Math.abs(this.x - this.x0);
-            let diffY = Math.abs(this.y - this.y0);
-            this.x = this.x0 - diffX / mag;
-            this.y = this.y0 - diffY / mag;
+            // let diffX = Math.abs(this.x - this.x0);
+            // let diffY = Math.abs(this.y - this.y0);
+            // this.x = this.x0 + diffX / mag;
+            // this.y = this.y0 + diffY / mag;
+            this.x = this.x / mag;
+            this.y = this.y / mag;
         }
     }
 
@@ -107,8 +123,12 @@ class Vector {
         // let x = this.x*Math.cos(deg) - this.y*Math.sin(deg);
         // let y = xTemp*Math.sin(deg) + map(this.y)*Math.cos(deg);
 
+        if (this.doMap) {
+            return new Vector(x, map(y), this.x0, map(this.y0));
+        } else {
+            return new Vector(x, y, this.x0, this.y0, false);
 
-        return new Vector(x, map(y), this.x0, map(this.y0));
+        }
         // this.x = x;
         // this.y = y;
         // this.y0 = this.y0;
@@ -138,7 +158,25 @@ class Vector {
         screen.mContext.restore();
     }
 
+    copy() {
+        let vector = new Vector(0,0);
+        vector.x = this.x;
+        vector.y = this.y;
+        vector.x0 = this.x0;
+        vector.y0 = this.y0;
+        vector.doMap = this.doMap;
+        return vector;
+    }
 
+    /**
+     * Get a vector with origin other than (0,0)
+     * @return {Vector}
+     */
+    get() {
+        let vector = new Vector(0,0);
+        vector.x = Math.abs(this.x - this.x0);
+        vector.y = Math.abs(this.y - this.y0);
+        return vector;
+    }
 }
 
-export {Vector};
