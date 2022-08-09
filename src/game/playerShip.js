@@ -7,6 +7,8 @@ import data from './../engineCore/config.json' assert {type: 'json'};
 export class PlayerShip extends Object {
     constructor() {
         super();
+        this.width = 63;
+        this.height = 48;
         this.mass = 10;
         this.x = screen.mWidth / 2;
         this.y = screen.mHeight -100;
@@ -41,7 +43,6 @@ export class PlayerShip extends Object {
             ctx.lineTo(fireXPos, fireYPos + Math.random() * 50);
             ctx.lineTo(fireXPos - 10, fireYPos);
             ctx.closePath();
-            // ctx.fillStyle = 'orange';
             let grd = ctx.createLinearGradient(fireXPos, fireYPos, fireXPos, fireYPos+30);
             grd.addColorStop(0, "red");
             grd.addColorStop(1, "orange");
@@ -50,6 +51,9 @@ export class PlayerShip extends Object {
             ctx.restore();
 
         }
+        ctx.save();
+        ctx.strokeRect(- this.width / 2, 0,
+            this.width, this.height)
         ctx.restore();
 
         ctx.setTransform(1, 0, 0, 1, 0, 0);

@@ -2,7 +2,7 @@
  * Abstract class that represents a rigid body
  * @class RigidShape
  */
-class RigidShape {
+export class RigidShape {
     /**
      * Constructor of RigidShape class,
      * create an object with the center of mass defined by a vector
@@ -11,6 +11,7 @@ class RigidShape {
     constructor(massCenter) {
         this.massCenter = massCenter;
         this.angle = 0;
-        _engine.Core.mAllObjects.push(this);
+        _engine.Core.mAllObjects.push(this); /* TODO push in constructors of other classes*/
+
     }
 }
