@@ -1,6 +1,7 @@
 import { Bullet } from "./bullet.js";
 import { Vector } from "../lib/vector.js";
 import { map, screen } from "../engineCore/screen.js";
+import {_engineCore} from "../engineCore/core.js";
 
 /**
  * A class that represent a bullet source
@@ -20,6 +21,7 @@ export class bulletSource {
         this.shot = 0;
         this.previousMillis = 0;
         this.interval = 4000;
+        _engineCore.mAllObjects.push(this)
     }
 
     shoot() {

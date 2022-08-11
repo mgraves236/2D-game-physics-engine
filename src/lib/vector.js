@@ -48,10 +48,10 @@ export class Vector {
      * @param a vector subtracted from a vector that called the method
      * @returns {Vector}
      */
-    sub(a) {
-         this.x = this.x - a.x;
-         this.y = this.y - a.y;
-       // return new Vector(this.x - a.x, this.y - a.y)
+    subtract(a) {
+         // this.x = this.x - a.x;
+         // this.y = this.y - a.y;
+        return new Vector(this.x - a.x, this.y - a.y, 0,0, false)
     }
 
     /**

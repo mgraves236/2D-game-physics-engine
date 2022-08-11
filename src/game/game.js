@@ -3,6 +3,9 @@ import { screen, map } from "../engineCore/screen.js";
 import { Vector } from "../lib/vector.js";
 import { bulletSource } from "../bullet/source.js";
 import { DragArea } from "../dragArea/dragArea.js";
+import {Rectangle} from "../rigidBody/rectangle.js";
+import {Circle} from "../rigidBody/circle.js";
+import {Triangle} from "../rigidBody/triangle.js";
 
 
 /**
@@ -20,8 +23,11 @@ function startGame() {
     let velBull2 = new Vector(0, -5,0,0,false);
     let source = new bulletSource(10, loc, vel1, velBull);
     let source2 = new bulletSource(10, loc2, vel2, velBull2);
-     _engineCore.mAllObjects.push(source);
-     _engineCore.mAllObjects.push(source2);
+    let massCenter = new Vector(300, 400)
+    let rect = new Rectangle(1, massCenter, 300, 100);
+    let circle = new Circle(1, massCenter, 50);
+    let triangle = new Triangle(1, massCenter, 100, 100);
+    console.log(triangle)
     window.requestAnimationFrame(_engineCore.initializeEngineCore);
 }
 

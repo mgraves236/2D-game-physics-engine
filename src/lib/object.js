@@ -27,19 +27,13 @@ export class Object {
 
     drag(dragObj) {
         let speed = this.velocity.mag();
-        console.log('velocity')
-        console.log(this.velocity)
         let dragMagnitude = dragObj.c * speed * speed;
         let drag = new Vector(0, 0, 0,0,false);
         drag.x = this.velocity.x;
         drag.y = this.velocity.y;
-        console.log(drag)
         drag.normalize();
-        console.log(drag)
         drag.mult(dragMagnitude);
-        console.log(drag)
         drag.mult(-1);
-        console.log(drag)
         this.applyForce(drag);
     }
 
