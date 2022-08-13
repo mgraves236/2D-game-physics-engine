@@ -62,4 +62,8 @@ export class Triangle extends RigidShape {
         ctx.restore();
     }
 
+    update() {
+        super.update();
+    }
+
 }

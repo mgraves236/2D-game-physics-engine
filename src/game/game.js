@@ -6,15 +6,21 @@ import { DragArea } from "../dragArea/dragArea.js";
 import {Rectangle} from "../rigidBody/rectangle.js";
 import {Circle} from "../rigidBody/circle.js";
 import {Triangle} from "../rigidBody/triangle.js";
+import {PlayerShip} from "./playerShip.js";
 
 
 /**
  * initial scene
  */
 function startGame() {
-
+    let x = screen.mWidth / 2;
+    let y = screen.mHeight -100;
+    let location = new Vector(x, y);
+    console.log(location)
+    let mPlayer = new PlayerShip(location);
     let liquid = new DragArea(300, map(300), 200, 50);
     _engineCore.mDragAreas.push(liquid);
+
     let loc = new Vector(10, 600);
     let loc2 = new Vector(300, 0);
     let vel1 = new Vector(0, 2,0,0,false);

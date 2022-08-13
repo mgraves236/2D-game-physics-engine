@@ -4,7 +4,7 @@ import {map, screen} from "../engineCore/screen.js";
 import {Vector} from "../lib/vector.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
 
-var player = engineCore.mPlayer;
+var player = engineCore.mAllObjects[0];
 
 function handleKeyInput(event) {
     const { keyCode, type } = event;

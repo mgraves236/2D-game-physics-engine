@@ -15,10 +15,10 @@ export class Object {
     }
 
     isInside(area) {
-        if (this.location.x > area.x &&
-            this.location.x < area.x + area.w &&
-            this.location.y > area.y &&
-            this.location.y < area.y + area.h) {
+        if (this.massCenter.x > area.x &&
+            this.massCenter.x < area.x + area.w &&
+            this.massCenter.y > area.y &&
+            this.massCenter.y < area.y + area.h) {
             return true;
         } else {
             return false;

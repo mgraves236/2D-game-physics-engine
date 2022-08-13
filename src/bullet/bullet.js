@@ -3,25 +3,26 @@ import { Vector } from "../lib/vector.js";
 import { _engineCore as engineCore } from "../engineCore/core.js";
 import { Object } from "../lib/object.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
+import {Circle} from '../rigidBody/circle.js'
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export class Bullet extends Object{
+export class Bullet extends Circle{
     /**
      *
      * @param loc
      * @param vel
      */
     constructor(loc, vel, acc, delay) {
-        super();
+        super(data.bulletMass, loc, 3);
         // initialize types
         this.mass = data.bulletMass;
-        this.location = new Vector(0, 0);
+        // this.location = new Vector(0, 0);
         this.velocity = new Vector(0, 0, 0,0,false);
         this.acceleration = acc || new Vector(0, 0, 0,0,false);
-        this.location = loc;
+        // this.location = loc;
         this.velocity = vel;
         this.acceleration.add(engineCore.mGravity);
         this.accelerationDrag = new Vector(0, 0,0,0, false);
@@ -40,8 +41,8 @@ export class Bullet extends Object{
         ctx.save();
         ctx.fillStyle = 'black';
         ctx.beginPath();
-        ctx.ellipse(this.location.x, this.location.y,
-            3, 3, 0, 0, 2 * Math.PI);
+        ctx.ellipse(this.massCenter.x, this.massCenter.y,
+            this.radius, this.radius, 0, 0, 2 * Math.PI);
         ctx.fill();
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 1;
@@ -52,8 +53,8 @@ export class Bullet extends Object{
 
     update() {
         sleep(this.delay).then(() => {
-            if ((this.location.x > screen.mWidth + 2) ||
-                (this.location.y > screen.mHeight + 2)) {
+            if ((this.massCenter.x > screen.mWidth + 2) ||
+                (this.massCenter.y > screen.mHeight + 2)) {
             } else {
                 for (let i = 0; i < engineCore.mDragAreas.length; i++) {
                     let area = engineCore.mDragAreas[i];
@@ -63,7 +64,7 @@ export class Bullet extends Object{
                     }
                 }
                 this.velocity.add(this.acceleration);
-                this.location.add(this.velocity);
+                this.massCenter.add(this.velocity);
             }
         });
     }

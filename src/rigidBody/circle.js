@@ -7,6 +7,12 @@ import {screen} from "../engineCore/screen.js";
  * @class Circle
  */
 export class Circle extends RigidShape {
+    /**
+     *
+     * @param mass
+     * @param center
+     * @param radius
+     */
     constructor(mass, center, radius) {
         super(center);
         this.type = "circle";
@@ -29,6 +35,10 @@ export class Circle extends RigidShape {
         ctx.stroke();
         ctx.closePath();
         ctx.restore();
+    }
+
+    update() {
+        super.update();
     }
 
 }
