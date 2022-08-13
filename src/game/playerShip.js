@@ -4,11 +4,11 @@ import { Object } from "../lib/object.js";
 import {_engineCore as engineCore} from "../engineCore/core.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
 import {Rectangle} from "../rigidBody/rectangle.js";
+import {Triangle} from "../rigidBody/triangle.js";
 
 export class PlayerShip extends Rectangle {
     constructor(location) {
         super(data.spaceshipMass,location, 63, 48);
-        console.log(location)
         this.width = 63;
         this.height = 48;
         //this.mass = data.spceshipMass;
@@ -17,7 +17,6 @@ export class PlayerShip extends Rectangle {
         // this.location = new Vector(this.x, this.y);
         // this.location = location.copy();
         // this.massCenter = this.location.copy();
-        console.log(this.massCenter)
         this.angle = 0;
         this.engineOn = false;
         this.rotatingLeft = false;
@@ -29,9 +28,6 @@ export class PlayerShip extends Rectangle {
 
     display() {
         let ctx = screen.mContext;
-        ctx.save()
-        this.displayBounds();
-        ctx.restore();
         ctx.save();
         ctx.translate(this.massCenter.x, this.massCenter.y);
         ctx.rotate(this.angle);
@@ -43,12 +39,6 @@ export class PlayerShip extends Rectangle {
         ctx.strokeStyle = 'white';
         ctx.lineWidth = '1.5';
         ctx.stroke(p);
-        ctx.beginPath();
-        ctx.ellipse(0, 0,
-            3, 3, 0, 0, 2 * Math.PI);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        ctx.closePath();
         if (this.engineOn) {
             ctx.save();
             const fireYPos = 41;
@@ -66,31 +56,18 @@ export class PlayerShip extends Rectangle {
             ctx.fill();
             ctx.restore();
         }
-
-        // ctx.save();
-        // ctx.strokeRect(- this.width / 2, 0,
-        //     this.width, this.height)
-        // ctx.restore();
-
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.save();
-        // ctx.translate(0,0);
-        // display mass center
-        ctx.beginPath();
-        ctx.ellipse(this.massCenter.x, this.massCenter.y,
-            3, 3, 0, 0, 2 * Math.PI);
-        ctx.fillStyle = 'red';
-        ctx.fill();
-        ctx.closePath();
-        this.massCenter.draw('orange')
+        ctx.restore();
+        ctx.save()
+        this.displayBounds();
         ctx.restore();
 
     }
 
     update() {
-
         for (let i = 0; i < engineCore.mDragAreas.length; i++) {
             let area = engineCore.mDragAreas[i];
+            console.log(this.isInside(area))
             if (this.isInside(area)) {
                 this.drag(area);
                 this.velocity.add(this.accelerationDrag);
@@ -113,10 +90,6 @@ export class PlayerShip extends Rectangle {
                 this.velocity.x += (data.thrust / 100) * Math.sin(this.angle);
                 this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
             }
-            // Update the velocity depending on gravity
             this.velocity.add(this.acceleration);
-            console.log('--------------- drag acceleration -----------')
-            console.log(this.accelerationDrag)
-            console.log(this.velocity)
     }
 }

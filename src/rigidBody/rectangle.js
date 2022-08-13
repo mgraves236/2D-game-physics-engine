@@ -20,7 +20,6 @@ export class Rectangle extends RigidShape {
         this.width = width;
         this.height = height;
         this.mass = mass;
-        console.log(this.massCenter)
         /**
          * Array to store vertex positions of the rectangle
          * @type {*[]}
@@ -54,9 +53,9 @@ export class Rectangle extends RigidShape {
         let ctx = screen.mContext;
         ctx.save();
         ctx.strokeStyle = 'red';
-        ctx.translate(this.vertex[0].x, this.vertex[0].y);
+        ctx.translate(this.massCenter.x, this.massCenter.y);
         ctx.rotate(this.angle);
-        ctx.strokeRect(0, 0, this.width, this.height);
+        ctx.strokeRect(-this.width / 2, - this.height / 2, this.width, this.height);
         ctx.restore();
         // draw the face normal vectors
         ctx.translate(this.massCenter.x, this.massCenter.y);
@@ -65,35 +64,34 @@ export class Rectangle extends RigidShape {
         ctx.restore();
     }
 
-
-    isInside(area) {
-        if (this.massCenter.x > area.x &&
-            this.massCenter.x < area.x + area.w &&
-            this.massCenter.y > area.y &&
-            this.massCenter.y < area.y + area.h) {
-            console.log('inside')
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    drag(dragObj) {
-        let speed = this.velocity.mag();
-        let dragMagnitude = dragObj.c * speed * speed;
-        let drag = new Vector(0, 0, 0,0,false);
-        drag.x = this.velocity.x;
-        drag.y = this.velocity.y;
-        drag.normalize();
-        drag.mult(dragMagnitude);
-        drag.mult(-1);
-        this.applyForce(drag);
-    }
-
-    applyForce(force) {
-        let f = force;
-        f.mult(1 / this.mass);
-        //f.y = map(f.y);
-        this.accelerationDrag.add(f);
-    }
+    //
+    // isInside(area) {
+    //     if (this.massCenter.x > area.x &&
+    //         this.massCenter.x < area.x + area.w &&
+    //         this.massCenter.y > area.y &&
+    //         this.massCenter.y < area.y + area.h) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    //
+    // drag(dragObj) {
+    //     let speed = this.velocity.mag();
+    //     let dragMagnitude = dragObj.c * speed * speed;
+    //     let drag = new Vector(0, 0, 0,0,false);
+    //     drag.x = this.velocity.x;
+    //     drag.y = this.velocity.y;
+    //     drag.normalize();
+    //     drag.mult(dragMagnitude);
+    //     drag.mult(-1);
+    //     this.applyForce(drag);
+    // }
+    //
+    // applyForce(force) {
+    //     let f = force;
+    //     f.mult(1 / this.mass);
+    //     //f.y = map(f.y);
+    //     this.accelerationDrag.add(f);
+    // }
 }

@@ -13,6 +13,7 @@ export class Triangle extends RigidShape {
         // triangle base
         this.width = width;
         this.height = height;
+        this.mass = mass;
         /**
          * Array to store vertex positions of the triangle
          * @type {*[]}
@@ -45,7 +46,7 @@ export class Triangle extends RigidShape {
         this.faceNormal.forEach(vector => vector.normalize());
     }
 
-    display() {
+    displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
         ctx.strokeStyle = 'red';

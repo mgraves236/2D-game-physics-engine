@@ -23,7 +23,7 @@ export class RigidShape {
     update() {
     }
 
-    display() {
+    displayBounds() {
     }
 
     /**
@@ -47,6 +47,7 @@ export class RigidShape {
      * @param dragObj
      */
     drag(dragObj) {
+        console.log('here')
         let speed = this.velocity.mag();
         let dragMagnitude = dragObj.c * speed * speed;
         let drag = new Vector(0, 0, 0,0,false);
@@ -57,12 +58,14 @@ export class RigidShape {
         drag.mult(-1);
         this.applyForce(drag);
     }
-    /**
-     *
-     * @param force
-     */
+    // /**
+    //  *
+    //  * @param force
+    //  */
     applyForce(force) {
         let f = force;
+        console.log(f)
+        console.log(this.massCenter)
         f.mult(1 / this.mass);
         this.accelerationDrag.add(f);
     }

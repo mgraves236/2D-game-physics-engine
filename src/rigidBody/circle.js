@@ -22,18 +22,18 @@ export class Circle extends RigidShape {
 
     }
 
-    display() {
+    displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
         ctx.beginPath();
         ctx.arc( this.massCenter.x, this.massCenter.y,
             this.radius, 0, Math.PI * 2, true);
         //draw a line from start point toward center
-        ctx.moveTo(this.startpoint.x, this.startpoint.y);
-        ctx.lineTo(this.massCenter.x, this.massCenter.y);
+        // ctx.moveTo(this.startpoint.x, this.startpoint.y);
+        // ctx.lineTo(this.massCenter.x, this.massCenter.y);
+        ctx.closePath();
         ctx.strokeStyle = 'red';
         ctx.stroke();
-        ctx.closePath();
         ctx.restore();
     }
 

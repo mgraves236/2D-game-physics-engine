@@ -44,10 +44,13 @@ export class Bullet extends Circle{
         ctx.ellipse(this.massCenter.x, this.massCenter.y,
             this.radius, this.radius, 0, 0, 2 * Math.PI);
         ctx.fill();
+        ctx.closePath();
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 1;
         ctx.stroke();
-        ctx.closePath();
+        ctx.restore();
+        ctx.save();
+        this.displayBounds();
         ctx.restore();
     }
 

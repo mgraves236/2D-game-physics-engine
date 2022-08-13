@@ -14,9 +14,8 @@ import {PlayerShip} from "./playerShip.js";
  */
 function startGame() {
     let x = screen.mWidth / 2;
-    let y = screen.mHeight -100;
+    let y = screen.mHeight + 100;
     let location = new Vector(x, y);
-    console.log(location)
     let mPlayer = new PlayerShip(location);
     let liquid = new DragArea(300, map(300), 200, 50);
     _engineCore.mDragAreas.push(liquid);
@@ -27,13 +26,9 @@ function startGame() {
     let vel2 = new Vector(2, 0,0,0,false);
     let velBull = new Vector(5, 0,0,0,false);
     let velBull2 = new Vector(0, -5,0,0,false);
-    let source = new bulletSource(10, loc, vel1, velBull);
-    let source2 = new bulletSource(10, loc2, vel2, velBull2);
+    // let source = new bulletSource(10, loc, vel1, velBull);
+    // let source2 = new bulletSource(10, loc2, vel2, velBull2);
     let massCenter = new Vector(300, 400)
-    let rect = new Rectangle(1, massCenter, 300, 100);
-    let circle = new Circle(1, massCenter, 50);
-    let triangle = new Triangle(1, massCenter, 100, 100);
-    console.log(triangle)
     window.requestAnimationFrame(_engineCore.initializeEngineCore);
 }
 
