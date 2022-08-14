@@ -1,5 +1,6 @@
-import {_engineCore} from "../engineCore/core.js";
+import {gEngine} from "../engineCore/core.js";
 import {Vector} from "../lib/vector.js";
+
 /**
  * Abstract class that represents a rigid body
  * @class RigidShape
@@ -16,7 +17,8 @@ export class RigidShape {
         }
         this.massCenter = massCenter;
         this.angle = 0;
-        _engineCore.mAllObjects.push(this); /* TODO push in constructors of other classes*/
+        this.boundsRadius = 0;
+        gEngine.Core.mAllObjects.push(this);
 
     }
 
@@ -27,6 +29,30 @@ export class RigidShape {
     }
 
     /**
+     * Function that implements Borad Phase Method to detect collision detection
+     * @param otherShape Other object that an object might collide with
+     * @return {boolean} Returns true when objects are colliding and false when they are not
+     */
+    boundTest(otherShape) {
+        if (this.massCenter !== null && otherShape.massCenter !== null) {
+            // console.log(this.massCenter)
+            // console.log(otherShape.massCenter)
+            let dis1To2 = otherShape.massCenter.subtract(this.massCenter).copy();
+            let radiusSum = this.boundsRadius + otherShape.boundsRadius;
+            let distance = dis1To2.mag();
+            // console.log(dis1To2)
+            // console.log(radiusSum)
+            // console.log(distance)
+
+            if ((distance > radiusSum) || this.type === "bulletSource" || otherShape.type === "bulletSource") {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    /**
      *
      * @param area
      * @return {boolean}
@@ -34,23 +60,22 @@ export class RigidShape {
     isInside(area) {
         if (this.massCenter.x > area.x &&
             this.massCenter.x < area.x + area.w &&
-            this.massCenter.y > area.y &&
-            this.massCenter.y < area.y + area.h) {
-            console.log('inside')
+            this.massCenter.y - this.height > area.y &&
+            this.massCenter.y - this.height < area.y + area.h) {
             return true;
         } else {
             return false;
         }
     }
+
     /**
      *
      * @param dragObj
      */
     drag(dragObj) {
-        console.log('here')
         let speed = this.velocity.mag();
         let dragMagnitude = dragObj.c * speed * speed;
-        let drag = new Vector(0, 0, 0,0,false);
+        let drag = new Vector(0, 0, 0, 0, false);
         drag.x = this.velocity.x;
         drag.y = this.velocity.y;
         drag.normalize();
@@ -58,14 +83,13 @@ export class RigidShape {
         drag.mult(-1);
         this.applyForce(drag);
     }
-    // /**
-    //  *
-    //  * @param force
-    //  */
+
+    /**
+     *
+     * @param force
+     */
     applyForce(force) {
         let f = force;
-        console.log(f)
-        console.log(this.massCenter)
         f.mult(1 / this.mass);
         this.accelerationDrag.add(f);
     }

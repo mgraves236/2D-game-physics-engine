@@ -1,4 +1,3 @@
-import {_engineCore as engineCore} from "../engineCore/core.js";
 import {map, screen} from "../engineCore/screen.js";
 
 /**
@@ -46,7 +45,7 @@ export class Vector {
     /**
      * Method to subtract two vectors
      * @param a vector subtracted from a vector that called the method
-     * @returns {Vector}
+     * @returns {Vector} product of vector subtraction
      */
     subtract(a) {
          // this.x = this.x - a.x;

@@ -1,7 +1,7 @@
 import {screen, map} from "../engineCore/screen.js";
 import { Vector } from "../lib/vector.js";
 import { Object } from "../lib/object.js";
-import {_engineCore as engineCore} from "../engineCore/core.js";
+import {gEngine} from "../engineCore/core.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
 import {Rectangle} from "../rigidBody/rectangle.js";
 import {Triangle} from "../rigidBody/triangle.js";
@@ -65,9 +65,8 @@ export class PlayerShip extends Rectangle {
     }
 
     update() {
-        for (let i = 0; i < engineCore.mDragAreas.length; i++) {
-            let area = engineCore.mDragAreas[i];
-            console.log(this.isInside(area))
+        for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
+            let area = gEngine.Core.mDragAreas[i];
             if (this.isInside(area)) {
                 this.drag(area);
                 this.velocity.add(this.accelerationDrag);

@@ -1,10 +1,8 @@
-import {_engineCore as engineCore} from "../engineCore/core.js";
-import {PlayerShip} from "./playerShip.js"
-import {map, screen} from "../engineCore/screen.js";
 import {Vector} from "../lib/vector.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
+import {gEngine} from "../engineCore/core.js";
 
-var player = engineCore.mAllObjects[0];
+var player = gEngine.Core.mAllObjects[0];
 
 function handleKeyInput(event) {
     const { keyCode, type } = event;

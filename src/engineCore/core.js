@@ -1,14 +1,15 @@
 import data from './config.json' assert {type: 'json'};
 import { Vector } from "../lib/vector.js";
 import { drawLevel } from "../game/level.js";
-import {PlayerShip} from "../game/playerShip.js";
-import {screen} from "./screen.js";
+// import {gEngine} from "../engineCore/physics.js"
 
 /**
  * Create a namespace to store all the physics engine core functionality
  * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}}
  * @private
  */
+var gEngine = gEngine || {};
+
 let _engineCore = (function () {
     let mAllObjects = [];
     let mDragAreas = [];
@@ -33,6 +34,7 @@ let _engineCore = (function () {
 
         // mPlayer.update();
         // mPlayer.display();
+        gEngine.Physics.collision();
         if (mDragAreas !== null) {
             for (let i = 0; i < mDragAreas.length; i++) {
                 mDragAreas[i].update();
@@ -57,6 +59,7 @@ let _engineCore = (function () {
     return mPublic;
 }());
 
-export {_engineCore};
+gEngine.Core = _engineCore;
+export {gEngine};
 
 

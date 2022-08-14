@@ -1,7 +1,6 @@
 import { screen, map } from "../engineCore/screen.js";
 import { Vector } from "../lib/vector.js";
-import { _engineCore as engineCore } from "../engineCore/core.js";
-import { Object } from "../lib/object.js";
+import { gEngine } from "../engineCore/core.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
 import {Circle} from '../rigidBody/circle.js'
 
@@ -24,7 +23,7 @@ export class Bullet extends Circle{
         this.acceleration = acc || new Vector(0, 0, 0,0,false);
         // this.location = loc;
         this.velocity = vel;
-        this.acceleration.add(engineCore.mGravity);
+        this.acceleration.add(gEngine.Core.mGravity);
         this.accelerationDrag = new Vector(0, 0,0,0, false);
         this.delay = delay || 0;
     }
@@ -37,30 +36,33 @@ export class Bullet extends Circle{
     // }
 
     display() {
-        let ctx = screen.mContext;
-        ctx.save();
-        ctx.fillStyle = 'black';
-        ctx.beginPath();
-        ctx.ellipse(this.massCenter.x, this.massCenter.y,
-            this.radius, this.radius, 0, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.closePath();
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.restore();
-        ctx.save();
-        this.displayBounds();
-        ctx.restore();
+        if (this.massCenter !== null) {
+            let ctx = screen.mContext;
+            ctx.save();
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.ellipse(this.massCenter.x, this.massCenter.y,
+                this.height, this.height, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.closePath();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.restore();
+            ctx.save();
+            this.displayBounds();
+            ctx.restore();
+        }
     }
 
     update() {
         sleep(this.delay).then(() => {
-            if ((this.massCenter.x > screen.mWidth + 2) ||
-                (this.massCenter.y > screen.mHeight + 2)) {
-            } else {
-                for (let i = 0; i < engineCore.mDragAreas.length; i++) {
-                    let area = engineCore.mDragAreas[i];
+            if (this.massCenter !== null && ((this.massCenter.x > screen.mWidth + 2) ||
+                (this.massCenter.y > screen.mHeight + 2))) {
+                this.massCenter =  null;
+            } else if (this.massCenter !== null){
+                for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
+                    let area = gEngine.Core.mDragAreas[i];
                     if (this.isInside(area)) {
                         this.drag(area);
                         this.velocity.add(this.accelerationDrag);

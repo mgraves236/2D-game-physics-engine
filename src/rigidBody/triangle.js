@@ -59,7 +59,7 @@ export class Triangle extends RigidShape {
         ctx.lineTo(this.vertex[0].x, this.vertex[0].y)
         ctx.stroke();
         ctx.closePath();
-        // this.faceNormal.forEach(item => item.draw('yellow'));
+        this.faceNormal.forEach(item => item.draw('yellow'));
         ctx.restore();
     }
 
