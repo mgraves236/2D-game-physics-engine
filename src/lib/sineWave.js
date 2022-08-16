@@ -4,6 +4,6 @@ export class SineWave {
         this.y = y;
         this.length= 500000;
         this.amplitude = 3;
-        this.speed = s;
+        this.speed = s * 0.1;
     }
 }

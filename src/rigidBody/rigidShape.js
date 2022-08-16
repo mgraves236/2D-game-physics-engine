@@ -35,14 +35,9 @@ export class RigidShape {
      */
     boundTest(otherShape) {
         if (this.massCenter !== null && otherShape.massCenter !== null) {
-            // console.log(this.massCenter)
-            // console.log(otherShape.massCenter)
             let dis1To2 = otherShape.massCenter.subtract(this.massCenter).copy();
             let radiusSum = this.boundsRadius + otherShape.boundsRadius;
             let distance = dis1To2.mag();
-            // console.log(dis1To2)
-            // console.log(radiusSum)
-            // console.log(distance)
 
             if ((distance > radiusSum) || this.type === "bulletSource" || otherShape.type === "bulletSource") {
                 return false;

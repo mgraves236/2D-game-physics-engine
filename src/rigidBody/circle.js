@@ -45,6 +45,7 @@ export class Circle extends RigidShape {
 
     update() {
         super.update();
+
     }
 
 }
