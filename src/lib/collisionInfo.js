@@ -1,4 +1,5 @@
-import {Vector} from "./vector";
+import {Vector} from "./vector.js";
+import {screen} from "../engineCore/screen.js";
 
 export class CollisionInfo {
     constructor () {
@@ -28,6 +29,16 @@ export class CollisionInfo {
         let n = this.start.copy();
         this.start = this.end.copy();
         this.end = n;
+    }
+
+    display() {
+        let ctx = screen.mContext;
+        ctx.moveTo(this.start.x, this.
+            start.y);
+        ctx.lineTo(this.end.x, this.end.y);
+        ctx.closePath();
+        ctx.strokeStyle = "orange";
+        ctx.stroke();
     }
 
 }

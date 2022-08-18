@@ -19,8 +19,9 @@ export class Circle extends RigidShape {
         // radius stored as height so that it can be used in this.isInside()
         this.height = radius;
         this.boundsRadius = this.height;
+        this.massCenter = center;
         // start point of line in circle
-        this.startpoint = new Vector(this.massCenter.x + this.radius, this.massCenter.y, 0,0, false);
+        this.startpoint = new Vector(this.massCenter.x + this.height, this.massCenter.y, 0,0, false);
 
     }
 
@@ -47,5 +48,46 @@ export class Circle extends RigidShape {
         super.update();
 
     }
+
+   collisionTest (otherShape, collisionInfo) {
+        let status = false;
+        if (otherShape.type === "circle") {
+            console.log('collided')
+            status = this.collidedCircCirc (this, otherShape, collisionInfo);
+        } else {
+            status = false;
+        }
+        return status;
+    }
+
+    collidedCircCirc (c1, c2, collisionInfo) {
+        let from1To2 = c2.massCenter.copy(); // normal vector from 1 to 2
+        from1To2.subtract(c1.massCenter);
+        let radiusSum = c1.height + c2.height;
+        let distance = from1To2.mag();
+        if (distance > Math.sqrt(radiusSum * radiusSum)) {
+            return false; // circles do not collide
+        }
+        if (distance !== 0) {
+            // circles do not have the same mass center
+            let from2To1 = from1To2.copy();
+            from2To1.mult(-1);
+            from2To1.normalize();
+            let radiusC2 = from2To1.copy();
+            radiusC2.mult(c2.height);
+            from1To2.normalize();
+            collisionInfo.setInfo(radiusSum - distance,
+                from1To2, c2.massCenter.add(radiusC2));
+        } else {
+            //same position
+            if (c1.height > c2.height)
+                collisionInfo.setInfo(radiusSum, new Vector(0, -1,0,0,false),
+                    c1.massCenter.add(new Vector(0, c1.massCenter, 0, 0, false)));
+            else
+                collisionInfo.setInfo(radiusSum, new Vector(0, -1, 0,0,false),
+                    c2.massCenter.add(new Vector(0, c2.massCenter, 0,0,false)));
+        }
+    }
+
 
 }

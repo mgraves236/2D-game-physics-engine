@@ -7,7 +7,7 @@ import {Rectangle} from "../rigidBody/rectangle.js";
 /**
  * A class that represent a bullet source
  */
-export class bulletSource extends Rectangle{
+export class bulletSource extends Rectangle {
 
     constructor(number, loc, vel, velBull) {
         super(1, loc, 15, 20);

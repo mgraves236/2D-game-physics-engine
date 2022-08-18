@@ -64,4 +64,15 @@ export class Rectangle extends RigidShape {
         this.faceNormal.forEach(item => item.draw('yellow'));
         ctx.restore();
     }
+
+    collisionTest (otherShape, collisionInfo) {
+        let status = false;
+        if (otherShape.type === "Circle") {
+            status = false;
+        } else {
+            status = false;
+        }
+        return status;
+    };
+
 }
