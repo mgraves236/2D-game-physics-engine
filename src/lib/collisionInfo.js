@@ -17,30 +17,39 @@ export class CollisionInfo {
      */
     setInfo (d, n, s) {
         this.depth = d;
+        console.log(d)
         this.normal = n;
+        // s.draw('yellow')
         this.start = {x: s.x, y: s.y};
+        // n.draw('orange')
         let nMultiplied = new Vector(n.x - n.x0,
             n.y - n.y0,0,0,false);
         nMultiplied.mult(d);
+        // nMultiplied.draw('black')
+
         console.log(nMultiplied)
         this.end = {x: nMultiplied.x + s.x , y: nMultiplied.y + s.y }
+        console.log(this.start)
+        console.log(this.end)
     }
 
     changeDirection () {
         this.normal.mult(-1);
-        let n = this.start.copy();
-        this.start = this.end.copy();
+        let n = {x: this.start.x, y: this.start.y};
+        this.start = {x: this.end.x, y: this.end.y};
         this.end = n;
     }
 
     display() {
         let ctx = screen.mContext;
+        ctx.save();
         ctx.moveTo(this.start.x, this.
             start.y);
         ctx.lineTo(this.end.x, this.end.y);
         ctx.closePath();
-        ctx.strokeStyle = "orange";
+        ctx.strokeStyle = "blue";
         ctx.stroke();
+        ctx.restore();
     }
 
 }

@@ -87,16 +87,25 @@ export class Circle extends RigidShape {
             collisionInfo.setInfo(radiusSum - distance,
                 from1To2, temp);
             console.log(collisionInfo)
-            return collisionInfo;
+
         } else {
             //same position
-            // if (c1.height > c2.height)
-            //     collisionInfo.setInfo(radiusSum, new Vector(0, -1,0,0,false),
-            //         c1.massCenter.add(new Vector(0, c1.massCenter, 0, 0, false)));
-            // else
-            //     collisionInfo.setInfo(radiusSum, new Vector(0, -1, 0,0,false),
-            //         c2.massCenter.add(new Vector(0, c2.massCenter, 0,0,false)));
+            if (c1.height > c2.height) {
+                let c1massCenter = new Vector(c1.massCenter.x,c1.massCenter.y - c1.height, c1.massCenter.x, c1.massCenter.y, false);
+
+                collisionInfo.setInfo(c1.height, new Vector(c1.massCenter.x, 1 + c1.massCenter.y, c1.massCenter.x, c1.massCenter.y, false),
+                    c1massCenter);
+
+            }
+            else {
+                let c2massCenter = new Vector(c2.massCenter.x,c2.massCenter.y - c2.height, c2.massCenter.x, c2.massCenter.y, false);
+                // c2massCenter.draw('purple')
+
+                collisionInfo.setInfo(c2.height, new Vector(c1.massCenter.x, 1 + c1.massCenter.y, c2.massCenter.x, c2.massCenter.y, false),
+                    c2massCenter);
+            }
         }
+        return collisionInfo;
     }
 
 
