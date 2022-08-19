@@ -19,16 +19,18 @@ function startGame() {
     let mPlayer = new PlayerShip(location);
     let liquid = new DragArea(300, map(300), 200, 50);
     gEngine.Core.mDragAreas.push(liquid);
-    let loc = new Vector(7, 400);
-    let loc2 = new Vector(300, 0);
+    let loc = new Vector(7, 300);
+    let loc2 = new Vector(400, 400);
     let vel1 = new Vector(0, 0,0,0,false);
     let vel2 = new Vector(2, 0,0,0,false);
     let velBull = new Vector(5, 0,0,0,false);
-    let velBull2 = new Vector(0, -5,0,0,false);
-    let source = new bulletSource(10, loc, vel1, velBull);
-    // let source2 = new bulletSource(10, loc2, vel2, velBull2);
+    let velBull2 = new Vector(0, 1,0,0,false);
+    // let source = new bulletSource(10, loc, vel1, velBull);
+    // let source2 = new bulletSource(10, loc2, vel1, velBull2);
     let massCenter = new Vector(300, 400)
-    let circle = new Circle(1, massCenter,50)
+    let circle = new Circle(1, massCenter,50);
+    let massCenter2 = new Vector(360, 350)
+    let circle2 = new Circle(1, massCenter2,40)
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 

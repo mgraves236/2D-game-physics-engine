@@ -55,8 +55,8 @@ export class RigidShape {
     isInside(area) {
         if (this.massCenter.x > area.x &&
             this.massCenter.x < area.x + area.w &&
-            this.massCenter.y - this.height > area.y &&
-            this.massCenter.y - this.height < area.y + area.h) {
+            this.massCenter.y  > area.y &&
+            this.massCenter.y  < area.y + area.h) {
             return true;
         } else {
             return false;

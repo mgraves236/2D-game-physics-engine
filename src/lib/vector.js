@@ -83,12 +83,23 @@ export class Vector {
     normalize() {
         let mag = this.mag();
         if (mag !== 0) {
-            // let diffX = Math.abs(this.x - this.x0);
-            // let diffY = Math.abs(this.y - this.y0);
-            // this.x = this.x0 + diffX / mag;
-            // this.y = this.y0 + diffY / mag;
-            this.x = this.x / mag;
-            this.y = this.y / mag;
+            let diffX = Math.abs(this.x - this.x0);
+            let diffY = Math.abs(this.y - this.y0);
+            if (this.x >= this.x0) {
+                this.x = this.x0 + diffX / mag;
+            } else {
+                this.x = this.x0 - diffX / mag;
+
+            }
+            if (this.y <= this.y0) {
+                this.y = this.y0 -  diffY / mag;
+            } else {
+                this.y = this.y0 + diffY / mag;
+
+            }
+            // this.x = this.x / mag;
+            // this.y = this.y / mag;
+
         }
     }
 

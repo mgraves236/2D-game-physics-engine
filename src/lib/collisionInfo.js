@@ -5,8 +5,8 @@ export class CollisionInfo {
     constructor () {
         this.depth = 0;
         this.normal = new Vector(0,0,0,0, false);
-        this.start = new Vector(0,0,0,0, false);
-        this.end = new Vector(0,0,0,0, false);
+        this.start = {x: 0, y:0};
+        this.end = {x: 0, y:0};
     }
 
     /**
@@ -18,10 +18,12 @@ export class CollisionInfo {
     setInfo (d, n, s) {
         this.depth = d;
         this.normal = n;
-        this.start = s;
-        let nMultiplied = n.copy();
+        this.start = {x: s.x, y: s.y};
+        let nMultiplied = new Vector(n.x - n.x0,
+            n.y - n.y0,0,0,false);
         nMultiplied.mult(d);
-        this.end = s.add(nMultiplied);
+        console.log(nMultiplied)
+        this.end = {x: nMultiplied.x + s.x , y: nMultiplied.y + s.y }
     }
 
     changeDirection () {

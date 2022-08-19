@@ -1,6 +1,6 @@
 import {RigidShape} from "./rigidShape.js";
 import {Vector} from "../lib/vector.js";
-import {screen} from "../engineCore/screen.js";
+import {map, screen} from "../engineCore/screen.js";
 
 /***
  * Base class for circular shape rigid objects
@@ -52,8 +52,8 @@ export class Circle extends RigidShape {
    collisionTest (otherShape, collisionInfo) {
         let status = false;
         if (otherShape.type === "circle") {
-            console.log('collided')
-            status = this.collidedCircCirc (this, otherShape, collisionInfo);
+            console.log('here')
+            status = this.collidedCircCirc(this, otherShape, collisionInfo);
         } else {
             status = false;
         }
@@ -61,8 +61,9 @@ export class Circle extends RigidShape {
     }
 
     collidedCircCirc (c1, c2, collisionInfo) {
-        let from1To2 = c2.massCenter.copy(); // normal vector from 1 to 2
-        from1To2.subtract(c1.massCenter);
+        // let from1To2 = c2.massCenter.copy(); // normal vector from 1 to 2
+        let from1To2 = new Vector(c2.massCenter.x, c2.massCenter.y,
+            c1.massCenter.x, c1.massCenter.y, false);
         let radiusSum = c1.height + c2.height;
         let distance = from1To2.mag();
         if (distance > Math.sqrt(radiusSum * radiusSum)) {
@@ -70,22 +71,31 @@ export class Circle extends RigidShape {
         }
         if (distance !== 0) {
             // circles do not have the same mass center
-            let from2To1 = from1To2.copy();
-            from2To1.mult(-1);
+            let from2To1 = new Vector(from1To2.x0, from1To2.y0,
+                from1To2.x, from1To2.y, false);
             from2To1.normalize();
-            let radiusC2 = from2To1.copy();
-            radiusC2.mult(c2.height);
+            let diffX = (from2To1.x - from2To1.x0);
+            let diffY = (from2To1.y - from2To1.y0);
+            let temp = new Vector(diffX, diffY, 0,0, false);
+            temp.mult(c2.height);
+            temp.x0 = from2To1.x0;
+            temp.y0 = from2To1.y0;
+            temp.x = temp.x + from2To1.x0;
+            temp.y = temp.y + from2To1.y0;
             from1To2.normalize();
+            // c2massCenterCopy.add(radiusC2);
             collisionInfo.setInfo(radiusSum - distance,
-                from1To2, c2.massCenter.add(radiusC2));
+                from1To2, temp);
+            console.log(collisionInfo)
+            return collisionInfo;
         } else {
             //same position
-            if (c1.height > c2.height)
-                collisionInfo.setInfo(radiusSum, new Vector(0, -1,0,0,false),
-                    c1.massCenter.add(new Vector(0, c1.massCenter, 0, 0, false)));
-            else
-                collisionInfo.setInfo(radiusSum, new Vector(0, -1, 0,0,false),
-                    c2.massCenter.add(new Vector(0, c2.massCenter, 0,0,false)));
+            // if (c1.height > c2.height)
+            //     collisionInfo.setInfo(radiusSum, new Vector(0, -1,0,0,false),
+            //         c1.massCenter.add(new Vector(0, c1.massCenter, 0, 0, false)));
+            // else
+            //     collisionInfo.setInfo(radiusSum, new Vector(0, -1, 0,0,false),
+            //         c2.massCenter.add(new Vector(0, c2.massCenter, 0,0,false)));
         }
     }
 
