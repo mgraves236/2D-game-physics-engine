@@ -29,7 +29,7 @@ function startGame() {
     // let source2 = new bulletSource(10, loc2, vel1, velBull2);
     let massCenter = new Vector(300, 400)
     let circle = new Circle(1, massCenter,50);
-    let massCenter2 = new Vector(300, 400)
+    let massCenter2 = new Vector(370, 400)
     let circle2 = new Circle(1, massCenter2,70)
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
