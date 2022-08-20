@@ -16,7 +16,7 @@ function handleKeyInput(event) {
         player.velocity = velocity;
     }
     if (keyCode == 16) {
-        player.acceleration = new Vector(0, data.accGravity, 0, 0, false);
+
     }
 }
 

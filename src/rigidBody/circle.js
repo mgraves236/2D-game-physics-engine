@@ -40,8 +40,8 @@ export class Circle extends RigidShape {
         ctx.restore();
     }
 
-    display () {
-    this.displayBounds()
+    display() {
+        this.displayBounds()
     }
 
     update() {
@@ -52,7 +52,6 @@ export class Circle extends RigidShape {
    collisionTest (otherShape, collisionInfo) {
         let status = false;
         if (otherShape.type === "circle") {
-            console.log('here')
             status = this.collidedCircCirc(this, otherShape, collisionInfo);
         } else {
             status = false;

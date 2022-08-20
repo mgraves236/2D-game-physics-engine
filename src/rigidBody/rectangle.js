@@ -65,6 +65,7 @@ export class Rectangle extends RigidShape {
         ctx.restore();
     }
 
+
     collisionTest (otherShape, collisionInfo) {
         let status = false;
         if (otherShape.type === "Circle") {

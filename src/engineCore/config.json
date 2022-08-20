@@ -1,9 +1,9 @@
 {
   "canvasWidth": 700,
   "canvasHeight": 633,
-  "accGravity": 0.01,
-  "bulletMass": 5,
-  "spaceshipMass": 1,
-  "liquidCoefficient": 0.0007,
-  "thrust": 4
+  "accGravity": 0.1,
+  "bulletMass": 8,
+  "spaceshipMass": 10,
+  "liquidCoefficient": 0.1,
+  "thrust": 1
 }

@@ -9,8 +9,9 @@ import {Rectangle} from "../rigidBody/rectangle.js";
  */
 export class bulletSource extends Rectangle {
 
-    constructor(number, loc, vel, velBull) {
+    constructor(number, loc, vel, velBull, isRandom) {
         super(1, loc, 15, 20);
+        this.isRandom = isRandom || false;
         this.type = "bulletSource"
         this.numberOfBullets = number;
         // this.width = 15;
@@ -34,7 +35,19 @@ export class bulletSource extends Rectangle {
         let bulletsVel = this.velocityBullet.copy();
 
         let loc2 = new Vector(this.massCenter.x, this.massCenter.y, 0,0,false);
-        let bullet = new Bullet(loc2, bulletsVel);
+        let bullet;
+        if (this.isRandom) {
+            let r = Math.floor((Math.random() + 1) * 8);
+            let m;
+            if (r < 5) {
+                m = r * 0.1;
+            } else {
+                m = r * 0.8;
+            }
+            bullet = new Bullet(loc2, bulletsVel, r, m);
+        } else {
+            bullet = new Bullet(loc2, bulletsVel);
+        }
         //let drag = new Vector(0, map(0));
         this.bulletsArr.push(bullet);
         this.shot = this.shot + 1;
@@ -89,7 +102,6 @@ export class bulletSource extends Rectangle {
             }
         }
         ctx.save()
-        this.displayBounds();
         ctx.restore();
     }
 

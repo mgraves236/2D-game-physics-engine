@@ -26,11 +26,7 @@ export class CollisionInfo {
             n.y - n.y0,0,0,false);
         nMultiplied.mult(d);
         // nMultiplied.draw('black')
-
-        console.log(nMultiplied)
         this.end = {x: nMultiplied.x + s.x , y: nMultiplied.y + s.y }
-        console.log(this.start)
-        console.log(this.end)
     }
 
     changeDirection () {
@@ -46,6 +42,8 @@ export class CollisionInfo {
         ctx.moveTo(this.start.x, this.
             start.y);
         ctx.lineTo(this.end.x, this.end.y);
+        ctx.moveTo(this.start.x, this.
+            start.y);
         ctx.closePath();
         ctx.strokeStyle = "blue";
         ctx.stroke();

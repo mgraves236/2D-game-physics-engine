@@ -8,32 +8,32 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export class Bullet extends Circle{
+export class Bullet extends Circle {
     /**
      *
-     * @param loc
-     * @param vel
+     * @param {Vector} loc
+     * @param {Vector} vel
+     * @param {Vector} acc
+     * @param {number} delay
+     * @param {number} r
+     * @param {number} m
      */
-    constructor(loc, vel, acc, delay) {
-        super(data.bulletMass, loc, 3);
+    constructor(loc, vel,r = 3, m = data.bulletMass, acc, delay) {
+        super(m, loc, r);
         // initialize types
-        this.mass = data.bulletMass;
+        this.mass = m || data.bulletMass ;
+        console.log(this.mass)
         // this.location = new Vector(0, 0);
         this.velocity = new Vector(0, 0, 0,0,false);
         this.acceleration = acc || new Vector(0, 0, 0,0,false);
         // this.location = loc;
         this.velocity = vel;
-        this.acceleration.add(gEngine.Core.mGravity);
+        let gravity = gEngine.Core.mGravity.copy();
+        gravity.mult(data.bulletMass);
+        this.acceleration.add(gravity);
         this.accelerationDrag = new Vector(0, 0,0,0, false);
         this.delay = delay || 0;
     }
-
-    // applyForce(force) {
-    //     let f = force;
-    //     f.mult(1 / this.mass);
-    //     console.log(f)
-    //     this.acceleration.add(f);
-    // }
 
     display() {
         if (this.massCenter !== null) {
@@ -52,13 +52,14 @@ export class Bullet extends Circle{
             ctx.save();
             this.displayBounds();
             ctx.restore();
+
         }
     }
 
     update() {
         sleep(this.delay).then(() => {
             if (this.massCenter !== null && ((this.massCenter.x > screen.mWidth + 2) ||
-                (this.massCenter.y > screen.mHeight + 2))) {
+                (this.massCenter.y - this.height > screen.mHeight + 2))) {
                 this.massCenter =  null;
             } else if (this.massCenter !== null){
                 for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
@@ -71,7 +72,10 @@ export class Bullet extends Circle{
                 this.velocity.add(this.acceleration);
                 this.massCenter.add(this.velocity);
             }
+            this.acceleration.mult(0);
+            this.accelerationDrag.mult(0);
         });
+
     }
 
 

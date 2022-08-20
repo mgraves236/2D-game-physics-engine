@@ -23,6 +23,9 @@ export class PlayerShip extends Rectangle {
         this.rotatingRight = false;
         this.velocity = new Vector(0,0,0,0, false);
         this.acceleration = new Vector(0, 0, 0, 0, false);
+        let gravity = gEngine.Core.mGravity.copy();
+        gravity.mult(this.mass);
+        this.acceleration.add(gravity);
         this.accelerationDrag = new Vector(0, 0, 0, 0, false);
     }
 
@@ -90,5 +93,7 @@ export class PlayerShip extends Rectangle {
                 this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
             }
             this.velocity.add(this.acceleration);
+            this.acceleration.mult(0);
+            this.accelerationDrag.mult(0);
     }
 }

@@ -19,8 +19,11 @@ let _enginePhysics = (function () {
                                 if (collisionInfo.normal.dot(center) < 0) {
                                     collisionInfo.changeDirection();
                                 }
-                                console.log(collisionInfo)
+                                // console.log(collisionInfo)
+                                let ctx = screen.mContext;
+                                ctx.save();
                                 collisionInfo.display();
+                                ctx.restore();
                             }
                         }
                     }

@@ -157,6 +157,7 @@ export class Vector {
         screen.mContext.beginPath();
         screen.mContext.moveTo(this.x0, this.y0);
         screen.mContext.lineTo(this.x, this.y);
+        screen.mContext.closePath();
         screen.mContext.strokeStyle = color;
         screen.mContext.lineWidth = 2;
         screen.mContext.stroke();

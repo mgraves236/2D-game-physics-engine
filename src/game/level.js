@@ -1,7 +1,6 @@
 import { screen } from "../engineCore/screen.js";
 
-export function drawLevel() {
-    //console.log('here')
+export function drawLevelSky() {
     let ctx = screen.mContext;
     ctx.save();
     let grd = ctx.createLinearGradient(0, 0, 0, 500);
