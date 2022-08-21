@@ -13,8 +13,8 @@ export class Circle extends RigidShape {
      * @param center
      * @param radius
      */
-    constructor(mass, center, radius) {
-        super(center);
+    constructor(mass, center, radius, angle=0) {
+        super(center, angle);
         this.type = "circle";
         // radius stored as height so that it can be used in this.isInside()
         this.height = radius;
@@ -85,7 +85,6 @@ export class Circle extends RigidShape {
             // c2massCenterCopy.add(radiusC2);
             collisionInfo.setInfo(radiusSum - distance,
                 from1To2, temp);
-            console.log(collisionInfo)
 
         } else {
             //same position

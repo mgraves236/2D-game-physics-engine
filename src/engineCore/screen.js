@@ -16,7 +16,7 @@ var screen = (function () {
 
 /**
  * Function to map y coordinate into a system with changed origin to the bottom of the canvas
- * To reverse mapping enter a negative parameter, i.e. -a
+ * To reverse mapping enter the same parameter again
  * @param a y coordinate that will be mapped
  * @return {number} mapped y coordinate
  */

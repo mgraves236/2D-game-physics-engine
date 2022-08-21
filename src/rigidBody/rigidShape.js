@@ -11,12 +11,12 @@ export class RigidShape {
      * create an object with the center of mass defined by a vector
      * @param {Vector} massCenter point at which center of mass is located
      */
-    constructor(massCenter) {
+    constructor(massCenter, angle) {
         if (this.constructor == RigidShape) {
             throw new Error("Abstract classes can't be instantiated.");
         }
         this.massCenter = massCenter;
-        this.angle = 0;
+        this.angle = angle || 0;
         this.boundsRadius = 0;
         gEngine.Core.mAllObjects.push(this);
 

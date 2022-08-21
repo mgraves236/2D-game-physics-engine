@@ -26,12 +26,14 @@ function startGame() {
     let vel2 = new Vector(1, 0,0,0,false);
     let velBull = new Vector(5, 0,0,0,false);
     let velBull2 = new Vector(0, 1,0,0,false);
-    let source = new bulletSource(10, loc, vel1, velBull);
-    let source2 = new bulletSource(10, loc2, vel1, velBull2);
+    // let source = new bulletSource(10, loc, vel1, velBull);
+    // let source2 = new bulletSource(10, loc2, vel1, velBull2);
     let massCenter = new Vector(300, 400)
-    let circle = new Circle(1, massCenter,50);
-    let massCenter2 = new Vector(370, 400)
-    let circle2 = new Circle(1, massCenter2,70)
+    // let circle = new Circle(1, massCenter,50);
+    let massCenter2 = new Vector(340, 450)
+    // let circle2 = new Circle(1, massCenter2,70)
+    let rectangle = new Rectangle(1, massCenter, 100, 100);
+    let rectangle2 = new Rectangle(1, massCenter2, 110, 80, 0);
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 

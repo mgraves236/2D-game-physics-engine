@@ -17,14 +17,13 @@ drawLevelSky();
 
 document.getElementById("start").addEventListener("click", startDemo);
 function startDemo() {
-    console.log('here')
     let loc = new Vector(200, screen.mHeight);
     let loc2 = new Vector(400, screen.mHeight);
     let vel1 = new Vector(0, 0,0,0,false);
     let velBull = new Vector(0, 3,0,0,false);
     let velBull2 = new Vector(0, 3,0,0,false);
-    let source = new bulletSource(10, loc, vel1, velBull, true);
-    let source2 = new bulletSource(10, loc2, vel1, velBull2, true);
+    let source = new bulletSource(1, loc, vel1, velBull, true);
+    let source2 = new bulletSource(1, loc2, vel1, velBull2, true);
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 

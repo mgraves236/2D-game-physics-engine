@@ -22,7 +22,6 @@ export class Bullet extends Circle {
         super(m, loc, r);
         // initialize types
         this.mass = m || data.bulletMass ;
-        console.log(this.mass)
         // this.location = new Vector(0, 0);
         this.velocity = new Vector(0, 0, 0,0,false);
         this.acceleration = acc || new Vector(0, 0, 0,0,false);

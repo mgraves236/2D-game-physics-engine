@@ -22,7 +22,9 @@ let _enginePhysics = (function () {
                                 // console.log(collisionInfo)
                                 let ctx = screen.mContext;
                                 ctx.save();
+                                ctx.beginPath();
                                 collisionInfo.display();
+                                ctx.closePath();
                                 ctx.restore();
                             }
                         }

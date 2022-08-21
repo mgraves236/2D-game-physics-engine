@@ -184,5 +184,13 @@ export class Vector {
         vector.y = Math.abs(this.y - this.y0);
         return vector;
     }
+
+    /**
+     * Change the vector direction
+     * @return {Vector} A vector with changed direction.
+     */
+   changeDir() {
+        return new Vector(this.x0, this.y0, this.x, this.y);
+   }
 }
 

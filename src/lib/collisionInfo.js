@@ -17,7 +17,6 @@ export class CollisionInfo {
      */
     setInfo (d, n, s) {
         this.depth = d;
-        console.log(d)
         this.normal = n;
         // s.draw('yellow')
         this.start = {x: s.x, y: s.y};
