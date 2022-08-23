@@ -89,133 +89,145 @@ export class Rectangle extends RigidShape {
         this.displayBounds();
         ctx.restore();
     }
-}
 
-// Collision detection
-// Separating Axis Theorem - Support Points
-// An Efficient SAT Algorithm
-/**
- *
- * @param {Rectangle} otherShape
- * @param collisionInfo
- * @return {boolean}
- */
-Rectangle.prototype.collisionTest = function (otherShape, collisionInfo) {
-    let status = false;
-    if (otherShape.type === "circle") {
-        status = false;
-    } else {
-        status = this.collidedRectRect(this, otherShape, collisionInfo);
-    }
-    return status;
-};
-
-/**
- * Object to keep information about a support point
- * @type {{supportPoint: null, supportPointDist: number}}
- */
-let tmpSupport = {
-    supportPoint: null,
-    supportPointDist: 0
-};
-
-/**
- * Compute a support point based on dir (find a support point for any face normal)
- * @param {Vector} dir Negated face normal direction
- * @param {Vector} ptOnEdge A position on the given edge (e.g. a vertex)
- */
-Rectangle.prototype.findSupportPoint = function (dir, ptOnEdge) {
-    let vToEdge;
-    let projection;
-
-    tmpSupport.supportPointDist = -9999999;
-    tmpSupport.supportPoint = null;
-    for (let i = 0; i < this.vertex.length; i++) {
-        vToEdge = this.vertex[i].subtract(ptOnEdge);
-        projection = vToEdge.dot(dir);
-
-        if ((projection > 0) && (projection > tmpSupport.supportPointDist)) {
-            tmpSupport.supportPoint = this.vertex[i];
-            tmpSupport.supportPointDist = projection;
+    // Collision detection
+    // Separating Axis Theorem - Support Points
+    // An Efficient SAT Algorithm
+    /**
+     *
+     * @param {Rectangle} otherShape
+     * @param collisionInfo
+     * @return {boolean}
+     */
+    collisionTest (otherShape, collisionInfo) {
+        let status;
+        if (otherShape.type === "circle") {
+            status = false;
+        } else {
+            status = false;
+           status = this.collidedRectRect(this, otherShape, collisionInfo);
         }
+        return status;
     }
-};
 
-/**
- * Find the axis of the least penetration
- * based on the support point with the least support point distant
- * @param {Rectangle} otherRect
- * @param collisionInfo
- * @return {boolean} hasSupport
- */
-Rectangle.prototype.findAxisLeastPenetration = function (otherRect, collisionInfo) {
-
-    let n;
-    let supportPoint;
-
-    let bestDistance = 999999;
-    let bestIndex = null;
-
-    let hasSupport = true;
-    let i = 0;
-
-    while ((hasSupport) && (i < this.faceNormal.length)) {
-        n = this.faceNormal[i];
-
-        let dir = n.copy();
-        dir.mult(-1);
-        let ptOnEdge = this.vertex[i];
-        otherRect.findSupportPoint(dir, ptOnEdge);
-        hasSupport = (tmpSupport.supportPoint !== null);
-
-        if ((hasSupport) && (tmpSupport.supportPointDist < bestDistance)) {
-            bestDistance = tmpSupport.supportPointDist;
-            bestIndex = i;
-            supportPoint = tmpSupport.supportPoint;
-        }
-        i = i + 1;
-    }
-    if (hasSupport) {
-        let bestVec = this.faceNormal[bestIndex].copy();
-        bestVec.mult(bestDistance);
-        let point = supportPoint.copy();
-        point.add(bestVec)
-        collisionInfo.setInfo(bestDistance, this.faceNormal[bestIndex].copy(), point);
-    }
-    return hasSupport;
-};
-
-let collisionInfoR1 = new CollisionInfo();
-let collisionInfoR2 = new CollisionInfo();
-
-/**
- * Compute the axis of lest penetration and choose smaller of the two results
- * @param {Rectangle} r1
- * @param {Rectangle}   r2
- * @param collisionInfo
- * @return {boolean}
- */
-Rectangle.prototype.collidedRectRect = function (r1, r2, collisionInfo) {
-
-    var status1 = false;
-    var status2 = false;
-
-    status1 = r1.findAxisLeastPenetration(r2, collisionInfoR1);
-
-    if (status1) {
-        status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
-        if (status2) {
-            if (collisionInfoR1.depth < collisionInfoR2.depth) {
-                let depthVec = collisionInfoR1.normal.copy();
-                depthVec.mult(collisionInfoR1.depth);
-                collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
-            } else {
-                let normal = collisionInfoR2.normal.copy();
-                normal.mult(-1);
-                collisionInfo.setInfo(collisionInfoR2.depth, normal, collisionInfoR2.start);
+    /**
+     * Compute a support point based on dir (find a support point for any face normal)
+     * @param {Vector} dir Negated face normal direction
+     * @param {Vector} ptOnEdge A position on the given edge (e.g. a vertex)
+     * @return {{ supportPoint: Vector, supportPointDist: number}}
+     */
+    findSupportPoint (dir, ptOnEdge) {
+        // vector from vertices to ptOnEdge; it will be projected on dir
+        let vToEdge;
+        let projection;
+        // initialize the computed results
+        let support = { supportPointDist: -9999999,
+                                supportPoint: null}
+        // loop through all the vertices
+        for (let i = 0; i < this.vertex.length; i++) {
+            vToEdge = this.vertex[i].subtract(ptOnEdge);
+            projection = vToEdge.dot(dir);
+            // find the longest distance with the given edge
+            // (the furthest vertex position)
+            // dir is -n direction thus the distance will be positive
+            // if all distances are negative, all vertices are in front of input dir and a support point does not exist, i.e. two rectangles do not collide
+            if ((projection > 0) &&
+                (projection > support.supportPointDist)) {
+                support.supportPoint = this.vertex[i].copy();
+                support.supportPointDist = projection;
             }
         }
+        return support;
     }
-    return status1 && status2;
-};
+
+    /**
+     * Find the axis of the least penetration
+     * based on the support point with the least support point distant
+     * @param {Rectangle} otherRect
+     * @param collisionInfo
+     * @return {boolean} hasSupport
+     */
+    findAxisLeastPenetration(otherRect, collisionInfo) {
+        // collision between shape A and shape B (both are rectangles)
+        let n;
+        /**
+         * @type {Vector}
+         */
+        let supportPoint;
+        let bestDistance = 999999;
+        let bestIndex = null;
+        let hasSupport = true;
+        let support;
+        let i = 0;
+        // loop through the four face normals, find the corresponding
+        // support point and support point distance and record the shortest distance
+        // if a support point is not defined for any of the face normals, then the loops stops and the two rectangles do not collide
+        while ((hasSupport) && (i < this.faceNormal.length)) {
+            // retrieve a face normal from shape A
+            n = this.faceNormal[i].copy();
+            // use -n as direction and the vertex on edge i as point on edge
+            let dir = n.copy()
+            dir.mult(-1);
+            let ptOnEdge = this.vertex[i];
+            // find the support point on B
+            //the point has the longest distance with edge i
+            support = otherRect.findSupportPoint(dir, ptOnEdge);
+            hasSupport = (support.supportPoint !== null);
+            // get the shortest support point depth
+            if ((hasSupport) && (support.supportPointDist < bestDistance)) {
+                bestDistance = support.supportPointDist;
+                bestIndex = i;
+                supportPoint = support.supportPoint;
+            }
+            i = i + 1;
+        }
+        if (hasSupport) {
+            // // all four directions have support point
+            let bestVec = this.faceNormal[bestIndex].copy();
+            bestVec.mult(bestDistance)
+            let s = supportPoint.copy();
+            s.add(bestVec);
+            collisionInfo.setInfo(bestDistance,
+                this.faceNormal[bestIndex].copy(), s);
+        }
+        return hasSupport;
+    }
+
+    /**
+     * Compute the axis of lest penetration and choose smaller of the two results
+     * @param {Rectangle} r1
+     * @param {Rectangle}   r2
+     * @param collisionInfo
+     * @return {boolean}
+     */
+    collidedRectRect (r1, r2, collisionInfo) {
+        let status1;
+        let status2;
+        /**
+         * @type {CollisionInfo}
+         */
+        let collisionInfoR1 = new CollisionInfo();
+        /**
+         * @type {CollisionInfo}
+         */
+        let collisionInfoR2 = new CollisionInfo();
+        // find axis of separation for both rectangles
+        status1 = r1.findAxisLeastPenetration(r2, collisionInfoR1);
+        if (status1) {
+            status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
+            if (status2) {
+                if (collisionInfoR1.depth < collisionInfoR2.depth) {
+                    let depthVec = collisionInfoR1.normal.copy();
+                    depthVec.mult(collisionInfoR1.depth);
+                    collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
+                } else {
+                    let normal = collisionInfoR2.normal.copy();
+                    normal.mult(-1);
+                    collisionInfo.setInfo(collisionInfoR2.depth, normal, collisionInfoR2.start);
+                }
+            }
+        }
+        return status1 && status2;
+    }
+}
 
