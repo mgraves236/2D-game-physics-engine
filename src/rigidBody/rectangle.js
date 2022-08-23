@@ -106,189 +106,134 @@ export class Rectangle extends RigidShape {
             status = false;
         } else {
             status = false;
-           status = this.collidedRectRect(this, otherShape, collisionInfo);
         }
         return status;
     }
 
-    /**
-     * Compute a support point based on dir (find a support point for any face normal)
-     * @param {Vector} dir Negated face normal direction
-     * @param {Vector} ptOnEdge A position on the given edge (e.g. a vertex)
-     * @return {{ supportPoint: Vector, supportPointDist: number}}
-     */
-    findSupportPoint (dir, ptOnEdge) {
-        // vector from vertices to ptOnEdge; it will be projected on dir
-        let vToEdge;
-        let projection;
-        // console.log(dir)
-        // console.log(ptOnEdge)
-        // console.log(ptOnEdge)
-        // initialize the computed results
-        let support = { supportPointDist: -9999999,
-                                supportPoint: null}
-        // loop through all the vertices
-        for (let i = 0; i < this.vertex.length; i++) {
-            // this.vertex[i].draw('purple')
-            vToEdge = this.vertex[i].subtract(ptOnEdge);
-            // console.log(vToEdge)
-            vToEdge.x0 = ptOnEdge.x;
-            vToEdge.y0 = ptOnEdge.y;
-            vToEdge.x = vToEdge.x + vToEdge.x0;
-            vToEdge.y = vToEdge.y + vToEdge.y0;
-            // vToEdge.draw('#ffffff')
-            projection = vToEdge.get().dot(dir.get());
-            // console.log(projection)
-            // find the longest distance with the given edge
-            // (the furthest vertex position)
-            // dir is -n direction thus the distance will be positive
-            // if all distances are negative, all vertices are in front of input dir and a support point does not exist, i.e. two rectangles do not collide
-            if ((projection > 0) &&
-                (projection > support.supportPointDist)) {
-                support.supportPoint = this.vertex[i].copy();
-                support.supportPointDist = projection;
-                // console.log('--')
-                // console.log(support)
-
-            }
-        }
-        // console.log(support)
-        return support;
-    }
-
-    /**
-     * Find the axis of the least penetration
-     * based on the support point with the least support point distant
-     * @param {Rectangle} otherRect
-     * @param collisionInfo
-     * @return {boolean} hasSupport
-     */
-    findAxisLeastPenetration(otherRect, collisionInfo) {
-        // collision between shape A and shape B (both are rectangles)
-        let n;
-        /**
-         * @type {Vector}
-         */
-        let supportPoint;
-        let bestDistance = 999999;
-        let bestIndex = null;
-        let hasSupport = true;
-        let support;
-        let i = 0;
-        // loop through the four face normals, find the corresponding
-        // support point and support point distance and record the shortest distance
-        // if a support point is not defined for any of the face normals, then the loops stops and the two rectangles do not collide
-        while ((hasSupport) && (i < this.faceNormal.length)) {
-            // console.log('next')
-            // retrieve a face normal from shape A
-            n = this.faceNormal[i].copy();
-            // use -n as direction and the vertex on edge i as point on edge
-            let dir = n.copy()
-            // dir.changeDir();
-            dir.mult(-1);
-            // dir.x0 = this.massCenter.x;
-            // dir.y0 = this.massCenter.y;
-            // dir.x = dir.x + dir.x0;
-            // dir.y = dir.y + dir.y0;
-            // dir.draw('black')
-            let ptOnEdge = this.vertex[i];
-            // ptOnEdge.draw('green')
-            // find the support point on B
-            //the point has the longest distance with edge i
-            support = otherRect.findSupportPoint(dir, ptOnEdge);
-            // console.log('SUPPORT')
-            // console.log(support.supportPointDist)
-            // console.log(bestDistance)
-            hasSupport = (support.supportPoint !== null);
-            // get the shortest support point depth
-            if ((hasSupport) && (support.supportPointDist < bestDistance)) {
-                // console.log('in')
-                bestDistance = support.supportPointDist;
-                bestIndex = i;
-                // console.log('########')
-                // console.log(this.faceNormal[i])
-                // console.log(support)
-                // console.log('----########----')
-                supportPoint = support.supportPoint;
-            }
-            i = i + 1;
-        }
-        supportPoint.draw('blue')
-        if (hasSupport) {
-            // // all four directions have support point
-            let bestVec = this.faceNormal[bestIndex].copy();
-            let x = bestVec.x - bestVec.x0;
-            x = x * bestDistance;
-            let y = bestVec.y - bestVec.y0;
-            y = y * bestDistance;
-            bestVec.x = x;
-            bestVec.y = y;
-            // bestVec.mult(-bestDistance)
-            // bestVec.draw('yellow')
-
-            let s = supportPoint.copy();
-            // s.draw('orange')
-            // this.support.supportPoint.draw('green')
-            s.add(bestVec);
-            s.draw('green')
-            // console.log(this.faceNormal[bestIndex])
-            // console.log(bestIndex)
-            collisionInfo.setInfo(bestDistance,
-                this.faceNormal[bestIndex].copy(), s);
-        }
-        return hasSupport;
-    }
-
-    /**
-     * Compute the axis of lest penetration and choose smaller of the two results
-     * @param {Rectangle} r1
-     * @param {Rectangle}   r2
-     * @param collisionInfo
-     * @return {boolean}
-     */
-    collidedRectRect (r1, r2, collisionInfo) {
-        let status1;
-        let status2;
-        /**
-         * @type {CollisionInfo}
-         */
-        let collisionInfoR1 = new CollisionInfo();
-        /**
-         * @type {CollisionInfo}
-         */
-        let collisionInfoR2 = new CollisionInfo();
-        // find axis of separation for both rectangles
-        status1 = r1.findAxisLeastPenetration(r2, collisionInfoR1);
-        // console.log(collisionInfoR1)
-        if (status1) {
-            status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
-            if (status2) {
-                // choose shorter normal as the normal of the collision
-                console.log(collisionInfoR1.depth)
-                console.log(collisionInfoR2.depth)
-                if (collisionInfoR1.depth <= collisionInfoR2.depth) {
-                    console.log('R1 smaller')
-                    let depthVec = collisionInfoR1.normal.copy();
-                    // let x = depthVec.x - depthVec.x0;
-                    // x = x * collisionInfoR1.depth;
-                    // let y = depthVec.y - depthVec.y0;
-                    // y = y * collisionInfoR1.depth;
-                    // depthVec.x = x;
-                    // depthVec.y = y;
-                    depthVec.mult(collisionInfoR1.depth)
-                    depthVec.draw('yellow')
-
-                    let s = new Vector(collisionInfoR1.start.x - depthVec.x, collisionInfoR1.start.y - depthVec.y, 0, 0, false);
-                    collisionInfo.setInfo(collisionInfoR1.depth,
-                        collisionInfoR1.normal, s)
-                } else {
-                    let s = new Vector(collisionInfoR2.start.x, collisionInfoR2.start.y,0, 0, false);
-                    collisionInfo.setInfo(collisionInfoR2.depth,
-                        collisionInfoR2.normal, s)
-                }
-            }
-        }
-        return status1 && status2;
-    }
-
 }
+
+
+
+Rectangle.prototype.collisionTest = function (otherShape, collisionInfo) {
+    var status = false;
+    if (otherShape.type === "circle") {
+        status = false;
+    } else {
+        status = this.collidedRectRect(this, otherShape, collisionInfo);
+    }
+    return status;
+};
+
+var SupportStruct = function () {
+    this.mSupportPoint = null;
+    this.mSupportPointDist = 0;
+};
+var tmpSupport = new SupportStruct();
+
+Rectangle.prototype.findSupportPoint = function (dir, ptOnEdge) {
+    //the longest project length
+    var vToEdge;
+    var projection;
+
+    tmpSupport.mSupportPointDist = -9999999;
+    tmpSupport.mSupportPoint = null;
+    //check each vector of other object
+    for (var i = 0; i < this.vertex.length; i++) {
+        vToEdge = this.vertex[i].subtract(ptOnEdge);
+        projection = vToEdge.dot(dir);
+
+        //find the longest distance with certain edge
+        //dir is -n direction, so the distance should be positive
+        if ((projection > 0) && (projection > tmpSupport.mSupportPointDist)) {
+            tmpSupport.mSupportPoint = this.vertex[i];
+            tmpSupport.mSupportPointDist = projection;
+        }
+    }
+};
+
+/**
+ * Find the shortest axis that overlapping
+ * @memberOf Rectangle
+ * @param {Rectangle} otherRect  another rectangle that being tested
+ * @param {CollisionInfo} collisionInfo  record the collision information
+ * @returns {Boolean} true if has overlap part in all four directions.
+ * the code is convert from http://gamedevelopment.tutsplus.com/tutorials/how-to-create-a-custom-2d-physics-engine-oriented-rigid-bodies--gamedev-8032
+ */
+Rectangle.prototype.findAxisLeastPenetration = function (otherRect, collisionInfo) {
+
+    var n;
+    var supportPoint;
+
+    var bestDistance = 999999;
+    var bestIndex = null;
+
+    var hasSupport = true;
+    var i = 0;
+
+    while ((hasSupport) && (i < this.faceNormal.length)) {
+        // Retrieve a face normal from A
+        n = this.faceNormal[i];
+
+        // use -n as direction and the vectex on edge i as point on edge
+        var dir = n.copy();
+        dir.mult(-1);
+        var ptOnEdge = this.vertex[i];
+        // find the support on B
+        // the point has longest distance with edge i
+        otherRect.findSupportPoint(dir, ptOnEdge);
+        hasSupport = (tmpSupport.mSupportPoint !== null);
+
+        //get the shortest support point depth
+        if ((hasSupport) && (tmpSupport.mSupportPointDist < bestDistance)) {
+            bestDistance = tmpSupport.mSupportPointDist;
+            bestIndex = i;
+            supportPoint = tmpSupport.mSupportPoint;
+        }
+        i = i + 1;
+    }
+    if (hasSupport) {
+        //all four directions have support point
+        var bestVec = this.faceNormal[bestIndex].copy();
+        bestVec.mult(bestDistance);
+        let point = supportPoint.copy();
+        point.add(bestVec)
+        collisionInfo.setInfo(bestDistance, this.faceNormal[bestIndex].copy(), point);
+    }
+    return hasSupport;
+};
+/**
+ * Check for collision between RigidRectangle and RigidRectangle
+ * @param {Rectangle} r1 Rectangle object to check for collision status
+ * @param {Rectangle} r2 Rectangle object to check for collision status against
+ * @param {CollisionInfo} collisionInfo Collision info of collision
+ * @returns {Boolean} true if collision occurs
+ * @memberOf Rectangle
+ */
+var collisionInfoR1 = new CollisionInfo();
+var collisionInfoR2 = new CollisionInfo();
+Rectangle.prototype.collidedRectRect = function (r1, r2, collisionInfo) {
+
+    var status1 = false;
+    var status2 = false;
+
+    //find Axis of Separation for both rectangle
+    status1 = r1.findAxisLeastPenetration(r2, collisionInfoR1);
+
+    if (status1) {
+        status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
+        if (status2) {
+            //if both of rectangles are overlapping, choose the shorter normal as the normal
+            if (collisionInfoR1.depth < collisionInfoR2.depth) {
+                var depthVec = collisionInfoR1.normal.copy();
+                depthVec.mult(collisionInfoR1.depth);
+                collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
+            } else {
+                let normal = collisionInfoR2.normal.copy();
+                normal.mult(-1);
+                collisionInfo.setInfo(collisionInfoR2.depth, normal, collisionInfoR2.start);
+            }
+        }
+    }
+    return status1 && status2;
+};
+
