@@ -16,6 +16,9 @@ export class CollisionInfo {
      * @param {Vector} s
      */
     setInfo (d, n, s) {
+        // console.log(d)
+        // console.log(n)
+        // console.log(s)
         this.depth = d;
         this.normal = n;
         // s.draw('yellow')

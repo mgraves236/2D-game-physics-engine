@@ -50,13 +50,22 @@ export class Rectangle extends RigidShape {
         this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
         this.faceNormal.forEach(vector => vector.normalize());
 
-        this.vertexRemapped = [];
-        for (let i = 0; i < this.vertex.length; i++) {
-            this.vertexRemapped[i] = new Vector(this.vertex[i].x, map(this.vertex[i].y), 0, 0, false);
-        }
+        this.rotate(0, this.massCenter);
+    }
 
-        this.support = { supportPointDist: -9999999,
-            supportPoint: null};
+    rotate (angle) {
+        this.angle += angle;
+        // console.log(this.angle)
+        for (let i = 0; i < this.vertex.length; i++) {
+            this.vertex[i] = this.vertex[i].rotate(angle, this.massCenter);
+        }
+        // compute the face normal vectors
+        this.faceNormal[0] = this.vertex[1].subtract(this.vertex[2]);
+        this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
+        this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
+        this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
+        this.faceNormal.forEach(vector => vector.normalize());
+
     }
 
     displayBounds() {
@@ -79,6 +88,7 @@ export class Rectangle extends RigidShape {
         ctx.save();
         this.displayBounds();
         ctx.restore();
+        // console.log(this.faceNormal);
     }
 
     // Collision detection
@@ -95,6 +105,7 @@ export class Rectangle extends RigidShape {
         if (otherShape.type === "circle") {
             status = false;
         } else {
+            status = false;
            status = this.collidedRectRect(this, otherShape, collisionInfo);
         }
         return status;
@@ -110,27 +121,39 @@ export class Rectangle extends RigidShape {
         // vector from vertices to ptOnEdge; it will be projected on dir
         let vToEdge;
         let projection;
+        // console.log(dir)
+        // console.log(ptOnEdge)
+        // console.log(ptOnEdge)
         // initialize the computed results
-        // let tmpSupport = { supportPointDist: -9999999,
-        //                     supportPoint: null}
-        this.support = { supportPointDist: -9999999,
+        let support = { supportPointDist: -9999999,
                                 supportPoint: null}
         // loop through all the vertices
         for (let i = 0; i < this.vertex.length; i++) {
-            vToEdge = this.vertexRemapped[i].subtract(ptOnEdge);
+            // this.vertex[i].draw('purple')
+            vToEdge = this.vertex[i].subtract(ptOnEdge);
+            // console.log(vToEdge)
+            vToEdge.x0 = ptOnEdge.x;
+            vToEdge.y0 = ptOnEdge.y;
+            vToEdge.x = vToEdge.x + vToEdge.x0;
+            vToEdge.y = vToEdge.y + vToEdge.y0;
+            // vToEdge.draw('#ffffff')
             projection = vToEdge.get().dot(dir.get());
+            // console.log(projection)
             // find the longest distance with the given edge
             // (the furthest vertex position)
             // dir is -n direction thus the distance will be positive
             // if all distances are negative, all vertices are in front of input dir and a support point does not exist, i.e. two rectangles do not collide
             if ((projection > 0) &&
-                (projection > this.support.supportPointDist)) {
-                this.support.supportPoint = this.vertex[i].copy();
-                this.support.supportPoint.draw('green')
-                this.support.supportPointDist = projection;
+                (projection > support.supportPointDist)) {
+                support.supportPoint = this.vertex[i].copy();
+                support.supportPointDist = projection;
+                // console.log('--')
+                // console.log(support)
+
             }
         }
-        return this.support;
+        // console.log(support)
+        return support;
     }
 
     /**
@@ -150,28 +173,47 @@ export class Rectangle extends RigidShape {
         let bestDistance = 999999;
         let bestIndex = null;
         let hasSupport = true;
+        let support;
         let i = 0;
         // loop through the four face normals, find the corresponding
         // support point and support point distance and record the shortest distance
         // if a support point is not defined for any of the face normals, then the loops stops and the two rectangles do not collide
         while ((hasSupport) && (i < this.faceNormal.length)) {
+            // console.log('next')
             // retrieve a face normal from shape A
             n = this.faceNormal[i].copy();
             // use -n as direction and the vertex on edge i as point on edge
-            let dir = n.changeDir();
-            let ptOnEdge = this.vertexRemapped[i];
+            let dir = n.copy()
+            // dir.changeDir();
+            dir.mult(-1);
+            // dir.x0 = this.massCenter.x;
+            // dir.y0 = this.massCenter.y;
+            // dir.x = dir.x + dir.x0;
+            // dir.y = dir.y + dir.y0;
+            // dir.draw('black')
+            let ptOnEdge = this.vertex[i];
+            // ptOnEdge.draw('green')
             // find the support point on B
             //the point has the longest distance with edge i
-            this.support = otherRect.findSupportPoint(dir, ptOnEdge);
-            hasSupport = (this.support.supportPoint !== null);
+            support = otherRect.findSupportPoint(dir, ptOnEdge);
+            // console.log('SUPPORT')
+            // console.log(support.supportPointDist)
+            // console.log(bestDistance)
+            hasSupport = (support.supportPoint !== null);
             // get the shortest support point depth
-            if ((hasSupport) && (this.support.supportPointDist < bestDistance)) {
-                bestDistance = this.support.supportPointDist;
+            if ((hasSupport) && (support.supportPointDist < bestDistance)) {
+                // console.log('in')
+                bestDistance = support.supportPointDist;
                 bestIndex = i;
-                supportPoint = this.support.supportPoint;
+                // console.log('########')
+                // console.log(this.faceNormal[i])
+                // console.log(support)
+                // console.log('----########----')
+                supportPoint = support.supportPoint;
             }
             i = i + 1;
         }
+        supportPoint.draw('blue')
         if (hasSupport) {
             // // all four directions have support point
             let bestVec = this.faceNormal[bestIndex].copy();
@@ -181,10 +223,18 @@ export class Rectangle extends RigidShape {
             y = y * bestDistance;
             bestVec.x = x;
             bestVec.y = y;
+            // bestVec.mult(-bestDistance)
+            // bestVec.draw('yellow')
+
             let s = supportPoint.copy();
+            // s.draw('orange')
+            // this.support.supportPoint.draw('green')
             s.add(bestVec);
+            s.draw('green')
+            // console.log(this.faceNormal[bestIndex])
+            // console.log(bestIndex)
             collisionInfo.setInfo(bestDistance,
-                this.faceNormal[bestIndex], s);
+                this.faceNormal[bestIndex].copy(), s);
         }
         return hasSupport;
     }
@@ -214,19 +264,25 @@ export class Rectangle extends RigidShape {
             status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
             if (status2) {
                 // choose shorter normal as the normal of the collision
-                if (collisionInfoR1.depth < collisionInfoR2.depth) {
+                console.log(collisionInfoR1.depth)
+                console.log(collisionInfoR2.depth)
+                if (collisionInfoR1.depth <= collisionInfoR2.depth) {
+                    console.log('R1 smaller')
                     let depthVec = collisionInfoR1.normal.copy();
-                    let x = depthVec.x - depthVec.x0;
-                    x = x * collisionInfoR1.depth;
-                    let y = depthVec.y - depthVec.y0;
-                    y = y * collisionInfoR1.depth;
-                    depthVec.x = x;
-                    depthVec.y = y;
-                    let s = new Vector(collisionInfoR1.start.x - depthVec.x, collisionInfoR1.start.y- depthVec.y, 0, 0, false);
+                    // let x = depthVec.x - depthVec.x0;
+                    // x = x * collisionInfoR1.depth;
+                    // let y = depthVec.y - depthVec.y0;
+                    // y = y * collisionInfoR1.depth;
+                    // depthVec.x = x;
+                    // depthVec.y = y;
+                    depthVec.mult(collisionInfoR1.depth)
+                    depthVec.draw('yellow')
+
+                    let s = new Vector(collisionInfoR1.start.x - depthVec.x, collisionInfoR1.start.y - depthVec.y, 0, 0, false);
                     collisionInfo.setInfo(collisionInfoR1.depth,
                         collisionInfoR1.normal, s)
                 } else {
-                    let s = new Vector(collisionInfoR2.start.x, map(collisionInfoR2.start.y),0, 0, false);
+                    let s = new Vector(collisionInfoR2.start.x, collisionInfoR2.start.y,0, 0, false);
                     collisionInfo.setInfo(collisionInfoR2.depth,
                         collisionInfoR2.normal, s)
                 }
