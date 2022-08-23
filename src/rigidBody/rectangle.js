@@ -230,3 +230,4 @@ export class Rectangle extends RigidShape {
         return status1 && status2;
     }
 }
+
