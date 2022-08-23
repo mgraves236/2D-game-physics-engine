@@ -88,34 +88,20 @@ export class Rectangle extends RigidShape {
         ctx.save();
         this.displayBounds();
         ctx.restore();
-        // console.log(this.faceNormal);
     }
-
-    // Collision detection
-    // Separating Axis Theorem - Support Points
-    // An Efficient SAT Algorithm
-    /**
-     *
-     * @param {Rectangle} otherShape
-     * @param collisionInfo
-     * @return {boolean}
-     */
-    collisionTest (otherShape, collisionInfo) {
-        let status;
-        if (otherShape.type === "circle") {
-            status = false;
-        } else {
-            status = false;
-        }
-        return status;
-    }
-
 }
 
-
-
+// Collision detection
+// Separating Axis Theorem - Support Points
+// An Efficient SAT Algorithm
+/**
+ *
+ * @param {Rectangle} otherShape
+ * @param collisionInfo
+ * @return {boolean}
+ */
 Rectangle.prototype.collisionTest = function (otherShape, collisionInfo) {
-    var status = false;
+    let status = false;
     if (otherShape.type === "circle") {
         status = false;
     } else {
@@ -124,76 +110,73 @@ Rectangle.prototype.collisionTest = function (otherShape, collisionInfo) {
     return status;
 };
 
-var SupportStruct = function () {
-    this.mSupportPoint = null;
-    this.mSupportPointDist = 0;
+/**
+ * Object to keep information about a support point
+ * @type {{supportPoint: null, supportPointDist: number}}
+ */
+let tmpSupport = {
+    supportPoint: null,
+    supportPointDist: 0
 };
-var tmpSupport = new SupportStruct();
 
+/**
+ * Compute a support point based on dir (find a support point for any face normal)
+ * @param {Vector} dir Negated face normal direction
+ * @param {Vector} ptOnEdge A position on the given edge (e.g. a vertex)
+ */
 Rectangle.prototype.findSupportPoint = function (dir, ptOnEdge) {
-    //the longest project length
-    var vToEdge;
-    var projection;
+    let vToEdge;
+    let projection;
 
-    tmpSupport.mSupportPointDist = -9999999;
-    tmpSupport.mSupportPoint = null;
-    //check each vector of other object
-    for (var i = 0; i < this.vertex.length; i++) {
+    tmpSupport.supportPointDist = -9999999;
+    tmpSupport.supportPoint = null;
+    for (let i = 0; i < this.vertex.length; i++) {
         vToEdge = this.vertex[i].subtract(ptOnEdge);
         projection = vToEdge.dot(dir);
 
-        //find the longest distance with certain edge
-        //dir is -n direction, so the distance should be positive
-        if ((projection > 0) && (projection > tmpSupport.mSupportPointDist)) {
-            tmpSupport.mSupportPoint = this.vertex[i];
-            tmpSupport.mSupportPointDist = projection;
+        if ((projection > 0) && (projection > tmpSupport.supportPointDist)) {
+            tmpSupport.supportPoint = this.vertex[i];
+            tmpSupport.supportPointDist = projection;
         }
     }
 };
 
 /**
- * Find the shortest axis that overlapping
- * @memberOf Rectangle
- * @param {Rectangle} otherRect  another rectangle that being tested
- * @param {CollisionInfo} collisionInfo  record the collision information
- * @returns {Boolean} true if has overlap part in all four directions.
- * the code is convert from http://gamedevelopment.tutsplus.com/tutorials/how-to-create-a-custom-2d-physics-engine-oriented-rigid-bodies--gamedev-8032
+ * Find the axis of the least penetration
+ * based on the support point with the least support point distant
+ * @param {Rectangle} otherRect
+ * @param collisionInfo
+ * @return {boolean} hasSupport
  */
 Rectangle.prototype.findAxisLeastPenetration = function (otherRect, collisionInfo) {
 
-    var n;
-    var supportPoint;
+    let n;
+    let supportPoint;
 
-    var bestDistance = 999999;
-    var bestIndex = null;
+    let bestDistance = 999999;
+    let bestIndex = null;
 
-    var hasSupport = true;
-    var i = 0;
+    let hasSupport = true;
+    let i = 0;
 
     while ((hasSupport) && (i < this.faceNormal.length)) {
-        // Retrieve a face normal from A
         n = this.faceNormal[i];
 
-        // use -n as direction and the vectex on edge i as point on edge
-        var dir = n.copy();
+        let dir = n.copy();
         dir.mult(-1);
-        var ptOnEdge = this.vertex[i];
-        // find the support on B
-        // the point has longest distance with edge i
+        let ptOnEdge = this.vertex[i];
         otherRect.findSupportPoint(dir, ptOnEdge);
-        hasSupport = (tmpSupport.mSupportPoint !== null);
+        hasSupport = (tmpSupport.supportPoint !== null);
 
-        //get the shortest support point depth
-        if ((hasSupport) && (tmpSupport.mSupportPointDist < bestDistance)) {
-            bestDistance = tmpSupport.mSupportPointDist;
+        if ((hasSupport) && (tmpSupport.supportPointDist < bestDistance)) {
+            bestDistance = tmpSupport.supportPointDist;
             bestIndex = i;
-            supportPoint = tmpSupport.mSupportPoint;
+            supportPoint = tmpSupport.supportPoint;
         }
         i = i + 1;
     }
     if (hasSupport) {
-        //all four directions have support point
-        var bestVec = this.faceNormal[bestIndex].copy();
+        let bestVec = this.faceNormal[bestIndex].copy();
         bestVec.mult(bestDistance);
         let point = supportPoint.copy();
         point.add(bestVec)
@@ -201,30 +184,29 @@ Rectangle.prototype.findAxisLeastPenetration = function (otherRect, collisionInf
     }
     return hasSupport;
 };
+
+let collisionInfoR1 = new CollisionInfo();
+let collisionInfoR2 = new CollisionInfo();
+
 /**
- * Check for collision between RigidRectangle and RigidRectangle
- * @param {Rectangle} r1 Rectangle object to check for collision status
- * @param {Rectangle} r2 Rectangle object to check for collision status against
- * @param {CollisionInfo} collisionInfo Collision info of collision
- * @returns {Boolean} true if collision occurs
- * @memberOf Rectangle
+ * Compute the axis of lest penetration and choose smaller of the two results
+ * @param {Rectangle} r1
+ * @param {Rectangle}   r2
+ * @param collisionInfo
+ * @return {boolean}
  */
-var collisionInfoR1 = new CollisionInfo();
-var collisionInfoR2 = new CollisionInfo();
 Rectangle.prototype.collidedRectRect = function (r1, r2, collisionInfo) {
 
     var status1 = false;
     var status2 = false;
 
-    //find Axis of Separation for both rectangle
     status1 = r1.findAxisLeastPenetration(r2, collisionInfoR1);
 
     if (status1) {
         status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
         if (status2) {
-            //if both of rectangles are overlapping, choose the shorter normal as the normal
             if (collisionInfoR1.depth < collisionInfoR2.depth) {
-                var depthVec = collisionInfoR1.normal.copy();
+                let depthVec = collisionInfoR1.normal.copy();
                 depthVec.mult(collisionInfoR1.depth);
                 collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
             } else {
