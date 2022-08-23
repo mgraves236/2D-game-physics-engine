@@ -192,8 +192,8 @@ export class Vector {
      */
     get() {
         let vector = new Vector(0,0);
-        vector.x = Math.abs(this.x - this.x0);
-        vector.y = Math.abs(this.y - this.y0);
+        vector.x = (this.x - this.x0);
+        vector.y = (this.y - this.y0);
         return vector;
     }
 
