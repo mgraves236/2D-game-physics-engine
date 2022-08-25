@@ -25,7 +25,15 @@ export class Circle extends RigidShape {
 
     }
 
-    displayBounds() {
+    /**
+     *
+     * @param {number} angle Angle in radians
+     */
+    rotate (angle) {
+        this.angle += angle;
+    }
+
+    displayBounds () {
         let ctx = screen.mContext;
         ctx.save();
         ctx.beginPath();

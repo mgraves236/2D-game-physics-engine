@@ -50,14 +50,13 @@ export class Rectangle extends RigidShape {
         this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
         this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
         this.faceNormal.forEach(vector => vector.normalize());
-        // console.log(this.vertex)
         // angle = 0 to just update
         this.rotate(0);
     }
 
     /**
      *
-     * @param angle in radians
+     * @param {number} angle Angle in radians
      */
     rotate (angle) {
         this.angle += angle;
@@ -69,7 +68,7 @@ export class Rectangle extends RigidShape {
         this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
         this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
         this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
-        // this.faceNormal.forEach(vector => vector.normalize());
+        this.faceNormal.forEach(vector => vector.normalize());
 
     }
 
@@ -85,14 +84,14 @@ export class Rectangle extends RigidShape {
         let ctx = screen.mContext;
         ctx.save();
         ctx.strokeStyle = 'red';
-        this.vertex.forEach( vec => vec.draw('orange'))
+        // this.vertex.forEach( vec => vec.draw('orange'))
         ctx.translate(this.massCenter.x, this.massCenter.y);
         ctx.rotate(this.angle);
         ctx.strokeRect(-this.width / 2, - this.height / 2, this.width, this.height);
         ctx.restore();
         // draw the face normal vectors
         ctx.translate(this.massCenter.x, this.massCenter.y);
-        this.faceNormal.forEach(item => item.draw('yellow'));
+        // this.faceNormal.forEach(item => item.draw('yellow'));
         ctx.restore();
     }
 
@@ -232,7 +231,8 @@ export class Rectangle extends RigidShape {
                 if (collisionInfoR1.depth < collisionInfoR2.depth) {
                     let depthVec = collisionInfoR1.normal.copy();
                     depthVec.mult(collisionInfoR1.depth);
-                    collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
+                    let start = new Vector(collisionInfoR1.start.x, collisionInfoR1.start.y, 0, 0, false);
+                    collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, start.subtract(depthVec));
                 } else {
                     let normal = collisionInfoR2.normal.copy();
                     normal.mult(-1);

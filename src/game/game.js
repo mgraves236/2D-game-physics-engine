@@ -15,7 +15,7 @@ import data from './../engineCore/config.json' assert { type: 'json' };
  */
 function startGame() {
     let x = screen.mWidth / 2;
-    let y = screen.mHeight / 2;
+    let y = screen.mHeight / 2 + 200;
     let location = new Vector(x, y, 0, 0, false);
     let mPlayer = new PlayerShip(location);
     let liquid = new DragArea(300, 300, 200, 50,  data.liquidCoefficient, false);
