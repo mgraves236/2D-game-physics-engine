@@ -9,11 +9,12 @@ import {CollisionInfo} from "../lib/collisionInfo.js";
  */
 export class Rectangle extends RigidShape {
     /**
-     *
-     * @param mass
-     * @param center
-     * @param width
-     * @param height
+     * Constructor of a Rectangle object
+     * @param {number} mass Mass of a Rectangle object
+     * @param {Vector} center Mass center of a Rectangle object
+     * @param {number} width Width of a Rectangle object
+     * @param {number} height Height of a Rectangle object
+     * @param {number} angle Angle of a Rectangle object axis to global (canvas) x-axis
      */
     constructor(mass, center, width, height, angle=0) {
         super(center, angle);
