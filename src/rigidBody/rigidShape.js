@@ -16,13 +16,14 @@ export class RigidShape {
             throw new Error("Abstract classes can't be instantiated.");
         }
         this.massCenter = massCenter;
-        this.angle = angle || 0;
+        this.angle = angle * Math.PI / 180.0 || 0;
         this.boundsRadius = 0;
         gEngine.Core.mAllObjects.push(this);
 
     }
 
     update() {
+
     }
 
     displayBounds() {

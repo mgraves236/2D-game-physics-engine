@@ -22,6 +22,7 @@ export class Rectangle extends RigidShape {
         this.height = height;
         this.mass = mass;
         this.boundsRadius = Math.sqrt(this.width * this.width + this.height * this.height) / 2;
+        this.velocity = new Vector(0,0,0,0, false);
         /**
          * Array to store vertex positions of the rectangle
          * @type {*[]}
@@ -49,13 +50,17 @@ export class Rectangle extends RigidShape {
         this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
         this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
         this.faceNormal.forEach(vector => vector.normalize());
-
-        this.rotate(0, this.massCenter);
+        // console.log(this.vertex)
+        // angle = 0 to just update
+        this.rotate(0);
     }
 
+    /**
+     *
+     * @param angle in radians
+     */
     rotate (angle) {
         this.angle += angle;
-        // console.log(this.angle)
         for (let i = 0; i < this.vertex.length; i++) {
             this.vertex[i] = this.vertex[i].rotate(angle, this.massCenter);
         }
@@ -64,21 +69,29 @@ export class Rectangle extends RigidShape {
         this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
         this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
         this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
-        this.faceNormal.forEach(vector => vector.normalize());
+        // this.faceNormal.forEach(vector => vector.normalize());
 
+    }
+
+    update() {
+        super.update();
+        for (let i = 0; i < this.vertex.length; i++) {
+           this.vertex[i].add(this.velocity);
+        }
+        this.massCenter.add(this.velocity);
     }
 
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
         ctx.strokeStyle = 'red';
+        this.vertex.forEach( vec => vec.draw('orange'))
         ctx.translate(this.massCenter.x, this.massCenter.y);
         ctx.rotate(this.angle);
         ctx.strokeRect(-this.width / 2, - this.height / 2, this.width, this.height);
         ctx.restore();
         // draw the face normal vectors
         ctx.translate(this.massCenter.x, this.massCenter.y);
-        ctx.rotate(this.angle);
         this.faceNormal.forEach(item => item.draw('yellow'));
         ctx.restore();
     }

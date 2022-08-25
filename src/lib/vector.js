@@ -109,46 +109,27 @@ export class Vector {
 
     /**
      * Method to rotate a vector
-     * @param deg
+     * @param angle
      * @param {Vector} center
      * @return {Vector}
      */
-    rotate(deg, center) {
-        let rotCenter = center || new Vector(0,0,0,0, false);
+    rotate(angle, center) {
+        console.log(angle)
+        console.log(this)
+        let rotCenter = center ||  new Vector(0,0,0,0, false);
         // switch to polar coordinates
-        deg = Math.PI - deg * Math.PI / 180.0;
         let r = [];
-        let x = this.x - center.x;
-        let y = this.y - center.y;
-        r[0] = x * Math.cos(deg) - y * Math.sin(deg);
-        r[1] = x * Math.sin(deg) + y * Math.cos(deg);
+        let x = this.x - rotCenter.x;
+        let y = this.y - rotCenter.y;
+        r[0] = x * Math.cos(angle) - y * Math.sin(angle);
+        r[1] = x * Math.sin(angle) + y * Math.cos(angle);
 
-        r[0] += center.x;
-        r[1] += center.y;
-        // let r = this.mag();
-        //
-        // let x, y;
-        //
-        // let angle = this.angle();
-        // x = r * Math.cos(Math.PI - angle - deg) + this.x0;
-        // y = r * Math.sin(Math.PI - angle - deg) + this.y0;
+        r[0] += rotCenter.x;
+        r[1] += rotCenter.y;
+        console.log(r)
 
-        // rotation matrix
-        // let xTemp = this.x;
-        // console.log(this.x + "   " + map(this.x))
-        // let x = this.x*Math.cos(deg) - this.y*Math.sin(deg);
-        // let y = xTemp*Math.sin(deg) + map(this.y)*Math.cos(deg);
+       return new Vector(r[0], r[1], 0 , 0, false)
 
-        // if (this.doMap) {
-        //     return new Vector(x, map(y), this.x0, map(this.y0));
-        // } else {
-        //     return new Vector(x, y, this.x0, this.y0, false);
-        //
-        // }
-        return new Vector(r[0], r[1], 0 , 0, false)
-        // this.x = x;
-        // this.y = y;
-        // this.y0 = this.y0;
     }
 
     angle() {

@@ -15,7 +15,7 @@ import data from './../engineCore/config.json' assert { type: 'json' };
  */
 function startGame() {
     let x = screen.mWidth / 2;
-    let y = screen.mHeight + 100;
+    let y = screen.mHeight / 2;
     let location = new Vector(x, y, 0, 0, false);
     let mPlayer = new PlayerShip(location);
     let liquid = new DragArea(300, 300, 200, 50,  data.liquidCoefficient, false);
@@ -32,8 +32,10 @@ function startGame() {
     // let circle = new Circle(1, massCenter,50);
     let massCenter2 = new Vector(330, 420, 0,0, false)
     // let circle2 = new Circle(1, massCenter2,70)
-    let rectangle = new Rectangle(1, massCenter, 100, 100);
-    let rectangle2 = new Rectangle(1, massCenter2, 100, 80, 45);
+    // let rectangle = new Rectangle(1, massCenter, 100, 100);
+    let rectangle2 = new Rectangle(1, massCenter2, 80, 80);
+    let ang = 20 * Math.PI / 180;
+    rectangle2.rotate(ang)
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 
