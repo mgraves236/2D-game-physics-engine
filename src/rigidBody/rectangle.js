@@ -2,6 +2,7 @@ import {RigidShape} from "./rigidShape.js";
 import {Vector} from "../lib/vector.js";
 import {screen, map} from "../engineCore/screen.js";
 import {CollisionInfo} from "../lib/collisionInfo.js";
+import {Circle} from "./circle.js";
 
 /***
  * Base class for rectangle shape rigid objects
@@ -117,7 +118,6 @@ export class Rectangle extends RigidShape {
         if (otherShape.type === "circle") {
             status = false;
         } else {
-            status = false;
            status = this.collidedRectRect(this, otherShape, collisionInfo);
         }
         return status;
@@ -242,6 +242,77 @@ export class Rectangle extends RigidShape {
             }
         }
         return status1 && status2;
+    }
+
+    /**
+     * Detect collision according to the relative position of the circle's center with respect to the rectangle
+     * @param {Circle} otherCirc
+     * @param {CollisionInfo} collisionInfo
+     */
+    collidedRectCirc (otherCirc, collisionInfo) {
+        // compute the nearest edge
+        // compute perpendicular distances between circle center to each of the edges of the rectangle
+        // i.e. project vector created from subtracting vertex from circle center onto each of the face normals
+        let inside = true;
+        let bestDistance = -999999;
+        let nearestEdge;
+        let circLoc = otherCirc.massCenter.copy();
+
+        for (let i = 0; i < 4; i++) {
+            // find the nearest face for the center of the circle
+            let v = circLoc.subtract(this.vertex[i]);
+            let projection = v.dot(this.faceNormal[i]);
+
+            if (projection > 0) {
+                // if the center of the circle is outside the rectangle
+                bestDistance = projection;
+                nearestEdge = i;
+                inside = false;
+                break;
+            }
+            if (projection > bestDistance) {
+                bestDistance = projection;
+                nearestEdge = i;
+            }
+        }
+
+        if(!inside) {
+            // if vector v1 between circle center and edge vertex is in the opposite direction of the edge direction v2
+            // -- dot product of these two vectors is negative -- circle center is in R1 region
+            // collision occurs when the length of v1 is less than the circle radius
+            // v1 is from left vertex of face to center of circle
+            // v2 is from left vertex of face to right vertex of face
+            let v1 = circLoc.subtract(this.vertex[nearestEdge]);
+            let v2 = this.vertex[(nearestEdge + 1) % 4].subtract(this.vertex[nearestEdge]);
+            let dot = v1.dot(v2);
+            if (dot < 0) { // region R1
+                //the center of circle is in corner region of mVertex[nearestEdge]
+                let distance = v1.mag();
+                // compare distance with radius
+                if (distance > otherCirc.height) {
+                    return false;
+                }
+                let normal = v1.copy();
+                normal.normalize();
+                let radiusVec = normal.copy();
+                radiusVec.mult(-otherCirc.height);
+                let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y, 0, 0, false);
+                collisionInfo.setInfo(otherCirc.height - distance,
+                    normal, s);
+            } else {  // not in R1
+                if (true) { // region R2
+
+                } else { // not in R2
+                    // region R3
+                }
+            }
+            // if center is in R3
+        } else {
+            // if center is inside
+            // vertex-to-center vectors will be in opposite directions of their corresponding face normal
+            // projected length will be negative, best distance is the onea with lest negative value
+        }
+        return true;
     }
 }
 
