@@ -9,7 +9,6 @@ import {Triangle} from "../rigidBody/triangle.js";
 export class PlayerShip extends Rectangle {
     constructor(location) {
         super(data.spaceshipMass, location, 63, 48);
-        console.log(location)
         this.width = 63;
         this.height = 48;
         //this.mass = data.spceshipMass;

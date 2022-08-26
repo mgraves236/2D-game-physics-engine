@@ -5,12 +5,14 @@ import {CollisionInfo} from "../lib/collisionInfo.js";
 let _enginePhysics = (function () {
     let collision = function () {
         let collisionInfo = new CollisionInfo();
+        // console.log(gEngine.Core.mAllObjects)
         for (let i = 0; i < gEngine.Core.mAllObjects.length; i++) {
             if (gEngine.Core.mAllObjects[i].massCenter !== null) {
                 for (let j = i + 1; j < gEngine.Core.mAllObjects.length; j++) {
                     if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                         if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
                             // console.log('collided ' + i + ' ' + j)
+
 
                             if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
                                 // the normal must always be from object i to object j

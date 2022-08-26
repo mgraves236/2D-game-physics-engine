@@ -114,8 +114,6 @@ export class Vector {
      * @return {Vector}
      */
     rotate(angle, center) {
-        console.log(angle)
-        console.log(this)
         let rotCenter = center ||  new Vector(0,0,0,0, false);
         // switch to polar coordinates
         let r = [];
@@ -126,7 +124,6 @@ export class Vector {
 
         r[0] += rotCenter.x;
         r[1] += rotCenter.y;
-        console.log(r)
 
        return new Vector(r[0], r[1], 0 , 0, false)
 
