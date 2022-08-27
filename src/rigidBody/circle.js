@@ -61,6 +61,8 @@ export class Circle extends RigidShape {
         let status = false;
         if (otherShape.type === "circle") {
             status = this.collidedCircCirc(this, otherShape, collisionInfo);
+        } else if (otherShape.type === "rectangle") {
+            status = otherShape.collidedRectCirc(this, collisionInfo);
         } else {
             status = false;
         }
