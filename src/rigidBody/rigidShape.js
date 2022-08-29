@@ -10,13 +10,15 @@ export class RigidShape {
      * Constructor of RigidShape class,
      * create an object with the center of mass defined by a vector
      * @param {Vector} massCenter point at which center of mass is located
+     * @param  {number} angle angle in radians
      */
     constructor(massCenter, angle) {
-        if (this.constructor == RigidShape) {
+        if (this.constructor === RigidShape) {
             throw new Error("Abstract classes can't be instantiated.");
         }
         this.massCenter = massCenter;
-        this.angle = angle * Math.PI / 180.0 || 0;
+        // this.angle = angle * Math.PI / 180.0 || 0;
+        this.angle = angle;
         this.boundsRadius = 0;
         gEngine.Core.mAllObjects.push(this);
 
@@ -30,7 +32,7 @@ export class RigidShape {
     }
 
     /**
-     * Function that implements Borad Phase Method to detect collision detection
+     * Function that implements Broad Phase Method to detect collision detection
      * @param otherShape Other object that an object might collide with
      * @return {boolean} Returns true when objects are colliding and false when they are not
      */

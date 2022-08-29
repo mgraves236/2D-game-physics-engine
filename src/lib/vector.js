@@ -129,19 +129,6 @@ export class Vector {
 
     }
 
-    angle() {
-        let r = this.mag();
-        let arg = (this.x - this.x0) / r;
-        let angle;
-        if (map(this.y) <= map(this.y0)) {
-            angle = 2 * math.PI - math.acos(arg);
-        } else {
-            angle = math.acos(arg);
-        }
-
-        return angle;
-    }
-
     draw(color) {
         screen.mContext.save();
         screen.mContext.beginPath();
@@ -177,7 +164,7 @@ export class Vector {
 
     /**
      * Change the vector direction
-     * @return {Vector} A vector with changed direction.
+     * @return {Vector} A vector with changed direction
      */
    changeDir() {
         return new Vector(this.x0, this.y0, this.x, this.y);

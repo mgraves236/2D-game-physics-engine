@@ -1,6 +1,6 @@
 import {RigidShape} from "./rigidShape.js";
 import {Vector} from "../lib/vector.js";
-import {screen, map} from "../engineCore/screen.js";
+import {screen} from "../engineCore/screen.js";
 import {CollisionInfo} from "../lib/collisionInfo.js";
 import {Circle} from "./circle.js";
 
@@ -27,7 +27,7 @@ export class Rectangle extends RigidShape {
         this.velocity = new Vector(0,0,0,0, false);
         /**
          * Array to store vertex positions of the rectangle
-         * @type {*[]}
+         * @type {Vector[]}
          */
         this.vertex = [];
         /**
@@ -47,13 +47,17 @@ export class Rectangle extends RigidShape {
             this.massCenter.y + this.height / 2, 0, 0, false);
 
         // compute the face normal vectors
+        this.computeFaceNormal();
+        // angle = 0 to just update
+        this.rotate(this.angle);
+    }
+
+    computeFaceNormal () {
         this.faceNormal[0] = this.vertex[1].subtract(this.vertex[2]);
         this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
         this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
         this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
         this.faceNormal.forEach(vector => vector.normalize());
-        // angle = 0 to just update
-        this.rotate(0);
     }
 
     /**
@@ -61,17 +65,12 @@ export class Rectangle extends RigidShape {
      * @param {number} angle Angle in radians
      */
     rotate (angle) {
-        this.angle += angle;
+        // this.angle += angle;
         for (let i = 0; i < this.vertex.length; i++) {
             this.vertex[i] = this.vertex[i].rotate(angle, this.massCenter);
         }
         // compute the face normal vectors
-        this.faceNormal[0] = this.vertex[1].subtract(this.vertex[2]);
-        this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
-        this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
-        this.faceNormal[3] = this.vertex[0].subtract(this.vertex[1]);
-        this.faceNormal.forEach(vector => vector.normalize());
-
+        this.computeFaceNormal();
     }
 
     update() {
@@ -115,10 +114,11 @@ export class Rectangle extends RigidShape {
      */
     collisionTest (otherShape, collisionInfo) {
         let status;
-        console.log(otherShape)
         if (otherShape.type === "circle") {
             // status = false;
             status = this.collidedRectCirc(otherShape, collisionInfo);
+        } else if (otherShape.type === "triangle") {
+           status =  otherShape.collidedTrianTrianRect(otherShape, this, collisionInfo);
         } else {
            status = this.collidedRectRect(this, otherShape, collisionInfo);
         }
@@ -211,8 +211,8 @@ export class Rectangle extends RigidShape {
     /**
      * Compute the axis of lest penetration and choose smaller of the two results
      * @param {Rectangle} r1
-     * @param {Rectangle}   r2
-     * @param collisionInfo
+     * @param {Rectangle} r2
+     * @param {CollisionInfo} collisionInfo
      * @return {boolean}
      */
     collidedRectRect (r1, r2, collisionInfo) {
@@ -259,6 +259,9 @@ export class Rectangle extends RigidShape {
         let bestDistance = -999999;
         let nearestEdge;
         let circLoc = otherCirc.massCenter.copy();
+        /**
+         * @type {Vector}
+         */
         let normal;
 
         for (let i = 0; i < 4; i++) {
@@ -303,10 +306,14 @@ export class Rectangle extends RigidShape {
                 collisionInfo.setInfo(otherCirc.height - distance,
                     normal, s);
             } else {  // not in R1
+                /***
+                 * gives errors
+                 *
+                 */
                 // the center of circle is in corner region of vertex[nearestEdge+1]
                 // v1 is from right vertex of face to center of circle
                 // v2 is from right vertex of face to left vertex of face
-                 v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) % 4]);
+                v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) % 4]);
                 v2.mult(-1);
                 let dot = v1.dot(v2);
                 if (dot > 0) {
@@ -315,7 +322,7 @@ export class Rectangle extends RigidShape {
                     if (distance > otherCirc.height) {
                         return false;
                     }
-                    normal = v1.copy;
+                    normal = v1.copy();
                     normal.normalize();
                     let radiusVec = normal.copy();
                     radiusVec.mult(-otherCirc.height);
@@ -337,7 +344,7 @@ export class Rectangle extends RigidShape {
         } else {
             // if center is inside
             // vertex-to-center vectors will be in opposite directions of their corresponding face normal
-            // projected length will be negative, best distance is the onea with lest negative value
+            // projected length will be negative, best distance is the one with lest negative value
             let radiusVec = this.faceNormal[nearestEdge].copy();
             radiusVec.mult(otherCirc.height);
             collisionInfo.setInfo(otherCirc.height - bestDistance, this.faceNormal[nearestEdge].copy(), circLoc.subtract(radiusVec));

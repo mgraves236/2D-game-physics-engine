@@ -68,7 +68,7 @@ export class PlayerShip extends Rectangle {
 
     }
 
-    update() {
+    update(angle) {
         super.update();
         for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
             let area = gEngine.Core.mDragAreas[i];
@@ -88,12 +88,12 @@ export class PlayerShip extends Rectangle {
         this.massCenter.y = (screen.mHeight + this.massCenter.y) % screen.mHeight;
         // Turning
         if (this.rotatingLeft) {
-            // this.angle -= degToRad;
-            this.rotate(-degToRad, this.massCenter);
+            this.angle -= degToRad;
+            this.rotate(this.angle);
         }
         if (this.rotatingRight) {
-            // this.angle += degToRad;
-            this.rotate(degToRad, this.massCenter);
+            this.angle += degToRad;
+            this.rotate(this.angle);
         }
 
         // Acceleration
