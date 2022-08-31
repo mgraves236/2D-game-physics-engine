@@ -6,7 +6,7 @@ import data from './../engineCore/config.json' assert {type: 'json'};
 import {Rectangle} from "../rigidBody/rectangle.js";
 import {Triangle} from "../rigidBody/triangle.js";
 
-export class PlayerShip extends Rectangle {
+export class PlayerShip extends Triangle {
     constructor(location) {
         super(data.spaceshipMass, location, 63, 48);
         this.width = 63;
@@ -89,11 +89,11 @@ export class PlayerShip extends Rectangle {
         // Turning
         if (this.rotatingLeft) {
             this.angle -= degToRad;
-            this.rotate(this.angle);
+            this.rotate(-degToRad);
         }
         if (this.rotatingRight) {
             this.angle += degToRad;
-            this.rotate(this.angle);
+            this.rotate(degToRad);
         }
 
         // Acceleration

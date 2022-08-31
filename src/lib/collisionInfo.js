@@ -16,14 +16,9 @@ export class CollisionInfo {
      * @param {Vector} s
      */
     setInfo (d, n, s) {
-        // console.log(d)
-        // console.log(n)
-        // console.log(s)
         this.depth = d;
         this.normal = n;
-        // s.draw('yellow')
         this.start = {x: s.x, y: s.y};
-        // n.draw('orange')
         let nMultiplied = new Vector(n.x - n.x0,
             n.y - n.y0,0,0,false);
         nMultiplied.mult(d);

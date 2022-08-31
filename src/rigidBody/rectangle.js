@@ -45,10 +45,8 @@ export class Rectangle extends RigidShape {
             this.massCenter.y + this.height / 2, 0, 0, false);
         this.vertex[3] = new Vector(this.massCenter.x - this.width / 2,
             this.massCenter.y + this.height / 2, 0, 0, false);
-
         // compute the face normal vectors
         this.computeFaceNormal();
-        // angle = 0 to just update
         this.rotate(this.angle);
     }
 
@@ -73,25 +71,26 @@ export class Rectangle extends RigidShape {
         this.computeFaceNormal();
     }
 
-    update() {
-        super.update();
-        for (let i = 0; i < this.vertex.length; i++) {
-           this.vertex[i].add(this.velocity);
-        }
-        this.massCenter.add(this.velocity);
-    }
-
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
         ctx.strokeStyle = 'red';
         // this.vertex.forEach( vec => vec.draw('orange'))
-        ctx.translate(this.massCenter.x, this.massCenter.y);
-        ctx.rotate(this.angle);
-        ctx.strokeRect(-this.width / 2, - this.height / 2, this.width, this.height);
+        // ctx.translate(this.massCenter.x, this.massCenter.y);
+        // ctx.rotate(this.angle);
+        // ctx.strokeRect(-this.width / 2, - this.height / 2, this.width, this.height);
+        ctx.beginPath();
+
+        ctx.moveTo(this.vertex[0].x, this.vertex[0].y);
+        ctx.lineTo(this.vertex[1].x, this.vertex[1].y)
+        ctx.lineTo(this.vertex[2].x, this.vertex[2].y)
+        ctx.lineTo(this.vertex[3].x, this.vertex[3].y);
+        ctx.lineTo(this.vertex[0].x, this.vertex[0].y);
+        ctx.stroke();
+        ctx.closePath();
         ctx.restore();
         // draw the face normal vectors
-        ctx.translate(this.massCenter.x, this.massCenter.y);
+        // ctx.translate(this.massCenter.x, this.massCenter.y);
         // this.faceNormal.forEach(item => item.draw('yellow'));
         ctx.restore();
     }
@@ -264,7 +263,7 @@ export class Rectangle extends RigidShape {
          */
         let normal;
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this.vertex.length; i++) {
             // find the nearest face for the center of the circle
             let v = circLoc.subtract(this.vertex[i]);
             let projection = v.dot(this.faceNormal[i]);
@@ -289,7 +288,7 @@ export class Rectangle extends RigidShape {
             // v1 is from left vertex of face to center of circle
             // v2 is from left vertex of face to right vertex of face
             let v1 = circLoc.subtract(this.vertex[nearestEdge]);
-            let v2 = this.vertex[(nearestEdge + 1) % 4].subtract(this.vertex[nearestEdge]);
+            let v2 = this.vertex[(nearestEdge + 1) %  this.vertex.length].subtract(this.vertex[nearestEdge]);
             let dot = v1.dot(v2);
             if (dot < 0) { // region R1
                 // the center of circle is in corner region of vertex[nearestEdge]
@@ -305,7 +304,7 @@ export class Rectangle extends RigidShape {
                 let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y, 0, 0, false);
                 collisionInfo.setInfo(otherCirc.height - distance,
                     normal, s);
-            } else {  // not in R1
+            } else {  // R2
                 /***
                  * gives errors
                  *
@@ -313,7 +312,7 @@ export class Rectangle extends RigidShape {
                 // the center of circle is in corner region of vertex[nearestEdge+1]
                 // v1 is from right vertex of face to center of circle
                 // v2 is from right vertex of face to left vertex of face
-                v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) % 4]);
+                v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) %  this.vertex.length]);
                 v2.mult(-1);
                 let dot = v1.dot(v2);
                 if (dot > 0) {

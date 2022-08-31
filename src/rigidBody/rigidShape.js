@@ -20,12 +20,18 @@ export class RigidShape {
         // this.angle = angle * Math.PI / 180.0 || 0;
         this.angle = angle;
         this.boundsRadius = 0;
+        this.velocity = new Vector(0,0,0,0, false);
         gEngine.Core.mAllObjects.push(this);
 
     }
 
     update() {
-
+        if (this.type !== "circle") {
+            for (let i = 0; i < this.vertex.length; i++) {
+                this.vertex[i].add(this.velocity);
+            }
+        }
+        this.massCenter.add(this.velocity);
     }
 
     displayBounds() {
