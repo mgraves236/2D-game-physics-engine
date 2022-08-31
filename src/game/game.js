@@ -28,16 +28,18 @@ function startGame() {
     let velBull2 = new Vector(0, 1,0,0,false);
     // let source = new bulletSource(10, loc, vel1, velBull);
     // let source2 = new bulletSource(10, loc2, vel1, velBull2);
-    let massCenter = new Vector(300, 400,0,0, false)
-    let massCenter2 = new Vector(340, 420, 0,0, false)
+    let ang = 80 * Math.PI / 180;
+
+    let massCenter = new Vector(320, 400,0,0, false)
+    let massCenter2 = new Vector(350, 450, 0,0, false)
+    let triangle2 = new Triangle(1, massCenter2, 50,50,ang);
+
     let circle = new Circle(1, massCenter,50);
     // let circle2 = new Circle(1, massCenter2,70)
-    let ang = 5 * Math.PI / 180;
 
     // let rectangle = new Rectangle(1, massCenter, 50, 100);
     // let rectangle2 = new Rectangle(1, massCenter2, 80, 80,ang);
     // let triangle1 = new Triangle(1, massCenter, 70,100);
-    let triangle2 = new Triangle(1, massCenter2, 50,50, ang);
     // triangle2.rotate(ang)
 
 

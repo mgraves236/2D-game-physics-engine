@@ -103,7 +103,7 @@ export class Triangle extends RigidShape {
     collisionTest (otherShape, collisionInfo) {
         let status;
         if (otherShape.type === "circle") {
-            status = false;
+            status = this.collidedTrianCirc(otherShape, collisionInfo);
         } else {
             status = this.collidedTrianTrianRect(this, otherShape, collisionInfo);
         }
@@ -244,7 +244,7 @@ export class Triangle extends RigidShape {
          */
         let normal;
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this.vertex.length; i++) {
             // find the nearest face for the center of the circle
             let v = circLoc.subtract(this.vertex[i]);
             let projection = v.dot(this.faceNormal[i]);
@@ -268,10 +268,13 @@ export class Triangle extends RigidShape {
             // collision occurs when the length of v1 is less than the circle radius
             // v1 is from left vertex of face to center of circle
             // v2 is from left vertex of face to right vertex of face
+            this.vertex[nearestEdge].draw('green')
             let v1 = circLoc.subtract(this.vertex[nearestEdge]);
-            let v2 = this.vertex[(nearestEdge + 1) % 4].subtract(this.vertex[nearestEdge]);
+            let v2 = this.vertex[(nearestEdge + 1) % this.vertex.length].subtract(this.vertex[nearestEdge]);
             let dot = v1.dot(v2);
             if (dot < 0) { // region R1
+                console.log('1')
+
                 // the center of circle is in corner region of vertex[nearestEdge]
                 let distance = v1.mag();
                 // compare distance with radius
@@ -290,10 +293,12 @@ export class Triangle extends RigidShape {
                  * gives errors
                  *
                  */
+                console.log('2')
+
                 // the center of circle is in corner region of vertex[nearestEdge+1]
                 // v1 is from right vertex of face to center of circle
                 // v2 is from right vertex of face to left vertex of face
-                v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) % 4]);
+                v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) % this.vertex.length]);
                 v2.mult(-1);
                 let dot = v1.dot(v2);
                 if (dot > 0) {
@@ -311,6 +316,8 @@ export class Triangle extends RigidShape {
                     collisionInfo.setInfo(otherCirc.height - distance,
                         normal, s)
                 } else {
+                    console.log('3')
+
                     // the center of circle is in face region of face[nearestEdge]
                     if (bestDistance < otherCirc.height) {
                         let radiusVec = this.faceNormal[nearestEdge].copy();
@@ -322,6 +329,8 @@ export class Triangle extends RigidShape {
                 }
             }
         } else {
+            console.log('inside')
+
             // if center is inside
             // vertex-to-center vectors will be in opposite directions of their corresponding face normal
             // projected length will be negative, best distance is the one with lest negative value

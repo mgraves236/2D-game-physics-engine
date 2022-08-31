@@ -306,10 +306,6 @@ export class Rectangle extends RigidShape {
                 collisionInfo.setInfo(otherCirc.height - distance,
                     normal, s);
             } else {  // not in R1
-                /***
-                 * gives errors
-                 *
-                 */
                 // the center of circle is in corner region of vertex[nearestEdge+1]
                 // v1 is from right vertex of face to center of circle
                 // v2 is from right vertex of face to left vertex of face
