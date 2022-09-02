@@ -1,6 +1,5 @@
-import {screen, map} from "../engineCore/screen.js";
+import {screen} from "../engineCore/screen.js";
 import {Vector} from "../lib/vector.js";
-import {Object} from "../lib/object.js";
 import {gEngine} from "../engineCore/core.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
 import {Rectangle} from "../rigidBody/rectangle.js";
@@ -15,12 +14,12 @@ export class PlayerShip extends Triangle {
         this.engineOn = false;
         this.rotatingLeft = false;
         this.rotatingRight = false;
-        this.velocity = new Vector(0, 0, 0, 0, false);
-        this.acceleration = new Vector(0, 0, 0, 0, false);
+        this.velocity = new Vector();
+        this.acceleration = new Vector();
         let gravity = gEngine.Core.mGravity.copy();
-        gravity.mult(this.mass);
+        gravity.scale(this.mass);
         this.acceleration.add(gravity);
-        this.accelerationDrag = new Vector(0, 0, 0, 0, false);
+        this.accelerationDrag = new Vector();
     }
 
     display() {
@@ -88,7 +87,7 @@ export class PlayerShip extends Triangle {
             this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
         }
         // this.velocity.add(this.acceleration);
-        // this.acceleration.mult(0);
-        // this.accelerationDrag.mult(0);
+        // this.acceleration.scale(0);
+        // this.accelerationDrag.scale(0);
     }
 }

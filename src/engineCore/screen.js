@@ -14,14 +14,4 @@ var screen = (function () {
     return mPublic;
 }());
 
-/**
- * Function to map y coordinate into a system with changed origin to the bottom of the canvas
- * To reverse mapping enter the same parameter again
- * @param a y coordinate that will be mapped
- * @return {number} mapped y coordinate
- */
-function map(a) {
-    return screen.mHeight - a;
-}
-
-export {screen, map};
+export {screen};

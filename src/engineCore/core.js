@@ -5,15 +5,16 @@ import { drawLevelSky } from "../game/level.js";
 
 /**
  * Create a namespace to store all the physics engine core functionality
- * @type {{mHeight: number, mWidth: number, mContext: *, map: (function(*))}}
- * @private
+ * @type {{}|{}}
  */
 var gEngine = gEngine || {};
+gEngine.Core = undefined;
+gEngine.Physics = undefined;
 
 let _engineCore = (function () {
     let mAllObjects = [];
     let mDragAreas = [];
-    let mGravity = new Vector(0, data.accGravity,0,0,false);
+    let mGravity = new Vector(0, data.accGravity);
     // let x = screen.mWidth / 2;
     // let y = screen.mHeight -100;
     // let location = new Vector(x, y);

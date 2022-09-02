@@ -2,6 +2,7 @@
   "canvasWidth": 700,
   "canvasHeight": 633,
   "accGravity": 0,
+  "grav_comment": 0.03,
   "bulletMass": 8,
   "spaceshipMass": 10,
   "liquidCoefficient": 0.1,

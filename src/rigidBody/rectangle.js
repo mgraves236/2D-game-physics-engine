@@ -18,13 +18,12 @@ export class Rectangle extends RigidShape {
      * @param {number} angle Angle of a Rectangle object axis to global (canvas) x-axis
      */
     constructor(mass, center, width, height, angle=0) {
-        super(center, angle);
+        super(center, mass, angle);
         this.type = "rectangle";
         this.width = width;
         this.height = height;
-        this.mass = mass;
         this.boundsRadius = Math.sqrt(this.width * this.width + this.height * this.height) / 2;
-        this.velocity = new Vector(0,0,0,0, false);
+        this.velocity = new Vector();
         /**
          * Array to store vertex positions of the rectangle
          * @type {Vector[]}
@@ -38,13 +37,13 @@ export class Rectangle extends RigidShape {
 
         // compute vertex positions
         this.vertex[0] = new Vector(this.massCenter.x - this.width / 2,
-            this.massCenter.y - this.height / 2, 0, 0, false);
+            this.massCenter.y - this.height / 2);
         this.vertex[1] = new Vector(this.massCenter.x + this.width / 2,
-            this.massCenter.y - this.height / 2, 0, 0, false);
+            this.massCenter.y - this.height / 2);
         this.vertex[2] = new Vector(this.massCenter.x + this.width / 2,
-            this.massCenter.y + this.height / 2, 0, 0, false);
+            this.massCenter.y + this.height / 2);
         this.vertex[3] = new Vector(this.massCenter.x - this.width / 2,
-            this.massCenter.y + this.height / 2, 0, 0, false);
+            this.massCenter.y + this.height / 2);
         // compute the face normal vectors
         this.computeFaceNormal();
         this.rotate(this.angle);
@@ -181,7 +180,7 @@ export class Rectangle extends RigidShape {
             n = this.faceNormal[i].copy();
             // use -n as direction and the vertex on edge i as point on edge
             let dir = n.copy()
-            dir.mult(-1);
+            dir.scale(-1);
             let ptOnEdge = this.vertex[i];
             // find the support point on B
             //the point has the longest distance with edge i
@@ -198,7 +197,7 @@ export class Rectangle extends RigidShape {
         if (hasSupport) {
             // // all four directions have support point
             let bestVec = this.faceNormal[bestIndex].copy();
-            bestVec.mult(bestDistance)
+            bestVec.scale(bestDistance)
             let s = supportPoint.copy();
             s.add(bestVec);
             collisionInfo.setInfo(bestDistance,
@@ -232,12 +231,12 @@ export class Rectangle extends RigidShape {
             if (status2) {
                 if (collisionInfoR1.depth < collisionInfoR2.depth) {
                     let depthVec = collisionInfoR1.normal.copy();
-                    depthVec.mult(collisionInfoR1.depth);
-                    let start = new Vector(collisionInfoR1.start.x, collisionInfoR1.start.y, 0, 0, false);
+                    depthVec.scale(collisionInfoR1.depth);
+                    let start = new Vector(collisionInfoR1.start.x, collisionInfoR1.start.y);
                     collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, start.subtract(depthVec));
                 } else {
                     let normal = collisionInfoR2.normal.copy();
-                    normal.mult(-1);
+                    normal.scale(-1);
                     collisionInfo.setInfo(collisionInfoR2.depth, normal, collisionInfoR2.start);
                 }
             }
@@ -300,8 +299,8 @@ export class Rectangle extends RigidShape {
                 normal = v1.copy();
                 normal.normalize();
                 let radiusVec = normal.copy();
-                radiusVec.mult(-otherCirc.height);
-                let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y, 0, 0, false);
+                radiusVec.scale(-otherCirc.height);
+                let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y);
                 collisionInfo.setInfo(otherCirc.height - distance,
                     normal, s);
             } else {  // R2
@@ -313,7 +312,7 @@ export class Rectangle extends RigidShape {
                 // v1 is from right vertex of face to center of circle
                 // v2 is from right vertex of face to left vertex of face
                 v1 = circLoc.subtract(this.vertex[(nearestEdge + 1) %  this.vertex.length]);
-                v2.mult(-1);
+                v2.scale(-1);
                 let dot = v1.dot(v2);
                 if (dot > 0) {
                     let distance = v1.mag();
@@ -324,8 +323,8 @@ export class Rectangle extends RigidShape {
                     normal = v1.copy();
                     normal.normalize();
                     let radiusVec = normal.copy();
-                    radiusVec.mult(-otherCirc.height);
-                    let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y, 0, 0, false);
+                    radiusVec.scale(-otherCirc.height);
+                    let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y);
 
                     collisionInfo.setInfo(otherCirc.height - distance,
                         normal, s)
@@ -333,7 +332,7 @@ export class Rectangle extends RigidShape {
                     // the center of circle is in face region of face[nearestEdge]
                     if (bestDistance < otherCirc.height) {
                         let radiusVec = this.faceNormal[nearestEdge].copy();
-                        radiusVec.mult(otherCirc.height);
+                        radiusVec.scale(otherCirc.height);
                         collisionInfo.setInfo(otherCirc.height - bestDistance, this.faceNormal[nearestEdge].copy(), circLoc.subtract(radiusVec));
                     } else {
                         return false;
@@ -345,7 +344,7 @@ export class Rectangle extends RigidShape {
             // vertex-to-center vectors will be in opposite directions of their corresponding face normal
             // projected length will be negative, best distance is the one with lest negative value
             let radiusVec = this.faceNormal[nearestEdge].copy();
-            radiusVec.mult(otherCirc.height);
+            radiusVec.scale(otherCirc.height);
             collisionInfo.setInfo(otherCirc.height - bestDistance, this.faceNormal[nearestEdge].copy(), circLoc.subtract(radiusVec));
         }
         return true;

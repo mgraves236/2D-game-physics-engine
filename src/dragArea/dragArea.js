@@ -12,7 +12,7 @@ export class DragArea {
         this.theta1 = 0;
         this.theta2 = 0;
         this.isWater = isWater;
-        this.waveArray = new Array;
+        this.waveArray = [];
         let wave1 = new SineWave(this.x, this.y, this.c);
         let wave2 = new SineWave(this.x, this.y, this.c);
         let wave = [wave1, wave2];
@@ -66,11 +66,11 @@ export class DragArea {
     }
 
     update() {
-        this.waveArray = new Array;
+        this.waveArray = [];
         for (let j = 0; j < this.h; j += 40) {
             for (let i = 0; i < this.w / 120; i++) {
 
-                if (j % 80 == 0) {
+                if (j % 80 === 0) {
                     var wave1 = new SineWave(this.x + i * 80, this.y + j, this.c);
                     var wave2 = new SineWave(this.x + i * 80 + 2, this.y + j + 5, this.c);
                 } else {

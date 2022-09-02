@@ -10,9 +10,10 @@ export class RigidShape {
      * Constructor of RigidShape class,
      * create an object with the center of mass defined by a vector
      * @param {Vector} massCenter point at which center of mass is located
+     * @param {number} mass
      * @param  {number} angle angle in radians
      */
-    constructor(massCenter, angle) {
+    constructor(massCenter, mass,  angle) {
         if (this.constructor === RigidShape) {
             throw new Error("Abstract classes can't be instantiated.");
         }
@@ -20,15 +21,16 @@ export class RigidShape {
         // this.angle = angle * Math.PI / 180.0 || 0;
         this.angle = angle;
         this.boundsRadius = 0;
-        this.velocity = new Vector(0,0,0,0, false);
-        this.acceleration = new Vector(0,0,0,0, false);
-        this.accelerationDrag = new Vector(0,0,0,0, false);
+        this.velocity = new Vector();
+        this.acceleration = new Vector();
+        this.accelerationDrag = new Vector();
+        this.type = "";
+        this.mass = mass;
         gEngine.Core.mAllObjects.push(this);
 
     }
 
     update() {
-
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
                 this.vertex[i].add(this.velocity);
@@ -36,8 +38,8 @@ export class RigidShape {
         }
         this.massCenter.add(this.velocity);
         this.velocity.add(this.acceleration);
-        this.acceleration.mult(0);
-        this.accelerationDrag.mult(0);
+        this.acceleration.scale(0);
+        this.accelerationDrag.scale(0);
 
 
     }
@@ -97,22 +99,22 @@ export class RigidShape {
     drag(dragObj) {
         let speed = this.velocity.mag();
         let dragMagnitude = dragObj.c * speed * speed;
-        let drag = new Vector(0, 0, 0, 0, false);
+        let drag = new Vector();
         drag.x = this.velocity.x;
         drag.y = this.velocity.y;
         drag.normalize();
-        drag.mult(dragMagnitude);
-        drag.mult(-1);
+        drag.scale(dragMagnitude);
+        drag.scale(-1);
         this.applyForce(drag);
     }
 
     /**
      *
-     * @param force
+     * @param {Vector} force
      */
     applyForce(force) {
         let f = force;
-        f.mult(1 / this.mass);
+        f.scale(1 / this.mass);
         this.accelerationDrag.add(f);
     }
 }

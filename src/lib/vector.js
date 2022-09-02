@@ -1,4 +1,4 @@
-import {map, screen} from "../engineCore/screen.js";
+import {screen} from "../engineCore/screen.js";
 
 /**
  * A class that represents a vector using Cartesian coordinates
@@ -10,36 +10,25 @@ export class Vector {
 
     /**
      * Constructor of the Vector class
-     * @param x x coordinate of a vector
-     * @param y y coordinate of a vector
-     * @param x0 optional parameter, x coordinate of the vector origin
-     * @param y0 optional parameter, y coordinate of the vector origin
+     * @param {number} x x coordinate of a vector
+     * @param {number} y y coordinate of a vector
+     * @param {number} x0 optional parameter, x coordinate of the vector origin
+     * @param {number} y0 optional parameter, y coordinate of the vector origin
      */
-    constructor(x, y, x0, y0, doMap = true) {
+    constructor(x = 0, y = 0, x0 = 0, y0 = 0) {
         this.x = x;
-        this.x0 = x0 || 0;
-        this.doMap = doMap;
-        if (this.doMap) {
-            this.y = map(y);
-            this.y0 = map(y0) || 0;
-        } else {
-            this.y = y;
-            this.y0 = y0;
-        }
+        this.y = y;
+        this.x0 = x0;
+        this.y0 = y0;
     }
 
     /**
      * Method to add two vectors
      * @param a {Vector} vector added to a vector that called the method
-     * @returns {Vector}
      */
     add(a) {
         this.x = this.x + a.x;
-        if (this.doMap && a.doMap) {
-            this.y = this.y + map(a.y);
-        } else {
-            this.y = this.y + a.y;
-        }
+        this.y = this.y + a.y;
         //return new Vector(this.x + a.x, this.y + a.y)
     }
     /**
@@ -50,14 +39,14 @@ export class Vector {
     subtract(a) {
          // this.x = this.x - a.x;
          // this.y = this.y - a.y;
-        return new Vector(this.x - a.x, this.y - a.y, 0,0, false)
+        return new Vector(this.x - a.x, this.y - a.y)
     }
 
     /**
      * Method to multiply (scale) a vector by a scalar n
      * @param n scalar by which the vector is multiplied
      */
-    mult(n) {
+    scale(n) {
         this.x = n * this.x;
         this.y = n * this.y;
         // let yTemp = map(this.y);
@@ -114,7 +103,7 @@ export class Vector {
      * @return {Vector}
      */
     rotate(angle, center) {
-        let rotCenter = center ||  new Vector(0,0,0,0, false);
+        let rotCenter = center ||  new Vector();
         // switch to polar coordinates
         let r = [];
         let x = this.x - rotCenter.x;
@@ -125,7 +114,7 @@ export class Vector {
         r[0] += rotCenter.x;
         r[1] += rotCenter.y;
 
-       return new Vector(r[0], r[1], 0 , 0, false)
+       return new Vector(r[0], r[1])
 
     }
 
@@ -142,7 +131,7 @@ export class Vector {
     }
 
     copy() {
-        let vector = new Vector(0,0);
+        let vector = new Vector();
         vector.x = this.x;
         vector.y = this.y;
         vector.x0 = this.x0;
@@ -156,7 +145,7 @@ export class Vector {
      * @return {Vector}
      */
     get() {
-        let vector = new Vector(0,0);
+        let vector = new Vector();
         vector.x = (this.x - this.x0);
         vector.y = (this.y - this.y0);
         return vector;
