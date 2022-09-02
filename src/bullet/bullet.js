@@ -49,7 +49,7 @@ export class Bullet extends Circle {
             ctx.stroke();
             ctx.restore();
             ctx.save();
-            this.displayBounds();
+            // this.displayBounds();
             ctx.restore();
 
         }
@@ -61,18 +61,12 @@ export class Bullet extends Circle {
                 (this.massCenter.y - this.height > screen.mHeight + 2))) {
                 this.massCenter =  null;
             } else if (this.massCenter !== null){
-                for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
-                    let area = gEngine.Core.mDragAreas[i];
-                    if (this.isInside(area)) {
-                        this.drag(area);
-                        this.velocity.add(this.accelerationDrag);
-                    }
-                }
-                this.velocity.add(this.acceleration);
-                this.massCenter.add(this.velocity);
+                super.updateDrag();
+                super.update();
+                // this.massCenter.add(this.velocity);
             }
-            this.acceleration.mult(0);
-            this.accelerationDrag.mult(0);
+            // this.acceleration.mult(0);
+            // this.accelerationDrag.mult(0);
         });
 
     }

@@ -21,17 +21,35 @@ export class RigidShape {
         this.angle = angle;
         this.boundsRadius = 0;
         this.velocity = new Vector(0,0,0,0, false);
+        this.acceleration = new Vector(0,0,0,0, false);
+        this.accelerationDrag = new Vector(0,0,0,0, false);
         gEngine.Core.mAllObjects.push(this);
 
     }
 
     update() {
+
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
                 this.vertex[i].add(this.velocity);
             }
         }
         this.massCenter.add(this.velocity);
+        this.velocity.add(this.acceleration);
+        this.acceleration.mult(0);
+        this.accelerationDrag.mult(0);
+
+
+    }
+
+    updateDrag() {
+        for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
+            let area = gEngine.Core.mDragAreas[i];
+            if (this.isInside(area)) {
+                this.drag(area);
+                this.velocity.add(this.accelerationDrag);
+            }
+        }
     }
 
     displayBounds() {

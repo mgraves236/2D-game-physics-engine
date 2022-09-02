@@ -91,8 +91,8 @@ export class DragArea {
 
         ctx.save();
         let grd = ctx.createLinearGradient(0, 0, 0, 500);
-        grd.addColorStop(1, "rgba(106,122,166,0.52)");
-        grd.addColorStop(0, "rgba(222,216,215,0.42)");
+        grd.addColorStop(1, "rgba(106,122,166,0.62)");
+        grd.addColorStop(0, "rgba(222,216,215,0.62)");
         ctx.fillStyle = grd;
         ctx.fillRect(this.x, this.y, this.w, this.h);
         ctx.restore();

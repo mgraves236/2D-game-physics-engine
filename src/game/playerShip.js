@@ -11,12 +11,6 @@ export class PlayerShip extends Triangle {
         super(data.spaceshipMass, location, 63, 48);
         this.width = 63;
         this.height = 48;
-        //this.mass = data.spceshipMass;
-        // this.x = screen.mWidth / 2;
-        // this.y = screen.mHeight -100;
-        // this.location = new Vector(this.x, this.y);
-        // this.location = location.copy();
-        // this.massCenter = this.location.copy();
         this.angle = 0;
         this.engineOn = false;
         this.rotatingLeft = false;
@@ -69,20 +63,12 @@ export class PlayerShip extends Triangle {
     }
 
     update(angle) {
+        // update vertex and mass center position
         super.update();
-        for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
-            let area = gEngine.Core.mDragAreas[i];
-            if (this.isInside(area)) {
-                this.drag(area);
-                this.velocity.add(this.accelerationDrag);
-            }
-        }
-        //this.velocity.add(this.acceleration);
+        // update velocity with drag if the object is in a drag area
+        super.updateDrag();
         // Angle has to be in radians
         const degToRad = Math.PI / 180;
-        // Change the position based on velocity
-        // this.massCenter.x += this.velocity.x;
-        // this.massCenter.y += this.velocity.y;
         // Move spaceship to other side when leaving screen
         this.massCenter.x = (screen.mWidth + this.massCenter.x) % screen.mWidth;
         this.massCenter.y = (screen.mHeight + this.massCenter.y) % screen.mHeight;
@@ -101,8 +87,8 @@ export class PlayerShip extends Triangle {
             this.velocity.x += (data.thrust / 100) * Math.sin(this.angle);
             this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
         }
-        this.velocity.add(this.acceleration);
-        this.acceleration.mult(0);
-        this.accelerationDrag.mult(0);
+        // this.velocity.add(this.acceleration);
+        // this.acceleration.mult(0);
+        // this.accelerationDrag.mult(0);
     }
 }

@@ -35,10 +35,11 @@ function startGame() {
     let triangle2 = new Triangle(1, massCenter2, 50,50, ang);
 
     let circle = new Circle(1, massCenter,50);
+    circle.velocity = new Vector(0,-1, 0,0, false);
     // let circle2 = new Circle(1, massCenter2,70)
 
     // let rectangle = new Rectangle(1, massCenter, 50, 100);
-    let rectangle2 = new Rectangle(1, massCenter2, 80, 80, ang);
+    // let rectangle2 = new Rectangle(1, massCenter2, 80, 80, ang);
     // let triangle1 = new Triangle(1, massCenter, 70,100);
     // triangle2.rotate(ang)
 
