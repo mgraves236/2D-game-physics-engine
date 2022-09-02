@@ -18,19 +18,16 @@ export class Bullet extends Circle {
      * @param acc
      * @param delay
      */
-    constructor(loc, vel,r = 3, m = data.bulletMass, acc, delay) {
+    constructor(loc, vel,r = 3, m = data.bulletMass, acc =  new Vector(), delay) {
         super(m, loc, r);
         // initialize types
         this.mass = m || data.bulletMass ;
         // this.location = new Vector(0, 0);
         this.velocity = new Vector();
-        this.acceleration = acc || new Vector();
+        console.log(acc)
+        this.acceleration.add(acc);
         // this.location = loc;
         this.velocity = vel;
-        let gravity = gEngine.Core.mGravity.copy();
-        gravity.scale(data.bulletMass);
-        this.acceleration.add(gravity);
-        this.accelerationDrag = new Vector();
         this.delay = delay || 0;
     }
 

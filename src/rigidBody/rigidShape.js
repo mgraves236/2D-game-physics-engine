@@ -1,5 +1,6 @@
 import {gEngine} from "../engineCore/core.js";
 import {Vector} from "../lib/vector.js";
+import data from './../engineCore/config.json' assert {type: 'json'};
 
 /**
  * Abstract class that represents a rigid body
@@ -12,36 +13,55 @@ export class RigidShape {
      * @param {Vector} massCenter point at which center of mass is located
      * @param {number} mass
      * @param  {number} angle angle in radians
+     * @param friction
+     * @param restitution
      */
-    constructor(massCenter, mass,  angle) {
+    constructor(massCenter, mass,  angle, friction, restitution) {
         if (this.constructor === RigidShape) {
             throw new Error("Abstract classes can't be instantiated.");
         }
         this.massCenter = massCenter;
-        // this.angle = angle * Math.PI / 180.0 || 0;
         this.angle = angle;
+        this.angularVelocity = 0;
+        this.angularAcceleration = 0;
         this.boundsRadius = 0;
         this.velocity = new Vector();
         this.acceleration = new Vector();
+        let gravity = gEngine.Core.mGravity.copy();
+        gravity.scale(mass);
+        this.acceleration.add(gravity);
         this.accelerationDrag = new Vector();
         this.type = "";
         this.mass = mass;
+        if (mass === 0) {
+            this.massInverse = 0;
+        } else {
+            this.massInverse = 1 / this.mass;
+        }
+        this.inertia = 0;
+        this.friction = friction;
+        this.restitution = restitution;
         gEngine.Core.mAllObjects.push(this);
 
     }
 
     update() {
+        // Symplectic Euler Integration
+        this.velocity.add(this.acceleration);
+        console.log(this.velocity)
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
                 this.vertex[i].add(this.velocity);
             }
         }
+
         this.massCenter.add(this.velocity);
-        this.velocity.add(this.acceleration);
-        this.acceleration.scale(0);
-        this.accelerationDrag.scale(0);
+        let accelerationTemp = this.acceleration.copy();
 
-
+        // this.acceleration.scale(0);
+        this.angularVelocity += this.angularAcceleration;
+        this.rotate(this.angularVelocity);
+        this.angularAcceleration *= 0;
     }
 
     updateDrag() {
@@ -50,8 +70,39 @@ export class RigidShape {
             if (this.isInside(area)) {
                 this.drag(area);
                 this.velocity.add(this.accelerationDrag);
+                this.accelerationDrag.scale(0);
             }
         }
+    }
+
+    /**
+     * Support changing of the mass during runtime
+     * @param delta
+     */
+    updateMass(delta) {
+        if ( this.mass === 0) return;
+        let mass = this.mass;
+        this.mass += delta;
+        if (this.mass <= 0) {
+            this.massInverse = 0;
+            this.velocity = new Vector();
+            this.acceleration = new Vector();
+            this.angularVelocity = new Vector();
+            this.angularAcceleration = new Vector();
+        } else {
+            this.massInverse = 1 / this.mass;
+            let accelerationTemp = this.acceleration.copy();
+            let gravity = gEngine.Core.mGravity.copy();
+            gravity.scale(mass);
+            accelerationTemp = accelerationTemp.subtract(gravity);
+            gravity = gEngine.Core.mGravity.copy();
+            gravity.scale(this.mass);
+            this.acceleration.add(gravity);
+        }
+        this.updateInertia();
+    }
+
+    updateInertia() {
     }
 
     displayBounds() {
@@ -68,11 +119,7 @@ export class RigidShape {
             let radiusSum = this.boundsRadius + otherShape.boundsRadius;
             let distance = dis1To2.mag();
 
-            if ((distance > radiusSum) || this.type === "bulletSource" || otherShape.type === "bulletSource") {
-                return false;
-            } else {
-                return true;
-            }
+            return !((distance > radiusSum) || this.type === "bulletSource" || otherShape.type === "bulletSource");
         }
     }
 
@@ -82,14 +129,10 @@ export class RigidShape {
      * @return {boolean}
      */
     isInside(area) {
-        if (this.massCenter.x > area.x &&
+        return this.massCenter.x > area.x &&
             this.massCenter.x < area.x + area.w &&
-            this.massCenter.y  > area.y &&
-            this.massCenter.y  < area.y + area.h) {
-            return true;
-        } else {
-            return false;
-        }
+            this.massCenter.y > area.y &&
+            this.massCenter.y < area.y + area.h;
     }
 
     /**
@@ -114,7 +157,7 @@ export class RigidShape {
      */
     applyForce(force) {
         let f = force;
-        f.scale(1 / this.mass);
+        f.scale(this.massInverse);
         this.accelerationDrag.add(f);
     }
 }

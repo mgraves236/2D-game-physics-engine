@@ -13,16 +13,18 @@ export class Circle extends RigidShape {
      * @param center
      * @param radius
      * @param angle
+     * @param friction
+     * @param restitution
      */
-    constructor(mass, center, radius, angle=0) {
-        super(center, mass, angle);
+    constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0 ) {
+        super(center, mass, angle, friction, restitution);
         this.type = "circle";
         // radius stored as height so that it can be used in this.isInside()
         this.height = radius;
         this.boundsRadius = this.height;
         // start point of line in circle
         this.startpoint = new Vector(this.massCenter.x + this.height, this.massCenter.y);
-
+        this.updateInertia();
     }
 
     /**
@@ -52,12 +54,18 @@ export class Circle extends RigidShape {
         this.displayBounds()
     }
 
-    update() {
-        super.update();
-
+    updateInertia() {
+        super.updateInertia();
+        if (this.massInverse === 0) {
+            this.inertia = 0;
+        } else {
+            // inertia = mass * radius^2
+            const value = 12;
+            this.inertia = this.mass * this.height * this.height / value;
+        }
     }
 
-   collisionTest (otherShape, collisionInfo) {
+    collisionTest (otherShape, collisionInfo) {
         let status = false;
         if (otherShape.type === "circle") {
             status = this.collidedCircCirc(this, otherShape, collisionInfo);

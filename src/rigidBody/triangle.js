@@ -37,6 +37,14 @@ export class Triangle extends RigidShape {
         this.faceNormal = [];
 
         // compute vertex positions
+        this.computeVertex();
+
+        // compute the face normal vectors
+        this.computeFaceNormal();
+        this.updateInertia();
+    }
+
+    computeVertex() {
         this.vertex[0] = new Vector(this.massCenter.x,
             this.massCenter.y - this.height / 2);
         this.vertex[1] = new Vector(this.massCenter.x + this.width / 2,
@@ -44,10 +52,6 @@ export class Triangle extends RigidShape {
         this.vertex[2] = new Vector(this.massCenter.x - this.width / 2,
             this.massCenter.y + this.height / 2);
         this.rotate(this.angle);
-
-        // compute the face normal vectors
-        this.computeFaceNormal();
-
     }
 
     computeFaceNormal () {
@@ -101,8 +105,17 @@ export class Triangle extends RigidShape {
         ctx.restore();
     }
 
-    update() {
-        super.update();
+    updateInertia() {
+        super.updateInertia();
+        if (this.massInverse === 0) {
+            this.inertia = 0;
+        } else {
+            // inertia = mass * (2 * height * width^3) / 12
+            const value = 12;
+            this.inertia = this.mass *
+                (2 * this.height * this.width * this.width * this.width) / value;
+            this.inertia = 1 / this.inertia; // wtf??
+        }
     }
 
     // Collision detection

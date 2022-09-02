@@ -7,10 +7,8 @@ import {bulletSource} from "../bullet/source.js";
 
 
 // create drag area
-let liquid = new DragArea(0, screen.mHeight / 2, screen.mWidth, screen.mHeight / 2, 0.1, true);
+let liquid = new DragArea(0, screen.mHeight / 2, screen.mWidth, screen.mHeight / 2, 0.5, true);
 gEngine.Core.mDragAreas.push(liquid);
-
-
 
 // display sky
 drawLevelSky();

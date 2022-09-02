@@ -9,6 +9,14 @@ import {Rectangle} from "../rigidBody/rectangle.js";
  */
 export class bulletSource extends Rectangle {
 
+    /**
+     *
+     * @param {number} number
+     * @param {Vector} loc
+     * @param {Vector} vel
+     * @param {Vector} velBull
+     * @param {boolean} isRandom
+     */
     constructor(number, loc, vel, velBull, isRandom) {
         super(1, loc, 15, 20);
         this.isRandom = isRandom || false;

@@ -69,8 +69,11 @@ export class PlayerShip extends Triangle {
         // Angle has to be in radians
         const degToRad = Math.PI / 180;
         // Move spaceship to other side when leaving screen
+        // hitbox needs to be updated
         this.massCenter.x = (screen.mWidth + this.massCenter.x) % screen.mWidth;
         this.massCenter.y = (screen.mHeight + this.massCenter.y) % screen.mHeight;
+        this.computeVertex();
+        this.computeFaceNormal();
         // Turning
         if (this.rotatingLeft) {
             this.angle -= degToRad;

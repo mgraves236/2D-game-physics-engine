@@ -16,9 +16,11 @@ export class Rectangle extends RigidShape {
      * @param {number} width Width of a Rectangle object
      * @param {number} height Height of a Rectangle object
      * @param {number} angle Angle of a Rectangle object axis to global (canvas) x-axis
+     * @param friction
+     * @param restitution
      */
-    constructor(mass, center, width, height, angle=0) {
-        super(center, mass, angle);
+    constructor(mass, center, width, height, angle= 0, friction = 0, restitution = 0) {
+        super(center, mass, angle, friction, restitution);
         this.type = "rectangle";
         this.width = width;
         this.height = height;
@@ -36,6 +38,13 @@ export class Rectangle extends RigidShape {
         this.faceNormal = [];
 
         // compute vertex positions
+       this.computeVertex();
+        // compute the face normal vectors
+        this.computeFaceNormal();
+        this.updateInertia();
+    }
+
+    computeVertex() {
         this.vertex[0] = new Vector(this.massCenter.x - this.width / 2,
             this.massCenter.y - this.height / 2);
         this.vertex[1] = new Vector(this.massCenter.x + this.width / 2,
@@ -44,8 +53,6 @@ export class Rectangle extends RigidShape {
             this.massCenter.y + this.height / 2);
         this.vertex[3] = new Vector(this.massCenter.x - this.width / 2,
             this.massCenter.y + this.height / 2);
-        // compute the face normal vectors
-        this.computeFaceNormal();
         this.rotate(this.angle);
     }
 
@@ -99,6 +106,19 @@ export class Rectangle extends RigidShape {
         ctx.save();
         this.displayBounds();
         ctx.restore();
+    }
+
+    updateInertia() {
+        super.updateInertia();
+        if (this.massInverse === 0) {
+            this.inertia = 0;
+        } else {
+            // inertia = mass * (width^2 + height^2) / 12
+            const value = 12;
+            this.inertia = this.mass *
+                (this.height * this.height + this.width * this.width) / value;
+            this.inertia = 1 / this.inertia; // wtf??
+        }
     }
 
     // Collision detection
