@@ -133,6 +133,8 @@ export class Rectangle extends RigidShape {
     collisionTest (otherShape, collisionInfo) {
         let status;
         if (otherShape.type === "circle") {
+            console.log('rectangle called')
+
             // status = false;
             status = this.collidedRectCirc(otherShape, collisionInfo);
         } else if (otherShape.type === "triangle") {

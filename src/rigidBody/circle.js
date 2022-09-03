@@ -70,6 +70,7 @@ export class Circle extends RigidShape {
         if (otherShape.type === "circle") {
             status = this.collidedCircCirc(this, otherShape, collisionInfo);
         } else if (otherShape.type === "rectangle") {
+            console.log('circle called')
             status = otherShape.collidedRectCirc(this, collisionInfo);
         } else if (otherShape.type === "triangle") {
             status = otherShape.collidedTrianCirc(this, collisionInfo);

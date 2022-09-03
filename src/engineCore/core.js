@@ -1,6 +1,6 @@
 import data from './config.json' assert {type: 'json'};
-import { Vector } from "../lib/vector.js";
-import { drawLevelSky } from "../game/level.js";
+import {Vector} from "../lib/vector.js";
+import {drawLevelSky} from "../game/level.js";
 // import {gEngine} from "../engineCore/physics.js"
 
 /**
@@ -15,10 +15,6 @@ let _engineCore = (function () {
     let mAllObjects = [];
     let mDragAreas = [];
     let mGravity = new Vector(0, data.accGravity);
-    // let x = screen.mWidth / 2;
-    // let y = screen.mHeight -100;
-    // let location = new Vector(x, y);
-    // let mPlayer = new PlayerShip(location);
 
     /**
      * Engine Loop Component
@@ -48,14 +44,13 @@ let _engineCore = (function () {
 
     }
 
-    let mPublic = {
+    return {
         initializeEngineCore: mainGame,
         mAllObjects: mAllObjects,
         mDragAreas: mDragAreas,
         mGravity: mGravity,
         //mPlayer: mPlayer,
     };
-    return mPublic;
 }());
 
 gEngine.Core = _engineCore;

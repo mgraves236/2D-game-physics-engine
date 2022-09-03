@@ -48,7 +48,6 @@ export class RigidShape {
     update() {
         // Symplectic Euler Integration
         this.velocity.add(this.acceleration);
-        console.log(this.velocity)
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
                 this.vertex[i].add(this.velocity);
@@ -73,6 +72,20 @@ export class RigidShape {
                 this.accelerationDrag.scale(0);
             }
         }
+    }
+
+    /**
+     * Displace the object by the given vector
+     * @param {Vector} s object displacement
+     */
+    move(s) {
+        if (this.type !== "circle") {
+            for (let i = 0; i < this.vertex.length; i++) {
+                this.vertex[i].add(s);
+            }
+        }
+
+        this.massCenter.add(s);
     }
 
     /**

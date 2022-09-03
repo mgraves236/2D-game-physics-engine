@@ -23,9 +23,11 @@ function startGame() {
     let ang = -45 * Math.PI / 180;
 
     // let triangle2 = new Triangle(0, new Vector(340, 400), 50,50, ang);
+    let circle2 = new Rectangle(1, new Vector(300, 350),50, 50);
+    // let circle2 = new Circle(1, new Vector(300, 300),50);
 
-    let circle = new Circle(5, new Vector(300, 400),50);
-    circle.velocity.add(new Vector(0,-5));
+    let circle = new Circle(1, new Vector(300, 400),50);
+    // circle2.velocity.add(new Vector(0,1));
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 

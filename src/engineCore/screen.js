@@ -1,10 +1,23 @@
 import data from "./config.json" assert {type: 'json'};
+import {Rectangle} from "../rigidBody/rectangle.js";
+import {Vector} from "../lib/vector.js";
 
 var screen = (function () {
     let mCanvas = document.getElementById('canvas');
     let mContext = mCanvas.getContext('2d');
     mCanvas.height = data.canvasHeight;
     mCanvas.width = data.canvasWidth;
+
+    /**
+     * Canvas boundaries
+     */
+    let x = mCanvas.width;
+    let y = mCanvas.height;
+    let top = new Rectangle(0, new Vector(x / 2, -5), x, 10);
+    let bottom = new Rectangle(0, new Vector(x / 2, y + 5), x, 10);
+    let left = new Rectangle(0, new Vector(-5, y / 2), 10, y);
+    let right = new Rectangle(0, new Vector(x + 5, y / 2), 10, y);
+
 
     let mPublic = {
         mWidth: mCanvas.width,
