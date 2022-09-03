@@ -25,16 +25,17 @@ export class Vector {
     /**
      * Method to add two vectors
      * @param a {Vector} vector added to a vector that called the method
+     * @returns {Vector} kk
      */
     add(a) {
-        this.x = this.x + a.x;
-        this.y = this.y + a.y;
-        //return new Vector(this.x + a.x, this.y + a.y)
+       // this.x = this.x + a.x;
+        //this.y = this.y + a.y;
+        return new Vector(this.x + a.x, this.y + a.y)
     }
     /**
      * Method to subtract two vectors
      * @param a vector subtracted from a vector that called the method
-     * @returns {Vector} product of vector subtraction
+     * @return {Vector} product of vector subtraction
      */
     subtract(a) {
          // this.x = this.x - a.x;
@@ -45,19 +46,20 @@ export class Vector {
     /**
      * Method to multiply (scale) a vector by a scalar n
      * @param n scalar by which the vector is multiplied
+     * @return
      */
     scale(n) {
-        this.x = n * this.x;
-        this.y = n * this.y;
+        // this.x = n * this.x;
+        // this.y = n * this.y;
         // let yTemp = map(this.y);
         // yTemp = n * yTemp;
         // this.y = map(-yTemp);
-        // return new Vector(n * this.x, n * this.y)
+         return new Vector(n * this.x, n * this.y)
     }
 
     /**
      * Method to calculate the magnitude of a vector
-     * @returns {number} the magnitude of a vector that called it
+     * @return {number} the magnitude of a vector that called it
      */
     mag() {
         return Math.sqrt((this.x - this.x0) * (this.x - this.x0)
@@ -68,30 +70,37 @@ export class Vector {
      * Method to normalize the vector that called it,
      * i.e. multiply the vector by a factor so that
      * its magnitude is equal to 1
+     * @return
      */
     normalize() {
         let mag = this.mag();
+        let x, y;
         if (mag !== 0) {
             let diffX = Math.abs(this.x - this.x0);
             let diffY = Math.abs(this.y - this.y0);
             if (this.x >= this.x0) {
-                this.x = this.x0 + diffX / mag;
+                x = this.x0 + diffX / mag;
             } else {
-                this.x = this.x0 - diffX / mag;
+                x = this.x0 - diffX / mag;
 
             }
             if (this.y <= this.y0) {
-                this.y = this.y0 -  diffY / mag;
+                y = this.y0 -  diffY / mag;
             } else {
-                this.y = this.y0 + diffY / mag;
+                y = this.y0 + diffY / mag;
 
             }
             // this.x = this.x / mag;
             // this.y = this.y / mag;
-
         }
+        return new Vector(x,y);
     }
 
+    /**
+     *
+     * @param a
+     * @return {number}
+     */
     dot(a) {
         return this.x * a.x + this.y * a.y;
     }
@@ -130,6 +139,10 @@ export class Vector {
         screen.mContext.restore();
     }
 
+    /**
+     *
+     * @return {Vector}
+     */
     copy() {
         let vector = new Vector();
         vector.x = this.x;

@@ -1,7 +1,7 @@
 import {Vector} from "../lib/vector.js";
 import {gEngine} from "../engineCore/core.js";
 
-var player = gEngine.Core.mAllObjects[0];
+var player = gEngine.Core.mAllObjects[4];
 
 function handleKeyInput(event) {
     const { keyCode, type } = event;

@@ -5,8 +5,8 @@ export class CollisionInfo {
     constructor () {
         this.depth = 0;
         this.normal = new Vector();
-        this.start = {x: 0, y:0};
-        this.end = {x: 0, y:0};
+        this.start = new Vector();
+        this.end = new Vector();
     }
 
     /**
@@ -18,18 +18,14 @@ export class CollisionInfo {
     setInfo (d, n, s) {
         this.depth = d;
         this.normal = n;
-        this.start = {x: s.x, y: s.y};
-        let nMultiplied = new Vector(n.x - n.x0,
-            n.y - n.y0);
-        nMultiplied.scale(d);
-        // nMultiplied.draw('black')
-        this.end = {x: nMultiplied.x + s.x , y: nMultiplied.y + s.y }
+        this.start = s;
+        this.end = s.add(n.scale(d));
     }
 
     changeDirection () {
-        this.normal.scale(-1);
-        let n = {x: this.start.x, y: this.start.y};
-        this.start = {x: this.end.x, y: this.end.y};
+        this.normal = this.normal.scale(-1);
+        let n = this.start;
+        this.start = this.end;
         this.end = n;
     }
 
