@@ -50,11 +50,11 @@ export class RigidShape {
         this.velocity.add(this.acceleration);
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
-                this.vertex[i].add(this.velocity);
+                this.vertex[i] =  this.vertex[i].add(this.velocity);
             }
         }
 
-        this.massCenter.add(this.velocity);
+        this.massCenter = this.massCenter.add(this.velocity);
         let accelerationTemp = this.acceleration.copy();
 
         // this.acceleration.scale(0);
@@ -68,8 +68,8 @@ export class RigidShape {
             let area = gEngine.Core.mDragAreas[i];
             if (this.isInside(area)) {
                 this.drag(area);
-                this.velocity.add(this.accelerationDrag);
-                this.accelerationDrag.scale(0);
+                this.velocity = this.velocity.add(this.accelerationDrag);
+                this.accelerationDrag= this.accelerationDrag.scale(0);
             }
         }
     }
@@ -81,11 +81,11 @@ export class RigidShape {
     move(s) {
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
-                this.vertex[i].add(s);
+                this.vertex[i] = this.vertex[i].add(s);
             }
         }
 
-        this.massCenter.add(s);
+        this.massCenter= this.massCenter.add(s);
     }
 
     /**
@@ -105,12 +105,10 @@ export class RigidShape {
         } else {
             this.massInverse = 1 / this.mass;
             let accelerationTemp = this.acceleration.copy();
-            let gravity = gEngine.Core.mGravity.copy();
-            gravity.scale(mass);
+            let gravity = gEngine.Core.mGravity.scale(mass);
             accelerationTemp = accelerationTemp.subtract(gravity);
-            gravity = gEngine.Core.mGravity.copy();
-            gravity.scale(this.mass);
-            this.acceleration.add(gravity);
+            gravity = gEngine.Core.mGravity.scale(this.mass);
+            this.acceleration =  this.acceleration.add(gravity);
         }
         this.updateInertia();
     }
@@ -158,9 +156,9 @@ export class RigidShape {
         let drag = new Vector();
         drag.x = this.velocity.x;
         drag.y = this.velocity.y;
-        drag.normalize();
-        drag.scale(dragMagnitude);
-        drag.scale(-1);
+        drag = drag.normalize();
+        drag = drag.scale(dragMagnitude);
+        drag = drag.scale(-1);
         this.applyForce(drag);
     }
 
@@ -170,7 +168,7 @@ export class RigidShape {
      */
     applyForce(force) {
         let f = force;
-        f.scale(this.massInverse);
-        this.accelerationDrag.add(f);
+        f = f.scale(this.massInverse);
+        this.accelerationDrag = this.accelerationDrag.add(f);
     }
 }

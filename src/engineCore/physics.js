@@ -12,7 +12,6 @@ let _enginePhysics = (function () {
      * Collision detection
      */
     let collision = function () {
-        console.log(gEngine.Core.mAllObjects)
         let collisionInfo = new CollisionInfo();
         for (let k = 0; k < gEngine.Core.mAllObjects.length; k++) {
 
@@ -25,8 +24,7 @@ let _enginePhysics = (function () {
                                     // console.log('collided ' + i + ' ' + j)
 
                                     // the normal must always be from object i to object j
-                                    let center = gEngine.Core.mAllObjects[j].massCenter.copy();
-                                    center.subtract(gEngine.Core.mAllObjects[i].massCenter);
+                                    let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
                                     if (collisionInfo.normal.dot(center) < 0) {
                                         collisionInfo.changeDirection();
                                     }
@@ -36,8 +34,8 @@ let _enginePhysics = (function () {
                                     collisionInfo.display();
                                     ctx.closePath();
                                     ctx.restore();
-                                    // resolveCollision(gEngine.Core.mAllObjects[i],
-                                    //     gEngine.Core.mAllObjects[j], collisionInfo)
+                                    resolveCollision(gEngine.Core.mAllObjects[i],
+                                        gEngine.Core.mAllObjects[j], collisionInfo)
                                 }
                             }
                         }
@@ -73,13 +71,9 @@ let _enginePhysics = (function () {
         /**
          * @type {Vector}
          */
-        let correctionAmount = collisionInfo.normal.copy();
-        correctionAmount.scale(num);
-        let correctionAmount2 = correctionAmount.copy();
-        correctionAmount.scale(-s1.massInverse);
-        correctionAmount2.scale(s2.massInverse);
-        s1.move(correctionAmount);
-        s2.move(correctionAmount2);
+        let correctionAmount = collisionInfo.normal.scale(num);
+        s1.move(correctionAmount.scale(-s1.massInverse));
+        s2.move(correctionAmount.scale(s2.massInverse));
     }
 
     return {

@@ -64,8 +64,10 @@ export class Triangle extends RigidShape {
         this.faceNormal[2] = this.vertex[1].subtract(this.vertex[2]);
         faceTemp = this.faceNormal[2].copy();
         this.faceNormal[2] = new Vector(-faceTemp.y, +faceTemp.x)
-        this.faceNormal.forEach(vector => vector.normalize());
 
+        for (let i = 0; i < this.faceNormal.length; i++) {
+            this.faceNormal[i] = this.faceNormal[i].normalize();
+        }
     }
 
     rotate (angle) {
@@ -162,11 +164,11 @@ export class Triangle extends RigidShape {
     /**
      * Find the axis of the least penetration
      * based on the support point with the least support point distant
-     * @param {Triangle} otherTrian
+     * @param otherShape
      * @param collisionInfo
      * @return {boolean} hasSupport
      */
-    findAxisLeastPenetration(otherTrian, collisionInfo) {
+    findAxisLeastPenetration(otherShape, collisionInfo) {
         // collision between shape A and shape B (both are rectangles)
         let n;
         /**
@@ -185,12 +187,11 @@ export class Triangle extends RigidShape {
             // retrieve a face normal from shape A
             n = this.faceNormal[i].copy();
             // use -n as direction and the vertex on edge i as point on edge
-            let dir = n.copy()
-            dir.scale(-1);
-            let ptOnEdge = this.vertex[i];
+            let dir = n.scale(-1);
+            let ptOnEdge = this.vertex[i].copy();
             // find the support point on B
             //the point has the longest distance with edge i
-            support = otherTrian.findSupportPoint(dir, ptOnEdge);
+            support = otherShape.findSupportPoint(dir, ptOnEdge);
             hasSupport = (support.supportPoint !== null);
             // get the shortest support point depth
             if ((hasSupport) && (support.supportPointDist < bestDistance)) {
@@ -202,12 +203,9 @@ export class Triangle extends RigidShape {
         }
         if (hasSupport) {
             // // all four directions have support point
-            let bestVec = this.faceNormal[bestIndex].copy();
-            bestVec.scale(bestDistance)
-            let s = supportPoint.copy();
-            s.add(bestVec);
+            let bestVec = this.faceNormal[bestIndex].scale(bestDistance);
             collisionInfo.setInfo(bestDistance,
-                this.faceNormal[bestIndex].copy(), s);
+                this.faceNormal[bestIndex].copy(), supportPoint.add(bestVec));
         }
         return hasSupport;
     }
@@ -236,14 +234,10 @@ export class Triangle extends RigidShape {
             status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
             if (status2) {
                 if (collisionInfoR1.depth < collisionInfoR2.depth) {
-                    let depthVec = collisionInfoR1.normal.copy();
-                    depthVec.scale(collisionInfoR1.depth);
-                    let start = new Vector(collisionInfoR1.start.x, collisionInfoR1.start.y);
-                    collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, start.subtract(depthVec));
+                    let depthVec = collisionInfoR1.normal.scale(collisionInfoR1.depth);
+                    collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
                 } else {
-                    let normal = collisionInfoR2.normal.copy();
-                    normal.scale(-1);
-                    collisionInfo.setInfo(collisionInfoR2.depth, normal, collisionInfoR2.start);
+                    collisionInfo.setInfo(collisionInfoR2.depth, collisionInfoR2.normal.scale(-1), collisionInfoR2.start);
                 }
             }
         }
@@ -273,6 +267,7 @@ export class Triangle extends RigidShape {
                 bestDistance = projection;
                 nearestEdge = i;
                 inside = false;
+                break;
                 // rectangle difference - no break
             }
             if (projection > bestDistance) {
@@ -298,39 +293,34 @@ export class Triangle extends RigidShape {
                 if (distance > otherCirc.height) {
                     return false;
                 }
-                normal = v1.copy();
-                normal.normalize();
-                let radiusVec = normal.copy();
-                radiusVec.scale(-otherCirc.height);
-                let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y);
-                collisionInfo.setInfo(otherCirc.height - distance,
-                    normal, s);
+                normal = v1.normalize();
+                let radiusVec = normal.scale(-otherCirc.height);
+                collisionInfo.setInfo(otherCirc.height - distance, normal, circLoc.add(radiusVec));
+
             } else {  // R2
+
                 // the center of circle is in corner region of vertex[nearestEdge+1]
                 // v1 is from right vertex of face to center of circle
                 // v2 is from right vertex of face to left vertex of face
-                v1 = circLoc.subtract(this.vertex[(nearestEdge + 2) % this.vertex.length]); // rectangle difference - nearestEdge + 2
-                v2.scale(-1);
+                v1 = circLoc.subtract(this.vertex[(nearestEdge + 3) % this.vertex.length]); // rectangle difference - nearestEdge + 3
+                v2 = v2.scale(-1);
                 let dot = v1.dot(v2);
                 if (dot > 0) {
+
                     let distance = v1.mag();
                     // compare distance with radius
                     if (distance > otherCirc.height) {
-                        return false;
+                        // return false; rectangle difference
                     }
-                    normal = v1.copy();
-                    normal.normalize();
-                    let radiusVec = normal.copy();
-                    radiusVec.scale(-otherCirc.height);
-                    let s = new Vector(circLoc.x + radiusVec.x, circLoc.y + radiusVec.y);
+                    normal = v1.normalize();
+                    let radiusVec = normal.scale(-otherCirc.height);
 
                     collisionInfo.setInfo(otherCirc.height - distance,
-                        normal, s)
+                        normal, circLoc.add(radiusVec));
                 } else {
                     // the center of circle is in face region of face[nearestEdge]
                     if (bestDistance < otherCirc.height) {
-                        let radiusVec = this.faceNormal[nearestEdge].copy();
-                        radiusVec.scale(otherCirc.height);
+                        let radiusVec = this.faceNormal[nearestEdge].scale(otherCirc.height);
                         collisionInfo.setInfo(otherCirc.height - bestDistance, this.faceNormal[nearestEdge].copy(), circLoc.subtract(radiusVec));
                     } else {
                         return false;
@@ -341,8 +331,7 @@ export class Triangle extends RigidShape {
             // if center is inside
             // vertex-to-center vectors will be in opposite directions of their corresponding face normal
             // projected length will be negative, best distance is the one with lest negative value
-            let radiusVec = this.faceNormal[nearestEdge].copy();
-            radiusVec.scale(otherCirc.height);
+            let radiusVec = this.faceNormal[nearestEdge].scale(otherCirc.height);
             collisionInfo.setInfo(otherCirc.height - bestDistance, this.faceNormal[nearestEdge].copy(), circLoc.subtract(radiusVec));
         }
         return true;

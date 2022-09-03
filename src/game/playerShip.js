@@ -14,11 +14,9 @@ export class PlayerShip extends Triangle {
         this.engineOn = false;
         this.rotatingLeft = false;
         this.rotatingRight = false;
-        this.velocity = new Vector();
         this.acceleration = new Vector();
-        let gravity = gEngine.Core.mGravity.copy();
-        gravity.scale(this.mass);
-        this.acceleration.add(gravity);
+        let gravity = gEngine.Core.mGravity.scale(this.mass);
+        this.acceleration = this.acceleration.add(gravity);
         this.accelerationDrag = new Vector();
     }
 

@@ -24,7 +24,10 @@ export class Bullet extends Circle {
         this.mass = m || data.bulletMass ;
         // this.location = new Vector(0, 0);
         this.velocity = new Vector();
-        this.acceleration.add(acc);
+        /**
+         * @type {Vector}
+         */
+        this.acceleration = this.acceleration.add(acc);
         // this.location = loc;
         this.velocity = vel;
         this.delay = delay || 0;

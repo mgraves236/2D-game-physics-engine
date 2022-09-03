@@ -31,7 +31,7 @@ export class bulletSource extends Rectangle {
         // this.location = loc;
         this.velocity = vel;
         this.velocityBullet = velBull;
-        this.velocityBullet.add(this.velocity);
+        this.velocityBullet = this.velocityBullet.add(this.velocity);
         this.bulletsArr = [];
         this.shot = 0;
         this.previousMillis = 0;
@@ -63,18 +63,18 @@ export class bulletSource extends Rectangle {
     update() {
         if (this.massCenter.x > screen.mWidth) {
             this.velocity = new Vector(-this.velocity.x, this.velocity.y);
-            this.massCenter.add(this.velocity);
+            this.massCenter =  this.massCenter.add(this.velocity);
         } else if (this.massCenter.x < 0) {
             this.velocity = new Vector(-this.velocity.x, this.velocity.y);
-            this.massCenter.add(this.velocity);
+            this.massCenter = this.massCenter.add(this.velocity);
         } else if (this.massCenter.y > screen.mHeight) {
             this.velocity = new Vector(this.velocity.x, -this.velocity.y);
-            this.massCenter.add(this.velocity);
+            this.massCenter = this.massCenter.add(this.velocity);
         } else if (this.massCenter.y < 0) {
             this.velocity =new Vector(this.velocity.x, -this.velocity.y);
-            this.massCenter.add(this.velocity);
+            this.massCenter = this.massCenter.add(this.velocity);
         } else {
-            this.massCenter.add(this.velocity);
+            this.massCenter = this.massCenter.add(this.velocity);
         }
         let currentMillis = new Date().getTime();
         if (currentMillis - this.previousMillis >= this.interval) {

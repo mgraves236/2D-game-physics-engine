@@ -15,19 +15,20 @@ import data from './../engineCore/config.json' assert { type: 'json' };
  */
 function startGame() {
 
-    // let mPlayer = new PlayerShip(new Vector(screen.mWidth / 2, screen.mHeight / 2 + 200));
+    let mPlayer = new PlayerShip(new Vector(screen.mWidth / 2, screen.mHeight / 2 + 200));
     let liquid = new DragArea(300, 300, 200, 50,  data.liquidCoefficient, false);
     gEngine.Core.mDragAreas.push(liquid);
     // let source = new bulletSource(10, new Vector(7, 0), new Vector(1, 0), new Vector(0, 2));
     // let source2 = new bulletSource(10, loc2, vel1, velBull2);
-    let ang = -45 * Math.PI / 180;
+    let ang = 45 * Math.PI / 180;
 
-    // let triangle2 = new Triangle(0, new Vector(340, 400), 50,50, ang);
-    let circle2 = new Rectangle(1, new Vector(300, 350),50, 50);
-    // let circle2 = new Circle(1, new Vector(300, 300),50);
-
-    let circle = new Circle(1, new Vector(300, 400),50);
-    // circle2.velocity.add(new Vector(0,1));
+    // let triangle2 = new Triangle(1, new Vector(350, 400), 100,100, 0);
+    let triangle1 = new Triangle(1, new Vector(300, 400), 100,100, 0);
+    let circle2 = new Triangle(1, new Vector(400, 440),50, 50);
+    // let circle2 = new Circle(1, new Vector(350, 450),40);
+    // let rect = new Rectangle(1, new Vector(250, 400),50, 100)
+    // let circle = new Circle(1, new Vector(300, 400),50);
+    circle2.velocity = new Vector(-1,0);
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 
