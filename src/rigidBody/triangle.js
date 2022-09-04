@@ -15,9 +15,11 @@ export class Triangle extends RigidShape {
      * @param width
      * @param height
      * @param angle
+     * @param friction
+     * @param restitution
      */
-    constructor(mass, center, width, height, angle= 0) {
-        super(center, mass, angle);
+    constructor(mass, center, width, height, angle= 0,  friction = 0, restitution = 0, gravity = true) {
+        super(center, mass, angle, friction, restitution, gravity);
         this.type = "triangle";
         // triangle base
         this.width = width;
@@ -71,6 +73,7 @@ export class Triangle extends RigidShape {
     }
 
     rotate (angle) {
+        this.angle += angle;
         for (let i = 0; i < this.vertex.length; i++) {
             this.vertex[i] = this.vertex[i].rotate(angle, this.massCenter);
         }
@@ -81,7 +84,7 @@ export class Triangle extends RigidShape {
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = 'white';
 
         // ctx.rotate(this.angle);
         ctx.beginPath();
@@ -96,7 +99,7 @@ export class Triangle extends RigidShape {
         ctx.stroke();
         ctx.closePath();
         ctx.translate(this.massCenter.x, this.massCenter.y);
-        this.faceNormal.forEach(item => item.draw('yellow'));
+        // this.faceNormal.forEach(item => item.draw('yellow'));
         ctx.restore();
     }
 
@@ -116,7 +119,11 @@ export class Triangle extends RigidShape {
             const value = 12;
             this.inertia = this.mass *
                 (2 * this.height * this.width * this.width * this.width) / value;
-            this.inertia = 1 / this.inertia; // wtf??
+            console.log(this.inertia)
+            this.inertia = this.inertia / 10000000000;
+            // this.inertia = 1 / this.inertia;
+            console.log(this.inertia)
+
         }
     }
 
@@ -284,7 +291,7 @@ export class Triangle extends RigidShape {
             // v2 is from left vertex of face to right vertex of face
 
             let v1 = circLoc.subtract(this.vertex[nearestEdge]);
-            let v2 = this.vertex[(nearestEdge + 1) % this.vertex.length].subtract(this.vertex[nearestEdge]);
+            let v2 = this.vertex[(nearestEdge + 2) % this.vertex.length].subtract(this.vertex[nearestEdge]);  // rectangle difference - nearestEdge + 2
             let dot = v1.dot(v2);
             if (dot < 0) { // region R1
                 // the center of circle is in corner region of vertex[nearestEdge]

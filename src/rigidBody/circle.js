@@ -15,9 +15,10 @@ export class Circle extends RigidShape {
      * @param angle
      * @param friction
      * @param restitution
+     * @param gravity
      */
-    constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0 ) {
-        super(center, mass, angle, friction, restitution);
+    constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0, gravity = true) {
+        super(center, mass, angle, friction, restitution, gravity);
         this.type = "circle";
         // radius stored as height so that it can be used in this.isInside()
         this.height = radius;
@@ -33,6 +34,7 @@ export class Circle extends RigidShape {
      */
     rotate (angle) {
         this.angle += angle;
+        this.startpoint = this.startpoint.rotate(angle, this.massCenter);
     }
 
     displayBounds () {
@@ -41,16 +43,17 @@ export class Circle extends RigidShape {
         ctx.beginPath();
         ctx.arc( this.massCenter.x, this.massCenter.y,
             this.height, 0, Math.PI * 2, true);
-        //draw a line from start point toward center
-        // ctx.moveTo(this.startpoint.x, this.startpoint.y);
-        // ctx.lineTo(this.massCenter.x, this.massCenter.y);
+        // draw a line from start point toward center
+        ctx.moveTo(this.startpoint.x, this.startpoint.y);
+        ctx.lineTo(this.massCenter.x, this.massCenter.y);
         ctx.closePath();
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = 'white';
         ctx.stroke();
         ctx.restore();
     }
 
     display() {
+        console.log(this.angle)
         this.displayBounds()
     }
 

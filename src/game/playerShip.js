@@ -14,9 +14,6 @@ export class PlayerShip extends Triangle {
         this.engineOn = false;
         this.rotatingLeft = false;
         this.rotatingRight = false;
-        this.acceleration = new Vector();
-        let gravity = gEngine.Core.mGravity.scale(this.mass);
-        this.acceleration = this.acceleration.add(gravity);
         this.accelerationDrag = new Vector();
     }
 
@@ -68,17 +65,19 @@ export class PlayerShip extends Triangle {
         const degToRad = Math.PI / 180;
         // Move spaceship to other side when leaving screen
         // hitbox needs to be updated
-        this.massCenter.x = (screen.mWidth + this.massCenter.x) % screen.mWidth;
-        this.massCenter.y = (screen.mHeight + this.massCenter.y) % screen.mHeight;
-        this.computeVertex();
-        this.computeFaceNormal();
+        // this.massCenter.x = (screen.mWidth + this.massCenter.x) % screen.mWidth;
+        // this.massCenter.y = (screen.mHeight + this.massCenter.y) % screen.mHeight;
+        // this.computeVertex();
+        // this.computeFaceNormal();
         // Turning
         if (this.rotatingLeft) {
-            this.angle -= degToRad;
+            // this.angle -= degToRad;
+            this.angularVelocity = 0;
             this.rotate(-degToRad);
         }
         if (this.rotatingRight) {
-            this.angle += degToRad;
+            // this.angle += degToRad;
+            this.angularVelocity = 0;
             this.rotate(degToRad);
         }
 

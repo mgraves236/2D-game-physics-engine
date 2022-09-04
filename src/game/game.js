@@ -23,12 +23,21 @@ function startGame() {
     let ang = 45 * Math.PI / 180;
 
     // let triangle2 = new Triangle(1, new Vector(350, 400), 100,100, 0);
-    let triangle1 = new Triangle(1, new Vector(300, 400), 100,100, 0);
-    let circle2 = new Triangle(1, new Vector(400, 440),50, 50);
-    // let circle2 = new Circle(1, new Vector(350, 450),40);
-    // let rect = new Rectangle(1, new Vector(250, 400),50, 100)
+
+    // let circle2 = new Triangle(1, new Vector(270, 240),50, 50, 0, 0.2, 0.2);
+    let top = new Rectangle(0, new Vector(250, 400), 300, 10, 45 * Math.PI / 180, 1, 0, false);
+    // top.rotate(ang)
+    let triangle1 = new Triangle(1, new Vector(300, 200), 100,50, 0, 0.1,0.2, true);
+    // triangle1.rotate(20 * Math.PI / 180 )
+    // triangle1.rotate(20 * Math.PI / 180 )
+    // triangle1.angularVelocity = 0.01;
+    let circle2 = new Circle(4, new Vector(300, 150),40, 0, 0.1, 0.2);
+
+    let rect = new Rectangle(5, new Vector(250, 100),50, 50,0,0.1,0.2, true)
+    // rect.angularVelocity = 0.001;
+    // rect.velocity = (new Vector(0, 1))
     // let circle = new Circle(1, new Vector(300, 400),50);
-    circle2.velocity = new Vector(-1,0);
+    // circle2.velocity = new Vector(0,1);
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 

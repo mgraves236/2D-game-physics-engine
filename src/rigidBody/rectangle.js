@@ -18,9 +18,10 @@ export class Rectangle extends RigidShape {
      * @param {number} angle Angle of a Rectangle object axis to global (canvas) x-axis
      * @param friction
      * @param restitution
+     * @param gravity
      */
-    constructor(mass, center, width, height, angle= 0, friction = 0, restitution = 0) {
-        super(center, mass, angle, friction, restitution);
+    constructor(mass, center, width, height, angle= 0, friction = 0, restitution = 0, gravity = true) {
+        super(center, mass, angle, friction, restitution, gravity);
         this.type = "rectangle";
         this.width = width;
         this.height = height;
@@ -70,7 +71,7 @@ export class Rectangle extends RigidShape {
      * @param {number} angle Angle in radians
      */
     rotate (angle) {
-        // this.angle += angle;
+        this.angle += angle;
         for (let i = 0; i < this.vertex.length; i++) {
             this.vertex[i] = this.vertex[i].rotate(angle, this.massCenter);
         }
@@ -81,7 +82,7 @@ export class Rectangle extends RigidShape {
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = 'white';
         // this.vertex.forEach( vec => vec.draw('orange'))
         // ctx.translate(this.massCenter.x, this.massCenter.y);
         // ctx.rotate(this.angle);

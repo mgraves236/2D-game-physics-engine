@@ -20,7 +20,7 @@ export class bulletSource extends Rectangle {
     constructor(number, loc, vel, velBull, isRandom) {
         super(1, loc, 15, 20);
         this.isRandom = isRandom || false;
-        this.type = "bulletSource"
+        this.additionalInfo = "bulletSource"
         this.numberOfBullets = number;
         // this.width = 15;
         // this.height = 20;

@@ -31,6 +31,7 @@ export class Bullet extends Circle {
         // this.location = loc;
         this.velocity = vel;
         this.delay = delay || 0;
+        this.additionalInfo = "bullet";
     }
 
     display() {

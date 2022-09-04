@@ -15,23 +15,31 @@ export class RigidShape {
      * @param  {number} angle angle in radians
      * @param friction
      * @param restitution
+     * @param gravity
      */
-    constructor(massCenter, mass,  angle, friction, restitution) {
+    constructor(massCenter, mass,  angle, friction, restitution, gravity = true) {
         if (this.constructor === RigidShape) {
             throw new Error("Abstract classes can't be instantiated.");
         }
         this.massCenter = massCenter;
         this.angle = angle;
+        /**
+         * Angular velocity is stored as a scalar representing the z-component magnitude of the vector
+         * @type {number}
+         */
         this.angularVelocity = 0;
         this.angularAcceleration = 0;
         this.boundsRadius = 0;
         this.velocity = new Vector();
         this.acceleration = new Vector();
-        let gravity = gEngine.Core.mGravity.copy();
-        gravity.scale(mass);
-        this.acceleration.add(gravity);
+        this.isGravity = gravity;
+        if (this.isGravity) {
+            let gravity = gEngine.Core.mGravity.scale(mass);
+           this.acceleration =  this.acceleration.add(gravity);
+        }
         this.accelerationDrag = new Vector();
         this.type = "";
+        this.additionalInfo = "";
         this.mass = mass;
         if (mass === 0) {
             this.massInverse = 0;
@@ -47,17 +55,15 @@ export class RigidShape {
 
     update() {
         // Symplectic Euler Integration
-        this.velocity.add(this.acceleration);
+        this.velocity = this.velocity.add(this.acceleration);
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
                 this.vertex[i] =  this.vertex[i].add(this.velocity);
             }
+        } else {
+            this.startpoint = this.startpoint.add(this.velocity)
         }
-
         this.massCenter = this.massCenter.add(this.velocity);
-        let accelerationTemp = this.acceleration.copy();
-
-        // this.acceleration.scale(0);
         this.angularVelocity += this.angularAcceleration;
         this.rotate(this.angularVelocity);
         this.angularAcceleration *= 0;
@@ -83,6 +89,8 @@ export class RigidShape {
             for (let i = 0; i < this.vertex.length; i++) {
                 this.vertex[i] = this.vertex[i].add(s);
             }
+        } else {
+            this.startpoint = this.startpoint.add(s);
         }
 
         this.massCenter= this.massCenter.add(s);
@@ -104,11 +112,16 @@ export class RigidShape {
             this.angularAcceleration = new Vector();
         } else {
             this.massInverse = 1 / this.mass;
-            let accelerationTemp = this.acceleration.copy();
-            let gravity = gEngine.Core.mGravity.scale(mass);
-            accelerationTemp = accelerationTemp.subtract(gravity);
-            gravity = gEngine.Core.mGravity.scale(this.mass);
-            this.acceleration =  this.acceleration.add(gravity);
+
+            if (this.isGravity) {
+                let accelerationTemp = this.acceleration.copy();
+
+                let gravity = gEngine.Core.mGravity.scale(mass);
+                accelerationTemp = accelerationTemp.subtract(gravity);
+                gravity = gEngine.Core.mGravity.scale(this.mass);
+                this.acceleration =  this.acceleration.add(gravity);
+            }
+
         }
         this.updateInertia();
     }
@@ -130,7 +143,7 @@ export class RigidShape {
             let radiusSum = this.boundsRadius + otherShape.boundsRadius;
             let distance = dis1To2.mag();
 
-            return !((distance > radiusSum) || this.type === "bulletSource" || otherShape.type === "bulletSource");
+            return !((distance > radiusSum) || this.additionalInfo === "bulletSource" || otherShape.additionalInfo === "bulletSource");
         }
     }
 

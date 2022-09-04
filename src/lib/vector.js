@@ -106,6 +106,15 @@ export class Vector {
     }
 
     /**
+     *
+     * @param a
+     * @returns {number}
+     */
+    cross(a) {
+        return (this.x * a.y - this.y * a.x);
+    }
+
+    /**
      * Method to rotate a vector
      * @param angle
      * @param {Vector} center
