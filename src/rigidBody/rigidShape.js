@@ -67,12 +67,14 @@ export class RigidShape {
         this.angularVelocity += this.angularAcceleration;
         this.rotate(this.angularVelocity);
         this.angularAcceleration *= 0;
+        this.updateDrag();
     }
 
     updateDrag() {
         for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
             let area = gEngine.Core.mDragAreas[i];
             if (this.isInside(area)) {
+
                 this.drag(area);
                 this.velocity = this.velocity.add(this.accelerationDrag);
                 this.accelerationDrag= this.accelerationDrag.scale(0);

@@ -53,7 +53,6 @@ export class Circle extends RigidShape {
     }
 
     display() {
-        console.log(this.angle)
         this.displayBounds()
     }
 

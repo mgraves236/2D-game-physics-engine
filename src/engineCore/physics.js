@@ -92,8 +92,8 @@ let _enginePhysics = (function () {
         }
 
         // impulse response for each of the objects
-        let restitution = Math.min(s1.restitution, s2.restitution) || 0;
-        let friction = Math.min(s1.friction, s2.friction) || 0;
+        let restitution = Math.min(s1.restitution, s2.restitution) || s1.restitution;
+        let friction = Math.min(s1.friction, s2.friction) || s1.friction;
         // impulse in normal direction (from s1 to s2)
         // R cross N
         let R1xN = r1.cross(n);
