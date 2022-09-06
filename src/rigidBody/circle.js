@@ -16,9 +16,10 @@ export class Circle extends RigidShape {
      * @param friction
      * @param restitution
      * @param gravity
+     * @param info
      */
-    constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0, gravity = true) {
-        super(center, mass, angle, friction, restitution, gravity);
+    constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0, gravity = true, info = "") {
+        super(center, mass, angle, friction, restitution, gravity, info);
         this.type = "circle";
         // radius stored as height so that it can be used in this.isInside()
         this.height = radius;

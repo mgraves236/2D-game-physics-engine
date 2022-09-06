@@ -17,9 +17,11 @@ export class Triangle extends RigidShape {
      * @param angle
      * @param friction
      * @param restitution
+     * @param gravity
+     * @param info
      */
-    constructor(mass, center, width, height, angle= 0,  friction = 0, restitution = 0, gravity = true) {
-        super(center, mass, angle, friction, restitution, gravity);
+    constructor(mass, center, width, height, angle= 0,  friction = 0, restitution = 0, gravity = true, info ="") {
+        super(center, mass, angle, friction, restitution, gravity, info);
         this.type = "triangle";
         // triangle base
         this.width = width;

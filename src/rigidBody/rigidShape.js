@@ -16,8 +16,9 @@ export class RigidShape {
      * @param friction
      * @param restitution
      * @param gravity
+     * @param info
      */
-    constructor(massCenter, mass,  angle, friction, restitution, gravity = true) {
+    constructor(massCenter, mass,  angle, friction, restitution, gravity = true, info = "") {
         if (this.constructor === RigidShape) {
             throw new Error("Abstract classes can't be instantiated.");
         }
@@ -50,7 +51,7 @@ export class RigidShape {
         this.friction = friction;
         this.restitution = restitution;
         gEngine.Core.mAllObjects.push(this);
-
+        this.additionalInfo = info;
     }
 
     update() {

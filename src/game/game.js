@@ -8,17 +8,21 @@ import {Circle} from "../rigidBody/circle.js";
 import {Triangle} from "../rigidBody/triangle.js";
 import {PlayerShip} from "./playerShip.js";
 import data from './../engineCore/config.json' assert { type: 'json' };
+import {setTerrain} from "./level.js";
 
 
 /**
  * initial scene
  */
 function startGame() {
+    setTerrain();
 
     let mPlayer = new PlayerShip(new Vector(screen.mWidth / 2, screen.mHeight / 2 + 200));
-    let liquid = new DragArea(300, 300, 200, 50,  data.liquidCoefficient, false);
-    gEngine.Core.mDragAreas.push(liquid);
-    let source = new bulletSource(10, new Vector(7, 0), new Vector(1, 0), new Vector(0, 2));
+    mPlayer.additionalInfo = "player";
+    console.log(mPlayer)
+    // let liquid = new DragArea(300, 300, 200, 50,  data.liquidCoefficient, false);
+    // gEngine.Core.mDragAreas.push(liquid);
+    // let source = new bulletSource(10, new Vector(7, 0), new Vector(1, 0), new Vector(0, 2));
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }
 

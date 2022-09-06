@@ -14,14 +14,38 @@ let _enginePhysics = (function () {
      * Collision detection
      */
     let collision = function () {
+        console.log(gEngine.Core.mAllObjects)
         let collisionInfo = new CollisionInfo();
         for (let k = 0; k < gEngine.Core.mAllObjects.length; k++) {
 
             for (let i = 0; i < gEngine.Core.mAllObjects.length; i++) {
                 if (gEngine.Core.mAllObjects[i].massCenter !== null) {
                     for (let j = i + 1; j < gEngine.Core.mAllObjects.length; j++) {
-                        if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource"
-                            || gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") break;
+                        console.log(gEngine.Core.mAllObjects[i].additionalInfo)
+                        console.log(gEngine.Core.mAllObjects[j].additionalInfo)
+                        console.log( (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
+                            gEngine.Core.mAllObjects[j].additionalInfo === "terrain"))
+
+                        if ((gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
+                            gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "border" &&
+                                gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "border" &&
+                                gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
+                                gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
+                            gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" ||
+                            gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
+                            continue;
+                            }
+
+                        if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet" ||
+                            gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
+                            /* TODO lives--*/
+                            continue;
+                        }
+
+
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {

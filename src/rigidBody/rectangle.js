@@ -19,13 +19,15 @@ export class Rectangle extends RigidShape {
      * @param friction
      * @param restitution
      * @param gravity
+     * @param info
      */
-    constructor(mass, center, width, height, angle= 0, friction = 0, restitution = 0, gravity = true) {
-        super(center, mass, angle, friction, restitution, gravity);
+    constructor(mass, center, width, height, angle= 0, friction = 0, restitution = 0, gravity = true, info ="") {
+        super(center, mass, angle, friction, restitution, gravity, info);
         this.type = "rectangle";
         this.width = width;
         this.height = height;
         this.boundsRadius = Math.sqrt(this.width * this.width + this.height * this.height) / 2;
+
         /**
          * Array to store vertex positions of the rectangle
          * @type {Vector[]}

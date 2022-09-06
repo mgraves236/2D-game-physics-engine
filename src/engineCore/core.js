@@ -1,6 +1,6 @@
 import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
-import {drawLevelSky} from "../game/level.js";
+import {drawLevelSky, setTerrain} from "../game/level.js";
 // import {gEngine} from "../engineCore/physics.js"
 
 /**
