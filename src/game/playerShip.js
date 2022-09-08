@@ -1,13 +1,12 @@
 import {screen} from "../engineCore/screen.js";
 import {Vector} from "../lib/vector.js";
-import {gEngine} from "../engineCore/core.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
-import {Rectangle} from "../rigidBody/rectangle.js";
 import {Triangle} from "../rigidBody/triangle.js";
+import {Rectangle} from "../rigidBody/rectangle.js";
 
 export class PlayerShip extends Triangle {
     constructor(location) {
-        super(data.spaceshipMass, location, 40, 28);
+        super(data.spaceshipMass, location, 30, 28,0, 0.1,0.2);
         this.angle = 0;
         this.engineOn = false;
         this.rotatingLeft = false;

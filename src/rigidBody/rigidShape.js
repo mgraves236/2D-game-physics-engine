@@ -1,6 +1,5 @@
 import {gEngine} from "../engineCore/core.js";
 import {Vector} from "../lib/vector.js";
-import data from './../engineCore/config.json' assert {type: 'json'};
 
 /**
  * Abstract class that represents a rigid body

@@ -1,6 +1,6 @@
 import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
-import {drawLevelSky, setTerrain} from "../game/level.js";
+import {drawLevelSky} from "../game/level.js";
 // import {gEngine} from "../engineCore/physics.js"
 
 /**
@@ -24,23 +24,29 @@ let _engineCore = (function () {
     function mainGame(currentTime) {
 
         window.requestAnimationFrame(mainGame);
+
+
         const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
         if (secondsSinceLastRender < 1 / 60) return;
         lastRenderTime = currentTime;
         drawLevelSky();
-        gEngine.Physics.collision();
-
+        console.log('-----------------------------')
         if (mAllObjects !== null) {
             for (let i = 0; i < mAllObjects.length; i++) {
                 mAllObjects[i].update();
                 mAllObjects[i].display();
             }
         }
+        let player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
+        console.log(player)
+
         if (mDragAreas !== null) {
             for (let i = 0; i < mDragAreas.length; i++) {
                 mDragAreas[i].update();
             }
         }
+        gEngine.Physics.collision();
+
 
     }
 

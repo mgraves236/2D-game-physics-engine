@@ -48,7 +48,14 @@ export class Circle extends RigidShape {
         ctx.moveTo(this.startpoint.x, this.startpoint.y);
         ctx.lineTo(this.massCenter.x, this.massCenter.y);
         ctx.closePath();
-        ctx.strokeStyle = 'white';
+        if (this.additionalInfo === "terrain") {
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = 'black';
+            ctx.fill();
+
+        } else {
+            ctx.strokeStyle = 'white';
+        }
         ctx.stroke();
         ctx.restore();
     }

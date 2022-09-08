@@ -3,6 +3,7 @@ import {Vector} from "../lib/vector.js";
 import {screen} from "../engineCore/screen.js";
 import {CollisionInfo} from "../lib/collisionInfo.js";
 
+
 /***
  * Base class for triangle shape rigid objects
  * @class Triangle
@@ -86,8 +87,6 @@ export class Triangle extends RigidShape {
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.strokeStyle = 'white';
-
         // ctx.rotate(this.angle);
         ctx.beginPath();
         // ctx.moveTo(0, - this.height / 2);
@@ -98,6 +97,14 @@ export class Triangle extends RigidShape {
         ctx.lineTo(this.vertex[1].x, this.vertex[1].y)
         ctx.lineTo(this.vertex[2].x, this.vertex[2].y)
         ctx.lineTo(this.vertex[0].x, this.vertex[0].y);
+        if (this.additionalInfo === "terrain") {
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = 'black';
+            ctx.fill();
+
+        } else {
+            ctx.strokeStyle = 'white';
+        }
         ctx.stroke();
         ctx.closePath();
         ctx.translate(this.massCenter.x, this.massCenter.y);

@@ -4,6 +4,8 @@ import {CollisionInfo} from "../lib/collisionInfo.js";
 import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
 
+
+
 let _enginePhysics = (function () {
     // number of relaxation iteration
     const relaxationCount = data.relaxationCount;
@@ -14,17 +16,12 @@ let _enginePhysics = (function () {
      * Collision detection
      */
     let collision = function () {
-        console.log(gEngine.Core.mAllObjects)
         let collisionInfo = new CollisionInfo();
         for (let k = 0; k < gEngine.Core.mAllObjects.length; k++) {
 
             for (let i = 0; i < gEngine.Core.mAllObjects.length; i++) {
                 if (gEngine.Core.mAllObjects[i].massCenter !== null) {
                     for (let j = i + 1; j < gEngine.Core.mAllObjects.length; j++) {
-                        console.log(gEngine.Core.mAllObjects[i].additionalInfo)
-                        console.log(gEngine.Core.mAllObjects[j].additionalInfo)
-                        console.log( (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
-                            gEngine.Core.mAllObjects[j].additionalInfo === "terrain"))
 
                         if ((gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
                             gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
@@ -38,6 +35,9 @@ let _enginePhysics = (function () {
                             gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
                             continue;
                             }
+                            // if ((gEngine.Core.mAllObjects[i] === "player" || gEngine.Core.mAllObjects[j] === "player")) {
+                            //     continue;
+                            // }
 
                         if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet" ||
                             gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
@@ -49,9 +49,8 @@ let _enginePhysics = (function () {
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
-                                    // console.log('collided ' + i + ' ' + j)
-                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet"
-                                        || gEngine.Core.mAllObjects[j].additionalInfo === "bullet") break;
+                                    console.log(gEngine.Core)
+                                    console.log('collided ' + i + ' ' + j)
                                     // the normal must always be from object i to object j
                                     let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
                                     if (collisionInfo.normal.dot(center) < 0) {

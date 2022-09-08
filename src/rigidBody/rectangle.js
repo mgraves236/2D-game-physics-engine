@@ -84,7 +84,7 @@ export class Rectangle extends RigidShape {
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.strokeStyle = 'white';
+
         // this.vertex.forEach( vec => vec.draw('orange'))
         // ctx.translate(this.massCenter.x, this.massCenter.y);
         // ctx.rotate(this.angle);
@@ -96,8 +96,17 @@ export class Rectangle extends RigidShape {
         ctx.lineTo(this.vertex[2].x, this.vertex[2].y)
         ctx.lineTo(this.vertex[3].x, this.vertex[3].y);
         ctx.lineTo(this.vertex[0].x, this.vertex[0].y);
-        ctx.stroke();
         ctx.closePath();
+
+        if (this.additionalInfo === "terrain") {
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = 'black';
+            ctx.fill();
+
+        } else {
+            ctx.strokeStyle = 'white';
+        }
+        ctx.stroke();
         ctx.restore();
         // draw the face normal vectors
         // ctx.translate(this.massCenter.x, this.massCenter.y);

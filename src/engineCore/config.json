@@ -1,12 +1,12 @@
 {
-  "canvasWidth": 1000,
-  "canvasHeight": 633,
+  "canvasWidth": 1500,
+  "canvasHeight": 900,
   "accGravity": 0.01,
   "grav_comment": 0.03,
   "bulletMass": 3,
-  "spaceshipMass": 3,
+  "spaceshipMass": 2,
   "liquidCoefficient": 0.1,
-  "thrust": 8,
+  "thrust": 7,
   "relaxationCount": 15,
   "correctionRate": 0.8
 }

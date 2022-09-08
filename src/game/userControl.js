@@ -4,7 +4,7 @@ import {gEngine} from "../engineCore/core.js";
 // let player = gEngine.Core.mAllObjects[4];
 let player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
 
-function handleKeyInput(event) {
+export function handleKeyInput(event) {
     const { keyCode, type } = event;
     const isKeyDown = type === 'keydown';
 
@@ -17,8 +17,10 @@ function handleKeyInput(event) {
     if (keyCode === 16) { // Shift
 
     }
+    return isKeyDown;
 }
 
 // Event Listeners
 document.addEventListener('keydown', handleKeyInput);
 document.addEventListener('keyup', handleKeyInput);
+

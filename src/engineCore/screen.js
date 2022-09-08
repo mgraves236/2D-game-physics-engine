@@ -1,5 +1,6 @@
 import data from "./config.json" assert {type: 'json'};
 import {Rectangle} from "../rigidBody/rectangle.js";
+import {Triangle} from "../rigidBody/triangle.js";
 import {Vector} from "../lib/vector.js";
 
 var screen = (function () {
@@ -28,3 +29,4 @@ var screen = (function () {
 }());
 
 export {screen};
+
