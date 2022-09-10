@@ -18,8 +18,9 @@ export class bulletSource extends Rectangle {
      * @param angle
      * @param limitX
      * @param limitY
+     * @param interval
      */
-    constructor(number, loc, vel, velBull, angle = 0, limitX = [0, screen.mWidth], limitY = [0, screen.mHeight]) {
+    constructor(number, loc, vel, velBull, angle = 0, limitX = [0, screen.mWidth], limitY = [0, screen.mHeight], interval = 4000) {
         super(1, loc, 15, 20, angle);
         this.additionalInfo = "bulletSource"
         this.numberOfBullets = number;
@@ -34,14 +35,14 @@ export class bulletSource extends Rectangle {
         this.bulletsArr = [];
         this.shot = 0;
         this.previousMillis = 0;
-        this.interval = 4000;
+        this.interval = interval;
         // gEngine.Core.mAllObjects.push(this)
     }
 
     shoot() {
         let bulletsVel = this.velocityBullet.copy();
 
-        let loc2 = new Vector(this.massCenter.x + this.width / 2, this.massCenter.y + this.height / 2);
+        let loc2 = new Vector(this.massCenter.x + 10, this.massCenter.y + this.height / 2);
         let bullet;
         bullet = new Bullet(loc2, bulletsVel);
         // this.bulletsArr.push(bullet);
@@ -81,7 +82,7 @@ export class bulletSource extends Rectangle {
     display() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.translate(this.massCenter.x, this.massCenter.y);
+        ctx.translate(this.massCenter.x + this.width / 2, this.massCenter.y + this.height / 2);
         ctx.rotate(this.angle);
         ctx.beginPath();
         ctx.rect( - this.width / 2, - this.height / 2, 15, 20);
