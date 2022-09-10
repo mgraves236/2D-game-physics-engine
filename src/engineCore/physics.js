@@ -40,9 +40,9 @@ let _enginePhysics = (function () {
                             // }
 
                         if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet" ||
-                            gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
+                            gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
                             /* TODO lives--*/
-                            continue;
+                            // continue;
                         }
 
 
