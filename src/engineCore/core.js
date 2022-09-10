@@ -31,24 +31,14 @@ let _engineCore = (function () {
         lastRenderTime = currentTime;
         drawLevelSky();
         if (mAllObjects !== null) {
-            console.log(mAllObjects)
             let i = 0;
             while (i < gEngine.Core.mAllObjects.length) {
-                console.log('length' +  length)
-                console.log(i)
                 if ( gEngine.Core.mAllObjects[i].massCenter.x === -100) {
-                    console.log('hello')
                     let length = gEngine.Core.mAllObjects.length;
                     let start = gEngine.Core.mAllObjects.slice(0, i);
-                    console.log('SLICE')
-                    console.log(start)
                     let end = gEngine.Core.mAllObjects.slice(i + 1, length + 1);
-                    console.log(end)
                     start = start.concat(end);
-                    console.log('CONCAT')
-                    console.log(start)
                     gEngine.Core.mAllObjects = start;
-                    console.log('length inside' + length)
                     i = i - 1;
                 } else {
                     gEngine.Core.mAllObjects[i].update();
