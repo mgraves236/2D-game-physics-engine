@@ -39,18 +39,65 @@ let _enginePhysics = (function () {
                             //     continue;
                             // }
 
-                        if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet" ||
-                            gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
-                            /* TODO lives--*/
-                            // continue;
-                        }
+
 
 
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
-                                    console.log(gEngine.Core)
-                                    console.log('collided ' + i + ' ' + j)
+                                    console.log(gEngine.Core.mAllObjects)
+                                    console.log(i +  '   ' + j)
+                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
+                                        /* TODO lives--*/
+                                        console.log('here')
+                                        gEngine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
+                                        gEngine.Core.mAllObjects[i].velocity = new Vector();
+                                        gEngine.Core.mAllObjects[i].acceleration = new Vector();
+                                        gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
+                                        console.log( gEngine.Core.mAllObjects[i])
+
+                                        continue;
+                                    }
+                                    if (gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
+                                        /* TODO lives--*/
+                                        console.log('here')
+                                        gEngine.Core.mAllObjects[j].massCenter = new Vector(-100, -100);
+                                        gEngine.Core.mAllObjects[j].velocity = new Vector();
+                                        gEngine.Core.mAllObjects[j].acceleration = new Vector();
+                                        gEngine.Core.mAllObjects[j].accelerationDrag = new Vector();
+
+                                        console.log( gEngine.Core.mAllObjects[j])
+
+                                        continue;
+                                    }
+                                    // if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
+                                    //     /* TODO lives--*/
+                                    //     console.log('i')
+                                    //
+                                    //
+                                    //     let length = gEngine.Core.mAllObjects.length;
+                                    //     let start = gEngine.Core.mAllObjects.slice(0,i);
+                                    //     let end = gEngine.Core.mAllObjects.slice(i+1,length+1);
+                                    //     start.concat(end);
+                                    //     gEngine.Core.mAllObjects = start;
+                                    //     console.log(gEngine.Core.mAllObjects)
+                                    //     continue;
+                                    // }
+                                    //
+                                    // if (gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
+                                    //     /* TODO lives--*/
+                                    //
+                                    //     let length = gEngine.Core.mAllObjects.length;
+                                    //     let start = gEngine.Core.mAllObjects.slice(0,j);
+                                    //     let end = gEngine.Core.mAllObjects.slice(j+1,length+2);
+                                    //     start.concat(end);
+                                    //     gEngine.Core.mAllObjects = start;
+                                    //     console.log(gEngine.Core.mAllObjects)
+                                    //     j--;
+                                    //     continue;
+                                    // }
+                                    console.log(i +  '   ' + j)
+
                                     // the normal must always be from object i to object j
                                     let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
                                     if (collisionInfo.normal.dot(center) < 0) {

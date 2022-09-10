@@ -1,8 +1,8 @@
-import {screen} from "../engineCore/screen.js";
-import {Rectangle} from "../rigidBody/rectangle.js";
-import {Vector} from "../lib/vector.js";
-import {Triangle} from "../rigidBody/triangle.js";
-import {Circle} from "../rigidBody/circle.js";
+import {screen} from "../../engineCore/screen.js";
+import {Rectangle} from "../../rigidBody/rectangle.js";
+import {Vector} from "../../lib/vector.js";
+import {Triangle} from "../../rigidBody/triangle.js";
+import {Circle} from "../../rigidBody/circle.js";
 
 export function setTerrain() {
     let ctx = screen.mContext;
@@ -20,9 +20,9 @@ let Terrain = function () {
     new Rectangle(0, new Vector(screen.mWidth / 2 , screen.mHeight + 40), 100, 100, 0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 + 100,screen.mHeight + 30), 100, 100 , 80 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 - 100,screen.mHeight - 20), 400, 100, -90 * Math.PI / 180, 0.4,0.1, false, info);
-    new Triangle(0, new Vector(screen.mWidth / 2 - 50,screen.mHeight - 20), 100, 100, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Triangle(0, new Vector(screen.mWidth / 2 - 50,screen.mHeight - 20), 100, 100, 0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 - 40 ,screen.mHeight - 142), 80, 100, -100 * Math.PI / 180, 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth / 2 - 200,screen.mHeight - 150), 100, 300, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth / 2 - 200,screen.mHeight - 150), 100, 300, 0, 0.4,0.1, false, info);
     new Circle(0, new Vector(screen.mWidth / 2 - 150,screen.mHeight - 220), 80, -45 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 -71,screen.mHeight - 219), 180, 90, 25 * Math.PI / 180, 0.4,0.1, false, info);
     new Circle(0, new Vector(screen.mWidth / 2,screen.mHeight - 169), 60, 30 * Math.PI / 180, 0.4,0.1, false, info);
@@ -47,7 +47,7 @@ let Terrain = function () {
     new Circle(0, new Vector(screen.mWidth / 2 + 250,screen.mHeight - 450), 50, 30 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 + 280,screen.mHeight - 500), 65,10,-8 * Math.PI / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth / 2 + 280,screen.mHeight - 400), 30,70,-90 * Math.PI / 180, 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth / 2 + 280,screen.mHeight - 400), 80,50,0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth / 2 + 280,screen.mHeight - 400), 80,50,0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 + 332,screen.mHeight - 415), 40,70,45 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 + 347,screen.mHeight - 475), 40,100,-5 * Math.PI / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth / 2 + 292,screen.mHeight - 505), 20,70,60 * Math.PI / 180, 0.4,0.1, false, info);
@@ -60,11 +60,11 @@ let Terrain = function () {
     new Circle(0, new Vector(screen.mWidth / 2 + 550,screen.mHeight - 720), 100, 30 * Math.PI / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth / 2 + 550,screen.mHeight - 810), 120, 150, 62 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 + 640,screen.mHeight - 685), 120, 150, 62 * Math.PI / 180, 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth / 2 + 545,screen.mHeight - 672.5), 120, 150, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth / 2 + 545,screen.mHeight - 672.5), 120, 150, 0, 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth / 2 + 462,screen.mHeight - 668), 120, 150, 161 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth - 40, screen.mHeight - 750), 120, 150, 45 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth - 65, screen.mHeight - 720), 120, 150, -10 * Math.PI / 180, 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth - 91, screen.mHeight - 772), 120, 150, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth - 91, screen.mHeight - 772), 120, 150, 0, 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth - 220, screen.mHeight - 807), 118, 160, 60 * Math.PI / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth - 313, screen.mHeight - 807), 50, 60, 45 * Math.PI / 180, 0.4,0.1, false, info);
     // asteroid little
@@ -83,15 +83,15 @@ let Terrain = function () {
     new Rectangle(0, new Vector(screen.mWidth - 10, screen.mHeight - 482), 60,40,-30 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth - 65, screen.mHeight - 445), 60,40,-25 * Math.PI / 180, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth + 100, screen.mHeight), 400, 900, 0, 0.4,0.1, false, info);
-    new Triangle(0, new Vector(screen.mWidth - 101, screen.mHeight - 430), 37, 41, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Triangle(0, new Vector(screen.mWidth - 101, screen.mHeight - 430), 37, 41, 0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth + 80 , screen.mHeight + 40), 400, 900, 0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth + 60, screen.mHeight + 40), 400, 500,-10 * Math.PI / 180 , 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth - 165, screen.mHeight - 135), 37, 50, -5 * Math.PI / 180, 0.4,0.1, false, info);
     new Circle(0, new Vector(screen.mWidth - 150, screen.mHeight - 70), 50,-10 * Math.PI / 180 , 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth - 120, screen.mHeight - 190), 37, 150, 5 * Math.PI / 180, 0.4,0.1, false, info);
-    new Triangle(0, new Vector(screen.mWidth - 160, screen.mHeight - 120), 37, 100, 0 * Math.PI / 180, 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth - 150, screen.mHeight + 40), 200, 150,0 * Math.PI / 180 , 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth - 150, screen.mHeight + 40), 200, 150,0 * Math.PI / 180 , 0.4,0.1, false, info);
+    new Triangle(0, new Vector(screen.mWidth - 160, screen.mHeight - 120), 37, 100, 0, 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth - 150, screen.mHeight + 40), 200, 150,0, 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth - 150, screen.mHeight + 40), 200, 150,0 , 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth - 190, screen.mHeight - 80), 85, 130,45 * Math.PI / 180 , 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth - 246.6, screen.mHeight - 158), 20, 20,-10 * Math.PI / 180 , 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth - 260, screen.mHeight - 90), 20, 100,-15 * Math.PI / 180 , 0.4,0.1, false, info);
@@ -101,8 +101,8 @@ let Terrain = function () {
     new Circle(0, new Vector(screen.mWidth - 345, screen.mHeight - 5.7), 20,5 * Math.PI / 180 , 0.4,0.1, false, info);
     new Triangle(0, new Vector(screen.mWidth - 366, screen.mHeight - 8), 20,30,30 * Math.PI / 180 , 0.4,0.1, false, info);
     new Circle(0, new Vector(screen.mWidth - 260, screen.mHeight - 90), 20,-15 * Math.PI / 180 , 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth - 255, screen.mHeight - 158), 20, 20,0 * Math.PI / 180 , 0.4,0.1, false, info);
-    new Rectangle(0, new Vector(screen.mWidth - 250, screen.mHeight + 40), 30, 380,0 * Math.PI / 180 , 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth - 255, screen.mHeight - 158), 20, 20,0 / 180 , 0.4,0.1, false, info);
+    new Rectangle(0, new Vector(screen.mWidth - 250, screen.mHeight + 40), 30, 380,0 / 180 , 0.4,0.1, false, info);
 
     // top wall
     new Circle(0, new Vector(200, -200), 300 , 0, 0.4,0.1, false, info);
@@ -118,12 +118,12 @@ let Terrain = function () {
     new Rectangle(0, new Vector(0, screen.mHeight), 200, 1000, 0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(200, screen.mHeight - 140), 200, 100, 38 * Math.PI / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(350, screen.mHeight - 140), 200, 300, 20 * Math.PI / 180, 0.4,0.1, false, info);
-    new Triangle(0, new Vector(360, screen.mHeight - 160), 100, 200, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Triangle(0, new Vector(360, screen.mHeight - 160), 100, 200, 0 / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(340, screen.mHeight - 160), 150, 200, -20 * Math.PI / 180, 0.4,0.1, false, info);
-    new Triangle(0, new Vector(295, screen.mHeight - 130), 90, 200, 0* Math.PI / 180, 0.4,0.1, false, info);
+    new Triangle(0, new Vector(295, screen.mHeight - 130), 90, 200, 0 / 180, 0.4,0.1, false, info);
     new Triangle(0, new Vector(250, screen.mHeight - 150), 100, 120,  20* Math.PI / 180, 0.4,0.1, false, info);
     new Circle(0, new Vector(80, screen.mHeight - 110), 150, 0, 0.4,0.1, false, info);
     new Rectangle(0, new Vector(screen.mWidth / 2 - 500 , screen.mHeight - 50), 500, 100, 0, 0.4,0.1, false, info);
     new Triangle(0, new Vector(120 , screen.mHeight - 200), 200, 500, -5 * Math.PI / 180, 0.4,0.1, false, info);
-    new Triangle(0, new Vector(0 , screen.mHeight - 525), 200, 49, 0 * Math.PI / 180, 0.4,0.1, false, info);
+    new Triangle(0, new Vector(0 , screen.mHeight - 525), 200, 49, 0 / 180, 0.4,0.1, false, info);
 };

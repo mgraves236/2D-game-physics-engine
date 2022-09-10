@@ -1,7 +1,4 @@
-import {Vector} from "../lib/vector.js";
-import {Rectangle} from "../rigidBody/rectangle.js";
-import { screen } from "../engineCore/screen.js";
-// import {Triangle} from "../rigidBody/triangle.js";
+import {screen} from "../../engineCore/screen.js";
 
 export function drawLevelSky() {
     let ctx = screen.mContext;
@@ -13,3 +10,5 @@ export function drawLevelSky() {
     ctx.fillRect(0, 0, screen.mWidth, screen.mHeight);
     ctx.restore();
 }
+
+

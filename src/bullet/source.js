@@ -15,18 +15,17 @@ export class bulletSource extends Rectangle {
      * @param {Vector} loc
      * @param {Vector} vel
      * @param {Vector} velBull
-     * @param {boolean} isRandom
+     * @param angle
+     * @param limitX
+     * @param limitY
      */
-    constructor(number, loc, vel, velBull, isRandom) {
-        super(1, loc, 15, 20);
-        this.isRandom = isRandom || false;
+    constructor(number, loc, vel, velBull, angle = 0, limitX = [0, screen.mWidth], limitY = [0, screen.mHeight]) {
+        super(1, loc, 15, 20, angle);
         this.additionalInfo = "bulletSource"
         this.numberOfBullets = number;
-        // this.width = 15;
-        // this.height = 20;
-        // this.massCenter = loc;
-        // this.location = new Vector(0, 0);
         this.velocity = new Vector();
+        this.limitX = limitX;
+        this.limitY = limitY;
         this.velocityBullet = new Vector();
         // this.location = loc;
         this.velocity = vel;
@@ -42,35 +41,24 @@ export class bulletSource extends Rectangle {
     shoot() {
         let bulletsVel = this.velocityBullet.copy();
 
-        let loc2 = new Vector(this.massCenter.x, this.massCenter.y);
+        let loc2 = new Vector(this.massCenter.x + this.width / 2, this.massCenter.y + this.height / 2);
         let bullet;
-        if (this.isRandom) {
-            let r = Math.floor((Math.random() + 1) * 8);
-            let m;
-            if (r < 5) {
-                m = r * 0.1;
-            } else {
-                m = r * 0.8;
-            }
-            bullet = new Bullet(loc2, bulletsVel, r, m);
-        } else {
-            bullet = new Bullet(loc2, bulletsVel);
-        }
-        this.bulletsArr.push(bullet);
+        bullet = new Bullet(loc2, bulletsVel);
+        // this.bulletsArr.push(bullet);
         this.shot = this.shot + 1;
     }
 
     update() {
-        if (this.massCenter.x > screen.mWidth) {
+        if (this.massCenter.x > this.limitX[1]) {
             this.velocity = new Vector(-this.velocity.x, this.velocity.y);
             this.massCenter =  this.massCenter.add(this.velocity);
-        } else if (this.massCenter.x < 0) {
+        } else if (this.massCenter.x <  this.limitX[0]) {
             this.velocity = new Vector(-this.velocity.x, this.velocity.y);
             this.massCenter = this.massCenter.add(this.velocity);
-        } else if (this.massCenter.y > screen.mHeight) {
+        }  if (this.massCenter.y >  this.limitY[1]) {
             this.velocity = new Vector(this.velocity.x, -this.velocity.y);
             this.massCenter = this.massCenter.add(this.velocity);
-        } else if (this.massCenter.y < 0) {
+        } else if (this.massCenter.y < this.limitY[0]) {
             this.velocity =new Vector(this.velocity.x, -this.velocity.y);
             this.massCenter = this.massCenter.add(this.velocity);
         } else {
@@ -83,31 +71,37 @@ export class bulletSource extends Rectangle {
                 this.shoot();
             }
         }
-        if (this.shot !== 0) {
-            for (let i = 0; i < this.shot; i++) {
-                this.bulletsArr[i].update();
-            }
-        }
+        // if (this.shot !== 0) {
+        //     for (let i = 0; i < this.shot; i++) {
+        //         this.bulletsArr[i].update();
+        //     }
+        // }
     }
 
     display() {
         let ctx = screen.mContext;
         ctx.save();
+        ctx.translate(this.massCenter.x, this.massCenter.y);
+        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.rect(this.massCenter.x - this.width / 2, this.massCenter.y - this.height / 2, 15, 20);
+        ctx.rect( - this.width / 2, - this.height / 2, 15, 20);
         ctx.fill();
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.closePath();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
         ctx.restore();
-        if (this.shot !== 0) {
-            for (let i = 0; i < this.shot; i++) {
-                ctx.save();
-                this.bulletsArr[i].display();
-                ctx.restore();
-            }
-        }
+
+
+        // if (this.shot !== 0) {
+        //     for (let i = 0; i < this.shot; i++) {
+        //         ctx.save();
+        //         this.bulletsArr[i].display();
+        //         ctx.restore();
+        //     }
+        // }
         ctx.save()
         ctx.restore();
     }

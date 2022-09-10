@@ -4,7 +4,7 @@ import {Vector} from "../lib/vector.js";
 import {Rectangle} from "../rigidBody/rectangle.js";
 import {Triangle} from "../rigidBody/triangle.js";
 import {Circle} from "../rigidBody/circle.js";
-import {drawLevelSky} from "../game/level.js";
+import {drawLevelSky} from "../game/level/level.js";
 
 document.getElementById("start").addEventListener("click", startDemo);
 document.getElementById("clear").addEventListener("click", clear);

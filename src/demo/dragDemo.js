@@ -1,6 +1,6 @@
 import {gEngine} from "../engineCore/core.js";
 import {screen} from "../engineCore/screen.js";
-import {drawLevelSky} from "../game/level.js";
+import {drawLevelSky} from "../game/level/level.js";
 import {DragArea} from "../dragArea/dragArea.js";
 import {Vector} from "../lib/vector.js";
 import {Mover} from "./mover.js";

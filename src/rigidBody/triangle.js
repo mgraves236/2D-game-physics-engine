@@ -128,10 +128,8 @@ export class Triangle extends RigidShape {
             const value = 12;
             this.inertia = this.mass *
                 (2 * this.height * this.width * this.width * this.width) / value;
-            console.log(this.inertia)
             this.inertia = this.inertia / 10000000000;
             // this.inertia = 1 / this.inertia;
-            console.log(this.inertia)
 
         }
     }
