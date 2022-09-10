@@ -42,7 +42,6 @@ function clear() {
     for (let i = 0; i < number * count; i++) {
         gEngine.Core.mAllObjects.pop();
     }
-    console.log(gEngine.Core.mAllObjects)
     screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
     count = 0;
 }

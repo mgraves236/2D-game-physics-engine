@@ -4,7 +4,18 @@ import {CollisionInfo} from "../lib/collisionInfo.js";
 import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
 
+function handleBullet(i, j) {
+    /* TODO lives--*/
+    gEngine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
+    gEngine.Core.mAllObjects[i].velocity = new Vector();
+    gEngine.Core.mAllObjects[i].acceleration = new Vector();
+    gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
 
+    if (gEngine.Core.mAllObjects[j].additionalInfo === "player") {
+        let player = gEngine.Core.mAllObjects[j];
+        player.lives = player.lives - 1;
+    }
+}
 
 let _enginePhysics = (function () {
     // number of relaxation iteration
@@ -35,68 +46,18 @@ let _enginePhysics = (function () {
                             gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
                             continue;
                             }
-                            // if ((gEngine.Core.mAllObjects[i] === "player" || gEngine.Core.mAllObjects[j] === "player")) {
-                            //     continue;
-                            // }
-
-
-
 
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
-                                    console.log(gEngine.Core.mAllObjects)
-                                    console.log(i +  '   ' + j)
                                     if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
-                                        /* TODO lives--*/
-                                        console.log('here')
-                                        gEngine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
-                                        gEngine.Core.mAllObjects[i].velocity = new Vector();
-                                        gEngine.Core.mAllObjects[i].acceleration = new Vector();
-                                        gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
-                                        console.log( gEngine.Core.mAllObjects[i])
-
+                                        handleBullet(i,j);
                                         continue;
                                     }
                                     if (gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
-                                        /* TODO lives--*/
-                                        console.log('here')
-                                        gEngine.Core.mAllObjects[j].massCenter = new Vector(-100, -100);
-                                        gEngine.Core.mAllObjects[j].velocity = new Vector();
-                                        gEngine.Core.mAllObjects[j].acceleration = new Vector();
-                                        gEngine.Core.mAllObjects[j].accelerationDrag = new Vector();
-
-                                        console.log( gEngine.Core.mAllObjects[j])
-
+                                        handleBullet(j,i);
                                         continue;
                                     }
-                                    // if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
-                                    //     /* TODO lives--*/
-                                    //     console.log('i')
-                                    //
-                                    //
-                                    //     let length = gEngine.Core.mAllObjects.length;
-                                    //     let start = gEngine.Core.mAllObjects.slice(0,i);
-                                    //     let end = gEngine.Core.mAllObjects.slice(i+1,length+1);
-                                    //     start.concat(end);
-                                    //     gEngine.Core.mAllObjects = start;
-                                    //     console.log(gEngine.Core.mAllObjects)
-                                    //     continue;
-                                    // }
-                                    //
-                                    // if (gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
-                                    //     /* TODO lives--*/
-                                    //
-                                    //     let length = gEngine.Core.mAllObjects.length;
-                                    //     let start = gEngine.Core.mAllObjects.slice(0,j);
-                                    //     let end = gEngine.Core.mAllObjects.slice(j+1,length+2);
-                                    //     start.concat(end);
-                                    //     gEngine.Core.mAllObjects = start;
-                                    //     console.log(gEngine.Core.mAllObjects)
-                                    //     j--;
-                                    //     continue;
-                                    // }
-                                    console.log(i +  '   ' + j)
 
                                     // the normal must always be from object i to object j
                                     let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);

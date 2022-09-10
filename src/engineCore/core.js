@@ -21,10 +21,11 @@ let _engineCore = (function () {
      */
     let lastRenderTime = 0;
 
+
+
     function mainGame(currentTime) {
 
         window.requestAnimationFrame(mainGame);
-
 
         const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
         if (secondsSinceLastRender < 1 / 60) return;
@@ -48,6 +49,8 @@ let _engineCore = (function () {
             }
         }
         let player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
+        console.log(player.lives)
+
 
         if (mDragAreas !== null) {
             for (let i = 0; i < mDragAreas.length; i++) {

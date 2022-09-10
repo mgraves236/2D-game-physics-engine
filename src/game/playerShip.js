@@ -12,6 +12,10 @@ export class PlayerShip extends Triangle {
         this.rotatingLeft = false;
         this.rotatingRight = false;
         this.accelerationDrag = new Vector();
+        // game variables
+        this.lives = 6;
+        this.score = 0;
+        this.fuel = 1;
     }
 
     display() {
