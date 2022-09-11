@@ -1,8 +1,8 @@
 import { Bullet } from "./bullet.js";
-import { Vector } from "../lib/vector.js";
-import { screen } from "../engineCore/screen.js";
-import {gEngine} from "../engineCore/core.js";
-import {Rectangle} from "../rigidBody/rectangle.js";
+import { Vector } from "../../lib/vector.js";
+import { screen } from "../../engineCore/screen.js";
+import {gEngine} from "../../engineCore/core.js";
+import {Rectangle} from "../../rigidBody/rectangle.js";
 
 /**
  * A class that represent a bullet source

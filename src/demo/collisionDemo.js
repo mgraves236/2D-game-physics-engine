@@ -11,14 +11,14 @@ document.getElementById("clear").addEventListener("click", clear);
 drawLevelSky();
 let top = new Rectangle(0, new Vector(250, 400), 300, 10, 45 * Math.PI / 180, 1, 0, false);
 top.display();
-var count = 0;
+let count = 0;
 
 function startDemo() {
     count++;
-    let triangle = new Triangle(1, new Vector(300, 200), 100,50, 0 * Math.PI / 180, 0.1,0.2, true);
-    triangle.velocity = new Vector(10,0)
-    // let circle = new Circle(4, new Vector(300, 150),40, 0, 0.1, 0.8);
-    // let rectangle = new Rectangle(5, new Vector(250, 100),50, 50,0,0.1,0.2, true);
+    let triangle = new Triangle(1, new Vector(300, 200), 100,50, 0, 0.1,0.2, true);
+    // triangle.velocity = new Vector(10,0)
+    let circle = new Circle(4, new Vector(300, 150),40, 0, 0.1, 0.8);
+    let rectangle = new Rectangle(5, new Vector(250, 100),50, 50,0,0.1,0.2, true);
 
     window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
 }

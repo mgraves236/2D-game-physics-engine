@@ -15,7 +15,8 @@ export class PlayerShip extends Triangle {
         // game variables
         this.lives = 6;
         this.score = 0;
-        this.fuel = 1;
+        this.fuel = 300;
+        this.isRayOn = false;
     }
 
     display() {
@@ -39,6 +40,24 @@ export class PlayerShip extends Triangle {
             let grd = ctx.createLinearGradient(fireXPos, fireYPos, fireXPos, fireYPos + 20);
             grd.addColorStop(0, "red");
             grd.addColorStop(1, "orange");
+            ctx.fillStyle = grd;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        if (this.isRayOn) {
+            ctx.save();
+            const rayYPos = 70;
+            const rayXPos = 0;
+            ctx.beginPath();
+            ctx.moveTo(rayXPos - 20, rayYPos);
+            ctx.lineTo(rayXPos + 20, rayYPos);
+            ctx.lineTo(rayXPos, 0);
+            ctx.lineTo(rayXPos - 20, rayYPos);
+            ctx.closePath();
+            let grd = ctx.createLinearGradient(rayXPos, 20, rayXPos, rayYPos);
+            grd.addColorStop(0, "#99CCCC");
+            grd.addColorStop(1, "white");
             ctx.fillStyle = grd;
             ctx.fill();
             ctx.restore();
@@ -85,6 +104,8 @@ export class PlayerShip extends Triangle {
 
         // Acceleration
         if (this.engineOn) {
+            // decrease fuel
+            this.fuel--;
             this.velocity.x += (data.thrust / 100) * Math.sin(this.angle);
             this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
         }

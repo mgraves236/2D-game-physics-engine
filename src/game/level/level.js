@@ -1,4 +1,5 @@
 import {screen} from "../../engineCore/screen.js";
+import {gEngine} from "../../engineCore/core.js";
 
 export function drawLevelSky() {
     let ctx = screen.mContext;
@@ -10,5 +11,4 @@ export function drawLevelSky() {
     ctx.fillRect(0, 0, screen.mWidth, screen.mHeight);
     ctx.restore();
 }
-
 

@@ -49,8 +49,11 @@ export class RigidShape {
         this.inertia = 0;
         this.friction = friction;
         this.restitution = restitution;
-        gEngine.Core.mAllObjects.push(this);
         this.additionalInfo = info;
+
+        if (this.additionalInfo !== "fuelTank") {
+            gEngine.Core.mAllObjects.push(this);
+        }
     }
 
     update() {

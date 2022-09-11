@@ -1,8 +1,8 @@
 import {Vector} from "../lib/vector.js";
 import {gEngine} from "../engineCore/core.js";
-
-// let player = gEngine.Core.mAllObjects[4];
-let player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
+import {player} from "./game.js";
+import {locations} from "./level/levelObjects.js";
+import {FuelTank} from "./fuelTank.js";
 
 export function handleKeyInput(event) {
     const { keyCode, type } = event;
@@ -14,7 +14,24 @@ export function handleKeyInput(event) {
     if (keyCode === 40) {
         player.velocity = new Vector();
     }
-    if (keyCode === 16) { // Shift
+    if (keyCode === 16) { //shift
+        player.isRayOn = isKeyDown;
+        console.log(gEngine.Level.Fuel)
+        let i = 0;
+        while (i < gEngine.Level.Fuel.Array.length) {
+                let isPicked = gEngine.Level.Fuel.Array[i].pickUp();
+                if (isPicked) {
+                    let length = gEngine.Level.Fuel.Array.length;
+                    let start = gEngine.Level.Fuel.Array.slice(0, i);
+                    let end = gEngine.Level.Fuel.Array.slice(i + 1, length + 1);
+                    start = start.concat(end);
+                    gEngine.Level.Fuel.Array = start;
+                    gEngine.Level.Fuel.Index = gEngine.Level.Fuel.Index + 1;
+                    gEngine.Level.Fuel.Array.push( new FuelTank(locations[gEngine.Level.Fuel.Index % locations.length].loc, locations[gEngine.Level.Fuel.Index  % locations.length].angle  * Math.PI / 180));
+                }
+
+            i++;
+        }
 
     }
     return isKeyDown;

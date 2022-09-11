@@ -10,6 +10,11 @@ import {drawLevelSky} from "../game/level/level.js";
 var gEngine = gEngine || {};
 gEngine.Core = undefined;
 gEngine.Physics = undefined;
+gEngine.Level = {};
+gEngine.Level.Fuel = {
+    Array: [],
+    Index: 0
+}
 
 let _engineCore = (function () {
     let mAllObjects = [];
@@ -32,10 +37,26 @@ let _engineCore = (function () {
         lastRenderTime = currentTime;
         drawLevelSky();
         if (mAllObjects !== null) {
+            // how many bunkers are left in game
+            let number = 0;
+            gEngine.Level.bunkersNumber = (function (){
+                gEngine.Core.mAllObjects.forEach(object => {
+                    if (object.additionalInfo === "bulletSource") {
+                        number++;
+                    }
+                })
+                return number;
+            }());
+            // display fuel
+            console.log(gEngine.Level.Fuel.Array)
+            // gEngine.Level.Fuel.Array.forEach(tank => tank.display());
+            for (let i = 0; i < gEngine.Level.Fuel.Array.length; i++) {
+                gEngine.Level.Fuel.Array[i].display();
+            }
+
             let i = 0;
             while (i < gEngine.Core.mAllObjects.length) {
                 if ( gEngine.Core.mAllObjects[i].massCenter.x === -100) {
-                    let length = gEngine.Core.mAllObjects.length;
                     let start = gEngine.Core.mAllObjects.slice(0, i);
                     let end = gEngine.Core.mAllObjects.slice(i + 1, length + 1);
                     start = start.concat(end);
@@ -49,8 +70,6 @@ let _engineCore = (function () {
             }
         }
         let player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
-        console.log(player.lives)
-
 
         if (mDragAreas !== null) {
             for (let i = 0; i < mDragAreas.length; i++) {
@@ -58,8 +77,6 @@ let _engineCore = (function () {
             }
         }
         gEngine.Physics.collision();
-
-
     }
 
     return {

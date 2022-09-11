@@ -1,12 +1,9 @@
-import { screen } from "../engineCore/screen.js";
-import { Vector } from "../lib/vector.js";
-import { gEngine } from "../engineCore/core.js";
-import data from './../engineCore/config.json' assert {type: 'json'};
-import {Circle} from '../rigidBody/circle.js'
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+import { screen } from "../../engineCore/screen.js";
+import { Vector } from "../../lib/vector.js";
+import { gEngine } from "../../engineCore/core.js";
+import data from '../../engineCore/config.json' assert {type: 'json'};
+import {Circle} from '../../rigidBody/circle.js'
+import {sleep} from "../../lib/sleep.js";
 
 export class Bullet extends Circle {
     /**
