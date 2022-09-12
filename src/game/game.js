@@ -13,7 +13,8 @@ function startGame() {
     setTerrain();
     setBunkers();
     setFuel();
-    let mPlayer = new PlayerShip(new Vector(830, 830));
+    // setDrag();
+    let mPlayer = new PlayerShip(new Vector(830, 500));
     mPlayer.additionalInfo = "player";
     player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
     // let rectangle = new Rectangle(0, new Vector(100, screen.mHeight / 2), 200, 800,0, 1,0, false);

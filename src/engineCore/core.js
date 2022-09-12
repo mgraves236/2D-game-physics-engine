@@ -1,6 +1,7 @@
 import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
 import {drawLevelSky} from "../game/level/level.js";
+import {screen} from "./screen.js";
 // import {gEngine} from "../engineCore/physics.js"
 
 /**
@@ -31,7 +32,6 @@ let _engineCore = (function () {
     function mainGame(currentTime) {
 
         window.requestAnimationFrame(mainGame);
-
         const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
         if (secondsSinceLastRender < 1 / 60) return;
         lastRenderTime = currentTime;
@@ -48,8 +48,6 @@ let _engineCore = (function () {
                 return number;
             }());
             // display fuel
-            console.log(gEngine.Level.Fuel.Array)
-            // gEngine.Level.Fuel.Array.forEach(tank => tank.display());
             for (let i = 0; i < gEngine.Level.Fuel.Array.length; i++) {
                 gEngine.Level.Fuel.Array[i].display();
             }
@@ -57,11 +55,19 @@ let _engineCore = (function () {
             let i = 0;
             while (i < gEngine.Core.mAllObjects.length) {
                 if ( gEngine.Core.mAllObjects[i].massCenter.x === -100) {
+                    console.log(gEngine.Core.mAllObjects)
+
+                    console.log(i)
                     let start = gEngine.Core.mAllObjects.slice(0, i);
-                    let end = gEngine.Core.mAllObjects.slice(i + 1, length + 1);
+                    console.log(start)
+                    let end = gEngine.Core.mAllObjects.slice(i + 1);
+                    console.log(end)
                     start = start.concat(end);
                     gEngine.Core.mAllObjects = start;
                     i = i - 1;
+                    // gEngine.Core.mAllObjects[i].update();
+                    // gEngine.Core.mAllObjects[i].display();
+                    // i++;
                 } else {
                     gEngine.Core.mAllObjects[i].update();
                     gEngine.Core.mAllObjects[i].display();

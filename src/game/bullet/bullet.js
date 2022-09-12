@@ -10,12 +10,13 @@ export class Bullet extends Circle {
      * Constructor of the Bullet object
      * @param loc
      * @param vel
+     * @param info
      * @param r
      * @param m
      * @param acc
      * @param delay
      */
-    constructor(loc, vel,r = 3, m = data.bulletMass, acc =  new Vector(), delay) {
+    constructor(loc, vel, info = "bullet", r = 3, m = data.bulletMass, acc =  new Vector(), delay = 0) {
         super(m, loc, r);
         // initialize types
         this.mass = m || data.bulletMass ;
@@ -27,8 +28,8 @@ export class Bullet extends Circle {
         this.acceleration = this.acceleration.add(acc);
         // this.location = loc;
         this.velocity = vel;
-        this.delay = delay || 0;
-        this.additionalInfo = "bullet";
+        this.delay = delay;
+        this.additionalInfo = info;
     }
 
     display() {

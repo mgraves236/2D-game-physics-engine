@@ -3,6 +3,7 @@ import {Vector} from "../lib/vector.js";
 import data from './../engineCore/config.json' assert {type: 'json'};
 import {Triangle} from "../rigidBody/triangle.js";
 import {Rectangle} from "../rigidBody/rectangle.js";
+import {Bullet} from "./bullet/bullet.js";
 
 export class PlayerShip extends Triangle {
     constructor(location) {
@@ -17,13 +18,22 @@ export class PlayerShip extends Triangle {
         this.score = 0;
         this.fuel = 300;
         this.isRayOn = false;
+        this.bow = this.vertex[0].copy();
+        this.bow.rotate(this.angle);
+    }
+
+    shoot() {
+        console.log('shoot')
+        let velocity = this.bow.normalize();
+        velocity.y = -velocity.y * 10;
+        new Bullet(this.bow, velocity, "playerBullet");
     }
 
     display() {
         let ctx = screen.mContext;
         ctx.save();
         ctx.translate(this.massCenter.x, this.massCenter.y);
-        // angle is in radians
+// angle is in radians
         ctx.rotate(this.angle);
         ctx.translate(0, 0);
         ctx.translate(0, -this.height / 2);
@@ -68,10 +78,10 @@ export class PlayerShip extends Triangle {
         ctx.strokeStyle = 'white';
         ctx.lineWidth = '1.5';
         ctx.stroke(p);
-
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.restore();
         ctx.save()
+        this.bow.draw('yellow');
         this.displayBounds();
         ctx.restore();
 
@@ -95,13 +105,15 @@ export class PlayerShip extends Triangle {
             // this.angle -= degToRad;
             this.angularVelocity = 0;
             this.rotate(-degToRad);
+            // this.bow.rotate(-degToRad);
+
         }
         if (this.rotatingRight) {
             // this.angle += degToRad;
             this.angularVelocity = 0;
             this.rotate(degToRad);
+            // this.bow.rotate(degToRad);
         }
-
         // Acceleration
         if (this.engineOn) {
             // decrease fuel
@@ -109,8 +121,12 @@ export class PlayerShip extends Triangle {
             this.velocity.x += (data.thrust / 100) * Math.sin(this.angle);
             this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
         }
-        // this.velocity.add(this.acceleration);
-        // this.acceleration.scale(0);
-        // this.accelerationDrag.scale(0);
+        // update bow vector
+        this.bow = this.vertex[0].copy();
+
+        // this.bow = this.massCenter.copy();
+        // this.bow.y = this.bow.y - this.height / 2;
+        // this.bow =  this.bow.add(this.velocity);
+
     }
 }

@@ -11,12 +11,12 @@ export function handleKeyInput(event) {
     if (keyCode === 37) player.rotatingLeft = isKeyDown;
     if (keyCode === 39) player.rotatingRight = isKeyDown;
     if (keyCode === 38) player.engineOn = isKeyDown;
+    if (keyCode === 32) player.shoot();
     if (keyCode === 40) {
         player.velocity = new Vector();
     }
     if (keyCode === 16) { //shift
         player.isRayOn = isKeyDown;
-        console.log(gEngine.Level.Fuel)
         let i = 0;
         while (i < gEngine.Level.Fuel.Array.length) {
                 let isPicked = gEngine.Level.Fuel.Array[i].pickUp();

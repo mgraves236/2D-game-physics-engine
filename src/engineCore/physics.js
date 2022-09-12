@@ -34,6 +34,8 @@ let _enginePhysics = (function () {
                 if (gEngine.Core.mAllObjects[i].massCenter !== null) {
                     for (let j = i + 1; j < gEngine.Core.mAllObjects.length; j++) {
 
+                        // ignore collisions between terrain elements, borders, bullet sources and borders
+                        // and player bullets and player
                         if ((gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
                             gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
                             (gEngine.Core.mAllObjects[i].additionalInfo === "border" &&
@@ -43,18 +45,26 @@ let _enginePhysics = (function () {
                             (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
                                 gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
                             gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" ||
-                            gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
+                            gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource" ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
+                                gEngine.Core.mAllObjects[j].additionalInfo === "player") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "player" &&
+                                gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet")) {
                             continue;
                             }
 
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
+                                // delete bullets when collided
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
-                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bullet") {
+
+                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
+                                        gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
                                         handleBullet(i,j);
                                         continue;
                                     }
-                                    if (gEngine.Core.mAllObjects[j].additionalInfo === "bullet") {
+                                    if (gEngine.Core.mAllObjects[j].additionalInfo === "bunkerBullet" ||
+                                        gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
                                         handleBullet(j,i);
                                         continue;
                                     }

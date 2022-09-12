@@ -32,7 +32,6 @@ export class bulletSource extends Rectangle {
         this.velocity = vel;
         this.velocityBullet = velBull;
         this.velocityBullet = this.velocityBullet.add(this.velocity);
-        this.bulletsArr = [];
         this.shot = 0;
         this.previousMillis = 0;
         this.interval = interval;
@@ -44,7 +43,7 @@ export class bulletSource extends Rectangle {
 
         let loc2 = new Vector(this.massCenter.x + 10, this.massCenter.y + this.height / 2);
         let bullet;
-        bullet = new Bullet(loc2, bulletsVel);
+        bullet = new Bullet(loc2, bulletsVel, "bunkerBullet");
         // this.bulletsArr.push(bullet);
         this.shot = this.shot + 1;
     }
