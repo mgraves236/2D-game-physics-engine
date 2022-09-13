@@ -11,10 +11,9 @@ function handleBullet(i, j) {
     gEngine.Core.mAllObjects[i].acceleration = new Vector();
     gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
 
-    if (gEngine.Core.mAllObjects[j].additionalInfo === "player") {
-        let player = gEngine.Core.mAllObjects[j];
-        player.lives = player.lives - 1;
-    }
+    // if (gEngine.Core.mAllObjects[j].additionalInfo === "player") {
+    //     gEngine.Player.loseLife();
+    // }
 }
 
 let _enginePhysics = (function () {
@@ -68,6 +67,26 @@ let _enginePhysics = (function () {
                                         gEngine.Core.mAllObjects[j].takeDamage();
                                         continue;
                                     }
+
+                                    // decrease player lives when they crush into a terrain or get hit by an enemy bullet
+                                    if ((gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet")
+                                        && gEngine.Core.mAllObjects[j].additionalInfo === "player") {
+                                        gEngine.Core.mAllObjects[j].loseLife();
+                                    } else if ((gEngine.Core.mAllObjects[j].additionalInfo === "bunkerBullet")
+                                         && gEngine.Core.mAllObjects[i].additionalInfo === "player") {
+                                        gEngine.Core.mAllObjects[i].loseLife();
+                                    }
+
+                                    //end game when player crashes into terrain
+                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "terrain"
+                                        && gEngine.Core.mAllObjects[j].additionalInfo === "player") {
+                                        gEngine.EndGame = true;
+                                    } else if (gEngine.Core.mAllObjects[j].additionalInfo === "terrain"
+                                        && gEngine.Core.mAllObjects[i].additionalInfo === "player") {
+                                        gEngine.EndGame = true;
+                                    }
+
+
                                     // delete bullets when they collide with each other or other objects
                                     if (gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
                                         gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
@@ -79,8 +98,6 @@ let _enginePhysics = (function () {
                                         handleBullet(j,i);
                                         continue;
                                     }
-                                    // decrease player lives when they crush into a terrain or get hit by an enemy bullet
-
 
                                     // the normal must always be from object i to object j
                                     let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);

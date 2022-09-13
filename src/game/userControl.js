@@ -1,6 +1,5 @@
 import {Vector} from "../lib/vector.js";
 import {gEngine} from "../engineCore/core.js";
-import {player} from "./game.js";
 import {locations} from "./level/levelObjects.js";
 import {FuelTank} from "./fuelTank.js";
 
@@ -8,15 +7,15 @@ export function handleKeyInput(event) {
     const { keyCode, type } = event;
     const isKeyDown = type === 'keydown';
 
-    if (keyCode === 37) player.rotatingLeft = isKeyDown;
-    if (keyCode === 39) player.rotatingRight = isKeyDown;
-    if (keyCode === 38) player.engineOn = isKeyDown;
-    if (keyCode === 32) player.shoot();
+    if (keyCode === 37) gEngine.Player.rotatingLeft = isKeyDown;
+    if (keyCode === 39) gEngine.Player.rotatingRight = isKeyDown;
+    if (keyCode === 38) gEngine.Player.engineOn = isKeyDown;
+    if (keyCode === 32) gEngine.Player.shoot();
     if (keyCode === 40) {
-        player.velocity = new Vector();
+        gEngine.Player.velocity = new Vector();
     }
     if (keyCode === 16) { //shift
-        player.isRayOn = isKeyDown;
+        gEngine.Player.isRayOn = isKeyDown;
         let i = 0;
         while (i < gEngine.Level.Fuel.Array.length) {
                 let isPicked = gEngine.Level.Fuel.Array[i].pickUp();

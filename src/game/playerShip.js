@@ -10,20 +10,23 @@ export class PlayerShip extends Triangle {
         super(data.spaceshipMass, location, 30, 28,0, 0.1,0.2);
         this.angle = 0;
         this.engineOn = false;
+        this.isRayOn = false;
         this.rotatingLeft = false;
         this.rotatingRight = false;
         this.accelerationDrag = new Vector();
         // game variables
         this.lives = 6;
-        this.score = 0;
         this.fuel = 300;
-        this.isRayOn = false;
     }
 
     shoot() {
         let velocity = new Vector(0, -10);
         velocity = velocity.rotate(this.angle);
         new Bullet(this.vertex[0], velocity, "playerBullet", 3, 0.5);
+    }
+
+    loseLife() {
+        this.lives = this.lives - 1;
     }
 
     display() {

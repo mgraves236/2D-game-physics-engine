@@ -2,7 +2,10 @@ import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
 import {drawLevelSky} from "../game/level/level.js";
 import {screen} from "./screen.js";
-// import {gEngine} from "../engineCore/physics.js"
+
+
+
+
 
 /**
  * Create a namespace to store all the physics engine core functionality
@@ -16,6 +19,8 @@ gEngine.Level.Fuel = {
     Array: [],
     Index: 0
 }
+gEngine.Player = undefined;
+gEngine.EndGame = false;
 
 let _engineCore = (function () {
     let mAllObjects = [];
@@ -39,7 +44,7 @@ let _engineCore = (function () {
         if (mAllObjects !== null) {
             // how many bunkers are left in game
             let number = 0;
-            gEngine.Level.bunkersNumber = (function (){
+            let bunkersNumber = (function (){
                 gEngine.Core.mAllObjects.forEach(object => {
                     if (object.additionalInfo === "bulletSource") {
                         number++;
@@ -47,6 +52,27 @@ let _engineCore = (function () {
                 })
                 return number;
             }());
+            // if all bunkers are destroyed, end game
+            console.log(gEngine.EndGame)
+            if (bunkersNumber === 0) {
+                gEngine.EndGame = true;
+                screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
+                drawLevelSky();
+                screen.mContext.font = "bolder 60px Arial";
+                screen.mContext.fillText("CONGRATS! YOU WON!", screen.mWidth / 2 - 350, screen.mHeight / 2 - 30);
+                // restart button
+                return;
+            }
+
+            if (gEngine.Player.lives === 0 || gEngine.EndGame === true) {
+                gEngine.EndGame = true;
+                screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
+                drawLevelSky();
+                screen.mContext.font = "bolder 60px Arial";
+                screen.mContext.fillText("GAME OVER", screen.mWidth / 2 - 200, screen.mHeight / 2 - 30);
+                // restart button
+                return;
+            }
             // display fuel
             for (let i = 0; i < gEngine.Level.Fuel.Array.length; i++) {
                 gEngine.Level.Fuel.Array[i].display();
@@ -72,7 +98,6 @@ let _engineCore = (function () {
                 }
             }
         }
-        let player = gEngine.Core.mAllObjects.find(x => x.additionalInfo === 'player');
 
         if (mDragAreas !== null) {
             for (let i = 0; i < mDragAreas.length; i++) {
