@@ -3,6 +3,7 @@ import { Vector } from "../../lib/vector.js";
 import { screen } from "../../engineCore/screen.js";
 import {gEngine} from "../../engineCore/core.js";
 import {Rectangle} from "../../rigidBody/rectangle.js";
+import {player} from "../game.js";
 
 /**
  * A class that represent a bullet source
@@ -35,6 +36,7 @@ export class bulletSource extends Rectangle {
         this.shot = 0;
         this.previousMillis = 0;
         this.interval = interval;
+        this.damage = false;
         // gEngine.Core.mAllObjects.push(this)
     }
 
@@ -46,6 +48,11 @@ export class bulletSource extends Rectangle {
         bullet = new Bullet(loc2, bulletsVel, "bunkerBullet");
         // this.bulletsArr.push(bullet);
         this.shot = this.shot + 1;
+    }
+
+    takeDamage() {
+      this.damage = true;
+      player.score += 10;
     }
 
     update() {

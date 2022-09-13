@@ -148,7 +148,7 @@ export class RigidShape {
             let radiusSum = this.boundsRadius + otherShape.boundsRadius;
             let distance = dis1To2.mag();
 
-            return !((distance > radiusSum) || this.additionalInfo === "bulletSource" || otherShape.additionalInfo === "bulletSource");
+            return !((distance > radiusSum));
         }
     }
 

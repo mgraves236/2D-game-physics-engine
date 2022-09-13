@@ -54,14 +54,11 @@ let _engineCore = (function () {
 
             let i = 0;
             while (i < gEngine.Core.mAllObjects.length) {
-                if ( gEngine.Core.mAllObjects[i].massCenter.x === -100) {
-                    console.log(gEngine.Core.mAllObjects)
-
-                    console.log(i)
+                if (gEngine.Core.mAllObjects[i].massCenter.x === -100 ||
+                    (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
+                    gEngine.Core.mAllObjects[i].damage === true)) {
                     let start = gEngine.Core.mAllObjects.slice(0, i);
-                    console.log(start)
                     let end = gEngine.Core.mAllObjects.slice(i + 1);
-                    console.log(end)
                     start = start.concat(end);
                     gEngine.Core.mAllObjects = start;
                     i = i - 1;

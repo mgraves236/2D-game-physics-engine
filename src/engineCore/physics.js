@@ -44,8 +44,10 @@ let _enginePhysics = (function () {
                                 gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
                             (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
                                 gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
-                            gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" ||
-                            gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource" ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
+                                gEngine.Core.mAllObjects[j].additionalInfo !== "playerBullet") ||
+                            (gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource" &&
+                                gEngine.Core.mAllObjects[i].additionalInfo !== "playerBullet") ||
                             (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
                                 gEngine.Core.mAllObjects[j].additionalInfo === "player") ||
                             (gEngine.Core.mAllObjects[i].additionalInfo === "player" &&
@@ -55,9 +57,18 @@ let _enginePhysics = (function () {
 
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
-                                // delete bullets when collided
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
-
+                                    // check if player hit a bunker
+                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
+                                        gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
+                                        gEngine.Core.mAllObjects[i].takeDamage();
+                                        continue;
+                                    } else if  (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
+                                        gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
+                                        gEngine.Core.mAllObjects[j].takeDamage();
+                                        continue;
+                                    }
+                                    // delete bullets when they collide with each other or other objects
                                     if (gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
                                         gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
                                         handleBullet(i,j);
@@ -68,6 +79,8 @@ let _enginePhysics = (function () {
                                         handleBullet(j,i);
                                         continue;
                                     }
+                                    // decrease player lives when they crush into a terrain or get hit by an enemy bullet
+
 
                                     // the normal must always be from object i to object j
                                     let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
