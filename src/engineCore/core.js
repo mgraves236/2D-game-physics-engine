@@ -53,7 +53,6 @@ let _engineCore = (function () {
                 return number;
             }());
             // if all bunkers are destroyed, end game
-            console.log(gEngine.EndGame)
             if (bunkersNumber === 0) {
                 gEngine.EndGame = true;
                 screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);

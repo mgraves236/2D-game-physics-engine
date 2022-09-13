@@ -16,7 +16,7 @@ export class PlayerShip extends Triangle {
         this.accelerationDrag = new Vector();
         // game variables
         this.lives = 6;
-        this.fuel = 300;
+        this.fuel = 150;
     }
 
     shoot() {
@@ -29,6 +29,10 @@ export class PlayerShip extends Triangle {
         this.lives = this.lives - 1;
     }
 
+    checkFuel() {
+        return this.fuel > 0;
+    }
+
     display() {
         let ctx = screen.mContext;
         ctx.save();
@@ -37,7 +41,7 @@ export class PlayerShip extends Triangle {
         ctx.rotate(this.angle);
         ctx.translate(0, 0);
         ctx.translate(0, -this.height / 2);
-        if (this.engineOn) {
+        if (this.engineOn && this.fuel > 0) {
             ctx.save();
             const fireYPos = 23;
             const fireXPos = 0;
@@ -112,10 +116,12 @@ export class PlayerShip extends Triangle {
         }
         // Acceleration
         if (this.engineOn) {
+           if (this.fuel > 0) {
+               this.velocity.x += (data.thrust / 100) * Math.sin(this.angle);
+               this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
+           }
             // decrease fuel
             this.fuel--;
-            this.velocity.x += (data.thrust / 100) * Math.sin(this.angle);
-            this.velocity.y -= (data.thrust / 100) * Math.cos(this.angle);
         }
     }
 }

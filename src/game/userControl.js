@@ -10,6 +10,7 @@ export function handleKeyInput(event) {
     if (keyCode === 37) gEngine.Player.rotatingLeft = isKeyDown;
     if (keyCode === 39) gEngine.Player.rotatingRight = isKeyDown;
     if (keyCode === 38) gEngine.Player.engineOn = isKeyDown;
+
     if (keyCode === 32) gEngine.Player.shoot();
     if (keyCode === 40) {
         gEngine.Player.velocity = new Vector();
