@@ -84,13 +84,7 @@ export class Rectangle extends RigidShape {
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
-
-        // this.vertex.forEach( vec => vec.draw('orange'))
-        // ctx.translate(this.massCenter.x, this.massCenter.y);
-        // ctx.rotate(this.angle);
-        // ctx.strokeRect(-this.width / 2, - this.height / 2, this.width, this.height);
         ctx.beginPath();
-
         ctx.moveTo(this.vertex[0].x, this.vertex[0].y);
         ctx.lineTo(this.vertex[1].x, this.vertex[1].y)
         ctx.lineTo(this.vertex[2].x, this.vertex[2].y)

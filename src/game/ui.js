@@ -2,12 +2,19 @@ import {screen} from "../engineCore/screen.js";
 
 let ctx = screen.mContext;
 
+/**
+ * Object to store game stats
+ * @type {{score: number, lives: number, fuel: number}}
+ */
 let ui = {
     score: 0,
     lives: 0,
     fuel: 0
 };
 
+/**
+ * Function to display stats on canvas
+ */
 export function displayUI() {
     ctx.save();
     ctx.fillStyle = "#ffffff";
@@ -21,6 +28,12 @@ export function displayUI() {
     ctx.restore();
 }
 
+/**
+ * Function to update stats in each loop run
+ * @param score player score
+ * @param lives player lives left
+ * @param fuel player fuel
+ */
 export function updateUI(score, lives, fuel) {
     ui.score = score;
     ui.lives = lives;

@@ -1,6 +1,7 @@
 import {screen} from "../../engineCore/screen.js";
-import {gEngine} from "../../engineCore/core.js";
-
+/**
+ * Function to draw canvas background
+ */
 export function drawLevelSky() {
     let ctx = screen.mContext;
     ctx.save();

@@ -1,13 +1,18 @@
-import { Vector } from "../lib/vector.js";
 import { screen } from "../engineCore/screen.js";
 import {gEngine} from "../engineCore/core.js";
 import {Rectangle} from "../rigidBody/rectangle.js";
 
 /**
  * A class that represent a fuel tank
+ * @class FuelTank
  */
 export class FuelTank extends Rectangle {
 
+    /**
+     * Constructor of FuelTank class
+     * @param loc location of the object
+     * @param angle angle of the object
+     */
     constructor(loc, angle = 0) {
         super(1, loc, 20, 25, angle, 1, 0, false, "fuelTank");
     }
@@ -17,7 +22,7 @@ export class FuelTank extends Rectangle {
     }
 
     /**
-     *
+     * Method to check if player can pick up the tank
      * @returns {boolean}
      */
     pickUp() {
@@ -57,5 +62,4 @@ export class FuelTank extends Rectangle {
         // this.displayBounds();
         ctx.restore();
     }
-
 }

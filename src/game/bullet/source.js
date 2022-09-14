@@ -5,19 +5,20 @@ import {Rectangle} from "../../rigidBody/rectangle.js";
 
 /**
  * A class that represents a bullet source
+ * @class BulletSource
  */
 export class BulletSource extends Rectangle {
 
     /**
      * Constructor of bulletSource class
-     * @param {number} number
-     * @param {Vector} loc
-     * @param {Vector} vel
-     * @param {Vector} velBull
-     * @param angle
-     * @param limitX
-     * @param limitY
-     * @param interval
+     * @param {number} number number of shot bullets with intervals specified by interval parameter
+     * @param {Vector} loc source location
+     * @param {Vector} vel source velocity
+     * @param {Vector} velBull velocity of bullets shot by the source
+     * @param angle source angle
+     * @param {number[]} limitX maximum motion range in x-axis
+     * @param {number[]} limitY maximum motion range in y-axis
+     * @param {number} interval interval in which bullets are propelled
      */
     constructor(number, loc, vel, velBull, angle = 0, limitX = [0, screen.mWidth], limitY = [0, screen.mHeight], interval = 4000) {
         super(1, loc, 15, 20, angle);
@@ -27,7 +28,6 @@ export class BulletSource extends Rectangle {
         this.limitX = limitX;
         this.limitY = limitY;
         this.velocityBullet = new Vector();
-        // this.location = loc;
         this.velocity = vel;
         this.velocityBullet = velBull;
         this.velocityBullet = this.velocityBullet.add(this.velocity);
@@ -35,22 +35,24 @@ export class BulletSource extends Rectangle {
         this.previousMillis = 0;
         this.interval = interval;
         this.damage = false;
-        // gEngine.Core.mAllObjects.push(this)
     }
 
+    /**
+     * spawn a new bullet
+     */
     shoot() {
         let bulletsVel = this.velocityBullet.copy();
 
         let loc2 = new Vector(this.massCenter.x + 10, this.massCenter.y + this.height / 2);
-        let bullet;
-        bullet = new Bullet(loc2, bulletsVel, "bunkerBullet");
-        // this.bulletsArr.push(bullet);
+        new Bullet(loc2, bulletsVel, "bunkerBullet");
         this.shot = this.shot + 1;
     }
 
+    /**
+     * change damage status
+     */
     takeDamage() {
       this.damage = true;
-      // gEngine.Player.score = gEngine.Player.score + 1;
     }
 
     update() {
@@ -76,11 +78,6 @@ export class BulletSource extends Rectangle {
                 this.shoot();
             }
         }
-        // if (this.shot !== 0) {
-        //     for (let i = 0; i < this.shot; i++) {
-        //         this.bulletsArr[i].update();
-        //     }
-        // }
     }
 
     display() {
@@ -96,11 +93,6 @@ export class BulletSource extends Rectangle {
         ctx.stroke();
         ctx.closePath();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-        ctx.restore();
-
-        ctx.save()
-        ctx.restore();
     }
 
 }

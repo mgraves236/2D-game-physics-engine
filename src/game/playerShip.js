@@ -6,9 +6,13 @@ import {Bullet} from "./bullet/bullet.js";
 
 /**
  * Class that represents player ship
- * @class
+ * @class PlayerShip
  */
 export class PlayerShip extends Triangle {
+    /**
+     * Constructor of PlayerShip class
+     * @param location player spawn location
+     */
     constructor(location) {
         super(data.spaceshipMass, location, 30, 28,0, 0.1,0.2);
         this.angle = 0;
@@ -90,7 +94,7 @@ export class PlayerShip extends Triangle {
         ctx.stroke(p);
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.restore();
-        // display hitbox
+        // display hit box
         // ctx.save()
         // this.displayBounds();
         // ctx.restore();

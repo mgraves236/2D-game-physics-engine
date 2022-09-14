@@ -6,7 +6,7 @@ import {sleep} from "../../lib/sleep.js";
 
 /**
  * Class that represents a bullet
- * @class
+ * @class Bullet
  */
 export class Bullet extends Circle {
     /**
@@ -23,13 +23,11 @@ export class Bullet extends Circle {
         super(m, loc, r);
         // initialize types
         this.mass = m || data.bulletMass ;
-        // this.location = new Vector(0, 0);
         this.velocity = new Vector();
-        /**
+        /** bullet acceleration
          * @type {Vector}
          */
         this.acceleration = this.acceleration.add(acc);
-        // this.location = loc;
         this.velocity = vel;
         this.delay = delay;
         this.additionalInfo = info;
@@ -59,6 +57,7 @@ export class Bullet extends Circle {
         sleep(this.delay).then(() => {
             if (this.massCenter !== null && ((this.massCenter.x > screen.mWidth + 2) ||
                 (this.massCenter.y - this.height > screen.mHeight + 2))) {
+                // bullet is out of canvas borders
                 this.massCenter =  new Vector(-100, -100);
             } else if (this.massCenter !== null){
                 super.updateDrag();

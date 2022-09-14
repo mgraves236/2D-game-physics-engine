@@ -4,10 +4,7 @@ import {screen} from "../engineCore/screen.js";
  * A class that represents a vector using Cartesian coordinates
  * @class Vector
  */
-
-
 export class Vector {
-
     /**
      * Constructor of the Vector class
      * @param {number} x x coordinate of a vector
@@ -25,7 +22,7 @@ export class Vector {
     /**
      * Method to add two vectors
      * @param a {Vector} vector added to a vector that called the method
-     * @returns {Vector} kk
+     * @returns {Vector} a product of vector addition
      */
     add(a) {
        // this.x = this.x + a.x;
@@ -38,22 +35,15 @@ export class Vector {
      * @return {Vector} product of vector subtraction
      */
     subtract(a) {
-         // this.x = this.x - a.x;
-         // this.y = this.y - a.y;
         return new Vector(this.x - a.x, this.y - a.y)
     }
 
     /**
      * Method to multiply (scale) a vector by a scalar n
      * @param n scalar by which the vector is multiplied
-     * @return
+     * @return product of vector scaling
      */
     scale(n) {
-        // this.x = n * this.x;
-        // this.y = n * this.y;
-        // let yTemp = map(this.y);
-        // yTemp = n * yTemp;
-        // this.y = map(-yTemp);
          return new Vector(n * this.x, n * this.y)
     }
 
@@ -70,7 +60,7 @@ export class Vector {
      * Method to normalize the vector that called it,
      * i.e. multiply the vector by a factor so that
      * its magnitude is equal to 1
-     * @return
+     * @return normalized vector
      */
     normalize() {
         let mag = this.mag();
@@ -82,33 +72,29 @@ export class Vector {
                 x = this.x0 + diffX / mag;
             } else {
                 x = this.x0 - diffX / mag;
-
             }
             if (this.y <= this.y0) {
                 y = this.y0 -  diffY / mag;
             } else {
                 y = this.y0 + diffY / mag;
-
             }
-            // this.x = this.x / mag;
-            // this.y = this.y / mag;
         }
         return new Vector(x,y);
     }
 
     /**
-     *
-     * @param a
-     * @return {number}
+     * Calculate dot product of two vectors
+     * @param a second vector to calculate the product with
+     * @return {number} product of the dot product operation
      */
     dot(a) {
         return this.x * a.x + this.y * a.y;
     }
 
     /**
-     *
-     * @param a
-     * @returns {number}
+     * Calculate cross product of two vectors
+     * @param a second vector to calculate the product with
+     * @returns {number} vector in z-axis stored as a number
      */
     cross(a) {
         return (this.x * a.y - this.y * a.x);
@@ -116,9 +102,9 @@ export class Vector {
 
     /**
      * Method to rotate a vector
-     * @param angle
-     * @param {Vector} center
-     * @return {Vector}
+     * @param angle rotation angle
+     * @param {Vector} center rotation center
+     * @return {Vector} rotated vector
      */
     rotate(angle, center) {
         let rotCenter = center ||  new Vector();
@@ -136,6 +122,10 @@ export class Vector {
 
     }
 
+    /**
+     * Draw the vector
+     * @param color vector color
+     */
     draw(color) {
         screen.mContext.save();
         screen.mContext.beginPath();
@@ -149,8 +139,8 @@ export class Vector {
     }
 
     /**
-     *
-     * @return {Vector}
+     * Copy the vector
+     * @return {Vector} vector that called the method
      */
     copy() {
         let vector = new Vector();
@@ -161,24 +151,5 @@ export class Vector {
         vector.doMap = this.doMap;
         return vector;
     }
-
-    /**
-     * Get a vector with origin other than (0,0)
-     * @return {Vector}
-     */
-    get() {
-        let vector = new Vector();
-        vector.x = (this.x - this.x0);
-        vector.y = (this.y - this.y0);
-        return vector;
-    }
-
-    /**
-     * Change the vector direction
-     * @return {Vector} A vector with changed direction
-     */
-   changeDir() {
-        return new Vector(this.x0, this.y0, this.x, this.y);
-   }
 }
 

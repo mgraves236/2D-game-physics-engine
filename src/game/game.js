@@ -1,4 +1,4 @@
-import {setUp, drawButton, clickBtn} from "./playButton.js";
+import {setUp} from "./playButton.js";
 import {drawLevelSky} from "./level/level.js";
 import {gEngine} from "../engineCore/core.js";
 import {screen} from "../engineCore/screen.js";

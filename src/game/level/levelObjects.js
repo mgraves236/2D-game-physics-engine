@@ -10,7 +10,9 @@ import {PlayerShip} from "../playerShip.js";
 import {drawLevelSky} from "./level.js";
 
 
-
+/**
+ * Create bunkers object on level
+ */
 export function setBunkers() {
     new BulletSource(1000, new Vector(470, 0  * screen.mHeight / 900), new Vector(1, 0), new Vector(0, 2), 0, [470, 1200], [-1000, 1000]);
     new BulletSource(1000, new Vector(0, 150  * screen.mHeight / 900), new Vector(0, 1), new Vector(5, -2), 45 * Math.PI / 180, [-1000, 1000], [150, 320], 4500);
@@ -35,17 +37,24 @@ let locations = [
     {loc: new Vector(802,550 * screen.mHeight / 900), angle: 45},
     {loc: new Vector(770,875 * screen.mHeight / 900), angle: 10},
 ]
-
+/**
+ * Create fuel object on level
+ */
 export function setFuel() {
         gEngine.Level.Fuel.Index = 1;
         gEngine.Level.Fuel.Array.push(new FuelTank(locations[0].loc, locations[0].angle * Math.PI / 180));
         gEngine.Level.Fuel.Array.push(new FuelTank(locations[1].loc, locations[1].angle * Math.PI / 180));
 }
-
+/**
+ * Create drag areas object on level
+ */
 export function setDrag() {
     new DragArea(500, 200, 300,100, data.liquidCoefficient, false);
 }
 
+/**
+ * Set level initial scene
+ */
 export function setScene() {
     drawLevelSky();
     setTerrain();
@@ -56,9 +65,6 @@ export function setScene() {
     mPlayer.additionalInfo = "player";
     gEngine.Player = mPlayer;
     gEngine.Core.mAllObjects.forEach(object => object.display())
-    // ui.fuel = gEngine.Player.fuel;
-    // ui.score = 6 - gEngine.Level.bunkersNumber;
-    // ui.lives = gEngine.Player.lives;
 }
 
 export {locations, gEngine}

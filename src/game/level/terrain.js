@@ -4,9 +4,10 @@ import {Vector} from "../../lib/vector.js";
 import {Triangle} from "../../rigidBody/triangle.js";
 import {Circle} from "../../rigidBody/circle.js";
 
+/**
+ * Set terrain on level
+ */
 export function setTerrain() {
-    let ctx = screen.mContext;
-
     let terrain = new Terrain();
 }
 

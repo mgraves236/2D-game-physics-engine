@@ -1,3 +1,7 @@
+/**
+ * Class that represents a sine wave used in DragArea animation
+ * @class SineWave
+ */
 export class SineWave {
     constructor(x,y,s) {
         this.x = x;
