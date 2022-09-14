@@ -10,12 +10,12 @@ export class RigidShape {
      * Constructor of RigidShape class,
      * create an object with the center of mass defined by a vector
      * @param {Vector} massCenter point at which center of mass is located
-     * @param {number} mass
+     * @param {number} mass Rigid Shape mass
      * @param  {number} angle angle in radians
-     * @param friction
-     * @param restitution
-     * @param gravity
-     * @param info
+     * @param friction Rigid Shape friction
+     * @param restitution Rigid Shape restitution (bounciness) (how much energy is preserved after collision)
+     * @param gravity consider Rigid Shape when applying gravity
+     * @param info additional info
      */
     constructor(massCenter, mass,  angle, friction, restitution, gravity = true, info = "") {
         if (this.constructor === RigidShape) {
@@ -57,7 +57,9 @@ export class RigidShape {
     }
 
     update() {
-        // Symplectic Euler Integration
+        /**
+         *  Symplectic Euler Integration
+         */
         this.velocity = this.velocity.add(this.acceleration);
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
@@ -73,6 +75,9 @@ export class RigidShape {
         this.updateDrag();
     }
 
+    /**
+     * Change Rigid Shape velocity due to drag
+     */
     updateDrag() {
         for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
             let area = gEngine.Core.mDragAreas[i];
@@ -103,7 +108,7 @@ export class RigidShape {
 
     /**
      * Support changing of the mass during runtime
-     * @param delta
+     * @param delta mass change
      */
     updateMass(delta) {
         if ( this.mass === 0) return;
@@ -153,9 +158,9 @@ export class RigidShape {
     }
 
     /**
-     *
-     * @param area
-     * @return {boolean}
+     * Is Rigid Shape inside a Drag Area
+     * @param area drag area
+     * @return {boolean} is inside
      */
     isInside(area) {
         return this.massCenter.x > area.x &&
@@ -165,8 +170,8 @@ export class RigidShape {
     }
 
     /**
-     *
-     * @param dragObj
+     * Apply drag to Rigid Shape if it is in a Drag Area
+     * @param {DragArea} dragObj
      */
     drag(dragObj) {
         let speed = this.velocity.mag();
@@ -181,7 +186,7 @@ export class RigidShape {
     }
 
     /**
-     *
+     * Apply drag force
      * @param {Vector} force
      */
     applyForce(force) {

@@ -10,16 +10,16 @@ import {CollisionInfo} from "../lib/collisionInfo.js";
  */
 export class Triangle extends RigidShape {
     /**
-     *
-     * @param mass
-     * @param center
-     * @param width
-     * @param height
-     * @param angle
-     * @param friction
-     * @param restitution
-     * @param gravity
-     * @param info
+     * Constructor of a Triangle object
+     * @param {number} mass Mass of a Triangle object
+     * @param {Vector} center Mass center of a Triangle object
+     * @param {number} width Width of a Triangle object
+     * @param {number} height Height of a Triangle object
+     * @param {number} angle Angle in radians of a Triangle object axis to global (canvas) x-axis
+     * @param {number} friction Triangle friction
+     * @param {number} restitution Triangle restitution (bounciness) (how much energy is preserved after collision)
+     * @param {boolean} gravity consider the Triangle when applying gravity
+     * @param {string} info additional info
      */
     constructor(mass, center, width, height, angle= 0,  friction = 0, restitution = 0, gravity = true, info ="") {
         super(center, mass, angle, friction, restitution, gravity, info);
@@ -49,6 +49,9 @@ export class Triangle extends RigidShape {
         this.updateInertia();
     }
 
+    /**
+     * Compute Rectangle vertices
+     */
     computeVertex() {
         this.vertex[0] = new Vector(this.massCenter.x,
             this.massCenter.y - this.height / 2);
@@ -59,6 +62,9 @@ export class Triangle extends RigidShape {
         this.rotate(this.angle);
     }
 
+    /**
+     * Compute face normal vectors
+     */
     computeFaceNormal () {
         this.faceNormal[0] = this.vertex[0].subtract(this.vertex[2]);
         let faceTemp = this.faceNormal[0].copy();
@@ -74,7 +80,10 @@ export class Triangle extends RigidShape {
             this.faceNormal[i] = this.faceNormal[i].normalize();
         }
     }
-
+    /**
+     * Rotate Rectangle
+     * @param {number} angle Angle in radians
+     */
     rotate (angle) {
         this.angle += angle;
         for (let i = 0; i < this.vertex.length; i++) {
@@ -87,12 +96,7 @@ export class Triangle extends RigidShape {
     displayBounds() {
         let ctx = screen.mContext;
         ctx.save();
-        // ctx.rotate(this.angle);
         ctx.beginPath();
-        // ctx.moveTo(0, - this.height / 2);
-        // ctx.lineTo(this.width / 2, this.height / 2)
-        // ctx.lineTo(- this.width / 2, this.height / 2)
-        // ctx.lineTo(0, - this.height / 2);
         ctx.moveTo(this.vertex[0].x, this.vertex[0].y);
         ctx.lineTo(this.vertex[1].x, this.vertex[1].y)
         ctx.lineTo(this.vertex[2].x, this.vertex[2].y)
@@ -118,7 +122,9 @@ export class Triangle extends RigidShape {
         this.displayBounds();
         ctx.restore();
     }
-
+    /**
+     * Set and update inertia
+     */
     updateInertia() {
         super.updateInertia();
         if (this.massInverse === 0) {
@@ -178,8 +184,8 @@ export class Triangle extends RigidShape {
     /**
      * Find the axis of the least penetration
      * based on the support point with the least support point distant
-     * @param otherShape
-     * @param collisionInfo
+     * @param {Rectangle | Triangle} otherShape other Rectangle or Triangle with which collision occurs
+     * @param collisionInfo collision info
      * @return {boolean} hasSupport
      */
     findAxisLeastPenetration(otherShape, collisionInfo) {
@@ -226,9 +232,9 @@ export class Triangle extends RigidShape {
 
     /**
      * Compute the axis of lest penetration and choose smaller of the two results
-     * @param {Triangle} r1
-     * @param {Triangle || Rectangle} r2
-     * @param {CollisionInfo} collisionInfo
+     * @param {Triangle} r1 Triangle that called the method
+     * @param {Triangle || Rectangle} r2 Triangle or Rectangle with which collision occurs
+     * @param {CollisionInfo} collisionInfo collision info
      * @return {boolean}
      */
     collidedTrianTrianRect (r1, r2, collisionInfo) {
@@ -258,6 +264,12 @@ export class Triangle extends RigidShape {
         return status1 && status2;
     }
 
+    /**
+     * Detect collision according to the relative position of the circle's center with respect to the triangle
+     * @param otherCirc collided Circle
+     * @param collisionInfo collision info
+     * @returns {boolean}
+     */
     collidedTrianCirc (otherCirc, collisionInfo) {
         // compute the nearest edge
         // compute perpendicular distances between circle center to each of the edges of the rectangle

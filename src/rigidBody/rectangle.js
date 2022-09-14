@@ -15,11 +15,11 @@ export class Rectangle extends RigidShape {
      * @param {Vector} center Mass center of a Rectangle object
      * @param {number} width Width of a Rectangle object
      * @param {number} height Height of a Rectangle object
-     * @param {number} angle Angle of a Rectangle object axis to global (canvas) x-axis
-     * @param friction
-     * @param restitution
-     * @param gravity
-     * @param info
+     * @param {number} angle Angle in radians of a Rectangle object axis to global (canvas) x-axis
+     * @param {number} friction Rectangle friction
+     * @param {number} restitution Rectangle restitution (bounciness) (how much energy is preserved after collision)
+     * @param {boolean} gravity consider the Rectangle when applying gravity
+     * @param {string} info additional info
      */
     constructor(mass, center, width, height, angle= 0, friction = 0, restitution = 0, gravity = true, info ="") {
         super(center, mass, angle, friction, restitution, gravity, info);
@@ -27,7 +27,6 @@ export class Rectangle extends RigidShape {
         this.width = width;
         this.height = height;
         this.boundsRadius = Math.sqrt(this.width * this.width + this.height * this.height) / 2;
-
         /**
          * Array to store vertex positions of the rectangle
          * @type {Vector[]}
@@ -46,6 +45,9 @@ export class Rectangle extends RigidShape {
         this.updateInertia();
     }
 
+    /**
+     * Compute Rectangle vertices
+     */
     computeVertex() {
         this.vertex[0] = new Vector(this.massCenter.x - this.width / 2,
             this.massCenter.y - this.height / 2);
@@ -58,6 +60,9 @@ export class Rectangle extends RigidShape {
         this.rotate(this.angle);
     }
 
+    /**
+     * Compute face normal vectors
+     */
     computeFaceNormal () {
         this.faceNormal[0] = this.vertex[1].subtract(this.vertex[2]);
         this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
@@ -69,7 +74,7 @@ export class Rectangle extends RigidShape {
     }
 
     /**
-     *
+     * Rotate Rectangle
      * @param {number} angle Angle in radians
      */
     rotate (angle) {
@@ -115,6 +120,9 @@ export class Rectangle extends RigidShape {
         ctx.restore();
     }
 
+    /**
+     * Set and update inertia
+     */
     updateInertia() {
         super.updateInertia();
         if (this.massInverse === 0) {
@@ -184,8 +192,8 @@ export class Rectangle extends RigidShape {
     /**
      * Find the axis of the least penetration
      * based on the support point with the least support point distant
-     * @param {Rectangle} otherRect
-     * @param collisionInfo
+     * @param {Rectangle} otherRect other Rectangle with which collision occurs
+     * @param collisionInfo collision info
      * @return {boolean} hasSupport
      */
     findAxisLeastPenetration(otherRect, collisionInfo) {
@@ -232,9 +240,9 @@ export class Rectangle extends RigidShape {
 
     /**
      * Compute the axis of lest penetration and choose smaller of the two results
-     * @param {Rectangle} r1
-     * @param {Rectangle} r2
-     * @param {CollisionInfo} collisionInfo
+     * @param {Rectangle} r1 Rectangle that called the method
+     * @param {Rectangle} r2 Rectangle with which collision occurs
+     * @param {CollisionInfo} collisionInfo collision info
      * @return {boolean}
      */
     collidedRectRect (r1, r2, collisionInfo) {
@@ -266,18 +274,18 @@ export class Rectangle extends RigidShape {
 
     /**
      * Detect collision according to the relative position of the circle's center with respect to the rectangle
-     * @param {Circle} otherCir
-     * @param {CollisionInfo} collisionInfo
+     * @param {Circle} otherCir collided Circle
+     * @param {CollisionInfo} collisionInfo collision info
      */
     collidedRectCirc (otherCir, collisionInfo) {
         // compute the nearest edge
         // compute perpendicular distances between circle center to each of the edges of the rectangle
         // i.e. project vector created from subtracting vertex from circle center onto each of the face normals
-        var inside = true;
-        var bestDistance = -99999;
-        var nearestEdge = 0;
-        var i, v;
-        var circ2Pos, projection;
+        let inside = true;
+        let bestDistance = -99999;
+        let nearestEdge = 0;
+        let i, v;
+        let circ2Pos, projection;
         for (i = 0; i < 4; i++) {
             //find the nearest face for center of circle
             circ2Pos = otherCir.massCenter;

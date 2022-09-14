@@ -56,18 +56,26 @@ let _enginePhysics = (function () {
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
                             // preliminary bound test
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
+                                console.log(gEngine.Core.mAllObjects[i].additionalInfo)
+                                console.log(gEngine.Core.mAllObjects[j].additionalInfo)
+                                console.log('--------------------------')
+                                // check if player hit a bunker
+                                if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
+                                    gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
+                                    console.log('hello')
+                                    gEngine.Core.mAllObjects[i].takeDamage();
+                                    continue;
+                                } else if  (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
+                                    gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
+                                    console.log('hello')
+
+                                    gEngine.Core.mAllObjects[j].takeDamage();
+                                    continue;
+                                }
                                 // collision detection with SAT
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
-                                    // check if player hit a bunker
-                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
-                                        gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
-                                        gEngine.Core.mAllObjects[i].takeDamage();
-                                        continue;
-                                    } else if  (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
-                                        gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
-                                        gEngine.Core.mAllObjects[j].takeDamage();
-                                        continue;
-                                    }
+                                    console.log(gEngine.Core.mAllObjects[i].additionalInfo)
+                                    console.log(gEngine.Core.mAllObjects[j].additionalInfo)
                                     // decrease player lives when they crush into a terrain or get hit by an enemy bullet
                                     if ((gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet")
                                         && gEngine.Core.mAllObjects[j].additionalInfo === "player") {

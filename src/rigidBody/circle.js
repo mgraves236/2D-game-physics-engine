@@ -8,15 +8,15 @@ import {screen} from "../engineCore/screen.js";
  */
 export class Circle extends RigidShape {
     /**
-     *
-     * @param mass
-     * @param center
-     * @param radius
-     * @param angle
-     * @param friction
-     * @param restitution
-     * @param gravity
-     * @param info
+     * Constructor of Circle class
+     * @param {number} mass Circle mass
+     * @param {Vector} center Circle center location
+     * @param {number} radius Circle radius
+     * @param {number} angle Circle angle in radians
+     * @param {number} friction Circle friction
+     * @param {number} restitution Circle restitution (bounciness) (how much energy is preserved after collision)
+     * @param {boolean} gravity consider Circle when applying gravity
+     * @param {string} info additional info
      */
     constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0, gravity = true, info = "") {
         super(center, mass, angle, friction, restitution, gravity, info);
@@ -30,14 +30,17 @@ export class Circle extends RigidShape {
     }
 
     /**
-     *
-     * @param {number} angle Angle in radians
+     * Rotate circle
+     * @param {number} angle rotation angle in radians
      */
     rotate (angle) {
         this.angle += angle;
         this.startpoint = this.startpoint.rotate(angle, this.massCenter);
     }
 
+    /**
+     * Display hit box
+     */
     displayBounds () {
         let ctx = screen.mContext;
         ctx.save();
@@ -64,6 +67,9 @@ export class Circle extends RigidShape {
         this.displayBounds()
     }
 
+    /**
+     * Set and update inertia
+     */
     updateInertia() {
         super.updateInertia();
         if (this.massInverse === 0) {
@@ -75,6 +81,12 @@ export class Circle extends RigidShape {
         }
     }
 
+    /**
+     * Check if collision occurred, call specified methods to handle collision
+     * @param otherShape other shape in the collision event
+     * @param collisionInfo collision info
+     * @returns {boolean} did the collision occur
+     */
     collisionTest (otherShape, collisionInfo) {
         let status = false;
         if (otherShape.type === "circle") {
@@ -90,9 +102,15 @@ export class Circle extends RigidShape {
         return status;
     }
 
+    /**
+     * Handle collision between circles
+     * @param c1 first circle
+     * @param c2 second circle
+     * @param collisionInfo collision info
+     * @returns {boolean|CollisionInfo}
+     */
     collidedCircCirc (c1, c2, collisionInfo) {
         /**
-         *
          * @type {Vector}
          */
         let from1To2 = c2.massCenter.subtract(c1.massCenter); // normal vector from 1 to 2
@@ -107,7 +125,6 @@ export class Circle extends RigidShape {
            let radiusC2 = normalFrom1To2.scale(c2.height);
             collisionInfo.setInfo(radiusSum - distance,
                 from1To2.normalize(), c2.massCenter.add(radiusC2));
-
         } else {
             //same position
             if (c1.height > c2.height) {

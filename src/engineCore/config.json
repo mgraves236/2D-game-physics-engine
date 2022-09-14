@@ -4,7 +4,7 @@
   "accGravity": 0.01,
   "grav_comment": 0.03,
   "bulletMass": 5,
-  "spaceshipMass": 2,
+  "spaceshipMass": 1,
   "liquidCoefficient": 0.1,
   "thrust": 10,
   "relaxationCount": 15,

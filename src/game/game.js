@@ -80,7 +80,7 @@ function mainGame(currentTime) {
         }
     }
     //update UI
-    updateUI((6 - gEngine.Level.bunkersNumber) * 100, gEngine.Player.lives, gEngine.Player.fuel);
+    updateUI((gEngine.Level.bunkersNumber) * 100, gEngine.Player.lives, gEngine.Player.fuel);
     // display UI
     displayUI();
     gEngine.Physics.collision();
