@@ -3,7 +3,7 @@
   "canvasHeight": 900,
   "accGravity": 0.01,
   "grav_comment": 0.03,
-  "bulletMass": 1,
+  "bulletMass": 5,
   "spaceshipMass": 2,
   "liquidCoefficient": 0.1,
   "thrust": 10,

@@ -1,7 +1,7 @@
-import { screen } from "../engineCore/screen.js";
-import { Vector } from "../lib/vector.js";
-import { gEngine } from "../engineCore/core.js";
-import {Circle} from '../rigidBody/circle.js'
+import { screen } from "../../engineCore/screen.js";
+import { Vector } from "../../lib/vector.js";
+import { gEngine } from "../../engineCore/core.js";
+import {Circle} from '../../rigidBody/circle.js'
 
 export class Mover extends Circle {
     /**

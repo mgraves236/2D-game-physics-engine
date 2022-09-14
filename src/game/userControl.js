@@ -16,6 +16,7 @@ export function handleKeyInput(event) {
         gEngine.Player.velocity = new Vector();
     }
     if (keyCode === 16) { //shift
+        console.log(gEngine.Level.Fuel.Array)
         gEngine.Player.isRayOn = isKeyDown;
         let i = 0;
         while (i < gEngine.Level.Fuel.Array.length) {

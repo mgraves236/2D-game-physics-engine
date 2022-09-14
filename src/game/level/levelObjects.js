@@ -1,21 +1,24 @@
-import {bulletSource} from "../bullet/source.js";
+import {BulletSource} from "../bullet/source.js";
 import {Vector} from "../../lib/vector.js";
 import {gEngine} from "../../engineCore/core.js";
 import {FuelTank} from "../fuelTank.js";
 import {screen} from "../../engineCore/screen.js";
 import {DragArea} from "../../dragArea/dragArea.js";
 import data from './../../engineCore/config.json' assert {type: 'json'};
+import {setTerrain} from "./terrain.js";
+import {PlayerShip} from "../playerShip.js";
+import {drawLevelSky} from "./level.js";
+
 
 
 export function setBunkers() {
-    // new bulletSource(1000, new Vector(470, 0  * screen.mHeight / 900), new Vector(1, 0), new Vector(0, 2), 0, [470, 1200], [-1000, 1000]);
-    // new bulletSource(1000, new Vector(0, 150  * screen.mHeight / 900), new Vector(0, 1), new Vector(5, -2), 45 * Math.PI / 180, [-1000, 1000], [150, 320], 4500);
-    // new bulletSource(1000, new Vector(1133, 200 * screen.mHeight / 900), new Vector(0, 0), new Vector(-4, 1), 24 * Math.PI / 180, [0, 0], [0, 0]);
-    // new bulletSource(1000, new Vector(191, 670 * screen.mHeight / 900), new Vector(0, 0), new Vector(0.5, -6), 20 * Math.PI / 180, [0, 0], [0, 0], 4700);
-    // new bulletSource(1000, new Vector(1330, 705 * screen.mHeight / 900), new Vector(0, 0), new Vector(-1, -6), -5 * Math.PI / 180, [0, 0], [0, 0], 4700);
-    new bulletSource(1000, new Vector(815, 650  * screen.mHeight / 900), new Vector(0, 0), new Vector(4, -2), -55 * Math.PI / 180, [0, 0], [0, 0]);
+    new BulletSource(1000, new Vector(470, 0  * screen.mHeight / 900), new Vector(1, 0), new Vector(0, 2), 0, [470, 1200], [-1000, 1000]);
+    new BulletSource(1000, new Vector(0, 150  * screen.mHeight / 900), new Vector(0, 1), new Vector(5, -2), 45 * Math.PI / 180, [-1000, 1000], [150, 320], 4500);
+    new BulletSource(1000, new Vector(1133, 200 * screen.mHeight / 900), new Vector(0, 0), new Vector(-4, 1), 24 * Math.PI / 180, [0, 0], [0, 0]);
+    new BulletSource(1000, new Vector(191, 670 * screen.mHeight / 900), new Vector(0, 0), new Vector(0.5, -6), 20 * Math.PI / 180, [0, 0], [0, 0], 4700);
+    new BulletSource(1000, new Vector(1330, 705 * screen.mHeight / 900), new Vector(0, 0), new Vector(-1, -6), -5 * Math.PI / 180, [0, 0], [0, 0], 4700);
+    new BulletSource(1000, new Vector(815, 650  * screen.mHeight / 900), new Vector(0, 0), new Vector(4, -2), -55 * Math.PI / 180, [0, 0], [0, 0]);
 
-    gEngine.Level.bunkersNumber = 6;
 }
 
 let locations = [
@@ -43,4 +46,19 @@ export function setDrag() {
     new DragArea(500, 200, 300,100, data.liquidCoefficient, false);
 }
 
-export {locations}
+export function setScene() {
+    drawLevelSky();
+    setTerrain();
+    setBunkers();
+    setFuel();
+    setDrag();
+    let mPlayer = new PlayerShip(new Vector(900, 800));
+    mPlayer.additionalInfo = "player";
+    gEngine.Player = mPlayer;
+    gEngine.Core.mAllObjects.forEach(object => object.display())
+    // ui.fuel = gEngine.Player.fuel;
+    // ui.score = 6 - gEngine.Level.bunkersNumber;
+    // ui.lives = gEngine.Player.lives;
+}
+
+export {locations, gEngine}

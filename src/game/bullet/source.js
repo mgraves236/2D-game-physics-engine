@@ -1,16 +1,15 @@
 import { Bullet } from "./bullet.js";
 import { Vector } from "../../lib/vector.js";
 import { screen } from "../../engineCore/screen.js";
-import {gEngine} from "../../engineCore/core.js";
 import {Rectangle} from "../../rigidBody/rectangle.js";
 
 /**
- * A class that represent a bullet source
+ * A class that represents a bullet source
  */
-export class bulletSource extends Rectangle {
+export class BulletSource extends Rectangle {
 
     /**
-     *
+     * Constructor of bulletSource class
      * @param {number} number
      * @param {Vector} loc
      * @param {Vector} vel

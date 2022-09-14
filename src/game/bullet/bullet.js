@@ -1,20 +1,23 @@
 import { screen } from "../../engineCore/screen.js";
 import { Vector } from "../../lib/vector.js";
-import { gEngine } from "../../engineCore/core.js";
 import data from '../../engineCore/config.json' assert {type: 'json'};
 import {Circle} from '../../rigidBody/circle.js'
 import {sleep} from "../../lib/sleep.js";
 
+/**
+ * Class that represents a bullet
+ * @class
+ */
 export class Bullet extends Circle {
     /**
      * Constructor of the Bullet object
-     * @param loc
-     * @param vel
-     * @param info
-     * @param r
-     * @param m
-     * @param acc
-     * @param delay
+     * @param loc bullet spawn location
+     * @param vel bullet velocity
+     * @param info additional info for verification
+     * @param r bullet radius
+     * @param m bullet mass
+     * @param acc bullet acceleration
+     * @param delay waiting time to shoot the bullet after calling update
      */
     constructor(loc, vel, info = "bullet", r = 3, m = data.bulletMass, acc =  new Vector(), delay = 0) {
         super(m, loc, r);
@@ -49,7 +52,6 @@ export class Bullet extends Circle {
             ctx.save();
             // this.displayBounds();
             ctx.restore();
-
         }
     }
 
@@ -57,17 +59,11 @@ export class Bullet extends Circle {
         sleep(this.delay).then(() => {
             if (this.massCenter !== null && ((this.massCenter.x > screen.mWidth + 2) ||
                 (this.massCenter.y - this.height > screen.mHeight + 2))) {
-                this.massCenter =  null;
+                this.massCenter =  new Vector(-100, -100);
             } else if (this.massCenter !== null){
                 super.updateDrag();
                 super.update();
-                // this.massCenter.add(this.velocity);
             }
-            // this.acceleration.scale(0);
-            // this.accelerationDrag.scale(0);
         });
-
     }
-
-
 }

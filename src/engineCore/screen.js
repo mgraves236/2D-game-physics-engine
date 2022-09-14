@@ -1,9 +1,12 @@
-import data from "./config.json" assert {type: 'json'};
+import data from "./config.json" assert {type: "json"};
 import {Rectangle} from "../rigidBody/rectangle.js";
-import {Triangle} from "../rigidBody/triangle.js";
 import {Vector} from "../lib/vector.js";
 
-var screen = (function () {
+/**
+ * Component to store canvas data
+ * @type {{mHeight: *, mWidth: *, mCanvas: HTMLElement, mContext: *}}
+ */
+let screen = (function () {
     let mCanvas = document.getElementById('canvas');
     let mContext = mCanvas.getContext('2d');
     mCanvas.height = data.canvasHeight;
@@ -20,12 +23,12 @@ var screen = (function () {
     let left = new Rectangle(0, new Vector(-5, y / 2), 10, y, 0, 1, 0, false, "border");
     let right = new Rectangle(0, new Vector(x + 5, y / 2), 10, y, 0, 1, 0, false, "border");
 
-    let mPublic = {
+    return {
         mWidth: mCanvas.width,
         mHeight: mCanvas.height,
-        mContext: mContext
-    }
-    return mPublic;
+        mContext: mContext,
+        mCanvas: mCanvas
+    };
 }());
 
 export {screen};

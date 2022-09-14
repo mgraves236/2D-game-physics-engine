@@ -5,15 +5,10 @@ import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
 
 function handleBullet(i, j) {
-    /* TODO lives--*/
     gEngine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
     gEngine.Core.mAllObjects[i].velocity = new Vector();
     gEngine.Core.mAllObjects[i].acceleration = new Vector();
     gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
-
-    // if (gEngine.Core.mAllObjects[j].additionalInfo === "player") {
-    //     gEngine.Player.loseLife();
-    // }
 }
 
 let _enginePhysics = (function () {
@@ -24,13 +19,17 @@ let _enginePhysics = (function () {
 
     /**
      * Collision detection
+     * @type {function}
      */
     let collision = function () {
         let collisionInfo = new CollisionInfo();
-        for (let k = 0; k < gEngine.Core.mAllObjects.length; k++) {
-
+        // relaxation loop
+        for (let k = 0; k < relaxationCount; k++) {
+            // iterate over every pair of objects
             for (let i = 0; i < gEngine.Core.mAllObjects.length; i++) {
+
                 if (gEngine.Core.mAllObjects[i].massCenter !== null) {
+
                     for (let j = i + 1; j < gEngine.Core.mAllObjects.length; j++) {
 
                         // ignore collisions between terrain elements, borders, bullet sources and borders
@@ -55,7 +54,9 @@ let _enginePhysics = (function () {
                             }
 
                         if (gEngine.Core.mAllObjects[j].massCenter !== null) {
+                            // preliminary bound test
                             if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
+                                // collision detection with SAT
                                 if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
                                     // check if player hit a bunker
                                     if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
@@ -67,7 +68,6 @@ let _enginePhysics = (function () {
                                         gEngine.Core.mAllObjects[j].takeDamage();
                                         continue;
                                     }
-
                                     // decrease player lives when they crush into a terrain or get hit by an enemy bullet
                                     if ((gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet")
                                         && gEngine.Core.mAllObjects[j].additionalInfo === "player") {
@@ -76,7 +76,6 @@ let _enginePhysics = (function () {
                                          && gEngine.Core.mAllObjects[i].additionalInfo === "player") {
                                         gEngine.Core.mAllObjects[i].loseLife();
                                     }
-
                                     //end game when player crashes into terrain
                                     if (gEngine.Core.mAllObjects[i].additionalInfo === "terrain"
                                         && gEngine.Core.mAllObjects[j].additionalInfo === "player") {
@@ -85,8 +84,6 @@ let _enginePhysics = (function () {
                                         && gEngine.Core.mAllObjects[i].additionalInfo === "player") {
                                         gEngine.EndGame = true;
                                     }
-
-
                                     // delete bullets when they collide with each other or other objects
                                     if (gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
                                         gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
@@ -98,7 +95,6 @@ let _enginePhysics = (function () {
                                         handleBullet(j,i);
                                         continue;
                                     }
-
                                     // the normal must always be from object i to object j
                                     let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
                                     if (collisionInfo.normal.dot(center) < 0) {
@@ -107,9 +103,11 @@ let _enginePhysics = (function () {
                                     let ctx = screen.mContext;
                                     ctx.save();
                                     ctx.beginPath();
+                                    // display collison info vector
                                     collisionInfo.display();
                                     ctx.closePath();
                                     ctx.restore();
+                                    // resolve collision
                                     resolveCollision(gEngine.Core.mAllObjects[i],
                                         gEngine.Core.mAllObjects[j], collisionInfo)
                                 }
@@ -122,12 +120,13 @@ let _enginePhysics = (function () {
     }
 
     /**
-     *
-     * @param s1
-     * @param s2
-     * @param {CollisionInfo} collisionInfo
+     * Resolve collision using the Impulse Method
+     * @param s1 one of the colliding objects
+     * @param s2 one od the colliding objects
+     * @param {CollisionInfo} collisionInfo collision info calculated while collision detection
      */
     let resolveCollision = function (s1, s2, collisionInfo) {
+        // objects have no mass
         if ((s1.massInverse === 0) && (s2.massInverse === 0))
             return;
         // correct positions
@@ -183,11 +182,9 @@ let _enginePhysics = (function () {
         // update angular velocity based on normal
         s1.angularVelocity -= R1xN * jN * s1.inertia;
         s2.angularVelocity += R2xN * jN * s2.inertia;
-
-
         // impulse in tangent direction
         /**
-         *
+         * Tangent to a collision normal
          * @type {Vector}
          */
         let tangent = relativeVelocity.subtract(n.scale(relativeVelocity.dot(n)));

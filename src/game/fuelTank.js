@@ -23,11 +23,11 @@ export class FuelTank extends Rectangle {
     pickUp() {
         if (( gEngine.Player.massCenter.x >  this.massCenter.x - 20) &&
             ( gEngine.Player.massCenter.x <  this.massCenter.x + 20)) {
-            gEngine.Player.fuel += 100;
+            gEngine.Player.fuel += 200;
             return true;
         } else if (( gEngine.Player.massCenter.y > this.massCenter.y - 20) &&
             ( gEngine.Player.massCenter.y < this.massCenter.y + 20)) {
-            gEngine.Player.fuel += 100;
+            gEngine.Player.fuel += 200;
             return true;
         }
         return false;

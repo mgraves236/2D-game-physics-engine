@@ -2,17 +2,29 @@ import { screen } from "../engineCore/screen.js";
 import { SineWave } from "../lib/sineWave.js";
 import {gEngine} from "../engineCore/core.js";
 
+/**
+ * Class that represents a drag area
+ * @class DragArea
+ */
 export class DragArea {
-
+    /**
+     * DragArea class constructor
+     * @param x x coordinate of a starting point
+     * @param y y coordinate of a starting point
+     * @param w area width
+     * @param h area height
+     * @param c drag coefficient
+     * @param isWater true to display area as water
+     */
     constructor(x, y, w, h, c, isWater) {
-        this.c = c;
+        this.c = c; // drag coefficient
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.theta1 = 0;
         this.theta2 = 0;
-        this.isWater = isWater;
+        this.isWater = isWater; // display as water or wind
         this.waveArray = [];
         let wave1 = new SineWave(this.x, this.y, this.c);
         let wave2 = new SineWave(this.x, this.y, this.c);
@@ -25,10 +37,9 @@ export class DragArea {
         let ctx = screen.mContext;
         if (this.isWater === false) {
             ctx.save();
+            // space between waves
             let step = 2;
-
-            //  ctx.strokeRect(this.x, this.y, this.w, this.h);
-
+            // display waves
             for (let j = 0; j < this.waveArray.length; j++) {
                 let wave = this.waveArray[j];
                 let xPrev = wave[0].x;
@@ -66,6 +77,9 @@ export class DragArea {
         }
     }
 
+    /**
+     * animate waves
+     */
     update() {
         this.waveArray = [];
         for (let j = 0; j < this.h; j += 40) {
@@ -87,6 +101,9 @@ export class DragArea {
         delete SineWave.wave2;
     }
 
+    /**
+     * if drag area is water, display as water
+     */
     drawWater() {
         let ctx = screen.mContext;
 
