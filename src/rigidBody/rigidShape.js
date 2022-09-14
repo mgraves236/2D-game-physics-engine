@@ -56,6 +56,9 @@ export class RigidShape {
         }
     }
 
+    /**
+     * Update RigidBody object with its velocity, move and rotate accordingly
+     */
     update() {
         /**
          *  Symplectic Euler Integration
