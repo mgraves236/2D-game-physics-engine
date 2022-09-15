@@ -1,4 +1,32 @@
-import {RigidShape} from "./rigidShape.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: rigidBody/triangle.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: rigidBody/triangle.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {RigidShape} from "./rigidShape.js";
 import {Vector} from "../lib/vector.js";
 import {screen} from "../engineCore/screen.js";
 import {CollisionInfo} from "../lib/collisionInfo.js";
@@ -76,7 +104,7 @@ export class Triangle extends RigidShape {
         faceTemp = this.faceNormal[2].copy();
         this.faceNormal[2] = new Vector(-faceTemp.y, +faceTemp.x)
 
-        for (let i = 0; i < this.faceNormal.length; i++) {
+        for (let i = 0; i &lt; this.faceNormal.length; i++) {
             this.faceNormal[i] = this.faceNormal[i].normalize();
         }
     }
@@ -86,7 +114,7 @@ export class Triangle extends RigidShape {
      */
     rotate (angle) {
         this.angle += angle;
-        for (let i = 0; i < this.vertex.length; i++) {
+        for (let i = 0; i &lt; this.vertex.length; i++) {
             this.vertex[i] = this.vertex[i].rotate(angle, this.massCenter);
         }
         // compute the face normal vectors
@@ -165,14 +193,14 @@ export class Triangle extends RigidShape {
         let support = { supportPointDist: -9999999,
             supportPoint: null}
         // loop through all the vertices
-        for (let i = 0; i < this.vertex.length; i++) {
+        for (let i = 0; i &lt; this.vertex.length; i++) {
             vToEdge = this.vertex[i].subtract(ptOnEdge);
             projection = vToEdge.dot(dir);
             // find the longest distance with the given edge
             // (the furthest vertex position)
             // dir is -n direction thus the distance will be positive
             // if all distances are negative, all vertices are in front of input dir and a support point does not exist, i.e. two rectangles do not collide
-            if ((projection > 0) &&
+            if ((projection > 0) &amp;&amp;
                 (projection > support.supportPointDist)) {
                 support.supportPoint = this.vertex[i].copy();
                 support.supportPointDist = projection;
@@ -203,7 +231,7 @@ export class Triangle extends RigidShape {
         // loop through the four face normals, find the corresponding
         // support point and support point distance and record the shortest distance
         // if a support point is not defined for any of the face normals, then the loops stops and the two rectangles do not collide
-        while ((hasSupport) && (i < this.faceNormal.length)) {
+        while ((hasSupport) &amp;&amp; (i &lt; this.faceNormal.length)) {
             // retrieve a face normal from shape A
             n = this.faceNormal[i].copy();
             // use -n as direction and the vertex on edge i as point on edge
@@ -214,7 +242,7 @@ export class Triangle extends RigidShape {
             support = otherShape.findSupportPoint(dir, ptOnEdge);
             hasSupport = (support.supportPoint !== null);
             // get the shortest support point depth
-            if ((hasSupport) && (support.supportPointDist < bestDistance)) {
+            if ((hasSupport) &amp;&amp; (support.supportPointDist &lt; bestDistance)) {
                 bestDistance = support.supportPointDist;
                 bestIndex = i;
                 supportPoint = support.supportPoint;
@@ -253,7 +281,7 @@ export class Triangle extends RigidShape {
         if (status1) {
             status2 = r2.findAxisLeastPenetration(r1, collisionInfoR2);
             if (status2) {
-                if (collisionInfoR1.depth < collisionInfoR2.depth) {
+                if (collisionInfoR1.depth &lt; collisionInfoR2.depth) {
                     let depthVec = collisionInfoR1.normal.scale(collisionInfoR1.depth);
                     collisionInfo.setInfo(collisionInfoR1.depth, collisionInfoR1.normal, collisionInfoR1.start.subtract(depthVec));
                 } else {
@@ -261,7 +289,7 @@ export class Triangle extends RigidShape {
                 }
             }
         }
-        return status1 && status2;
+        return status1 &amp;&amp; status2;
     }
 
     /**
@@ -283,7 +311,7 @@ export class Triangle extends RigidShape {
          */
         let normal;
 
-        for (let i = 0; i < this.vertex.length; i++) {
+        for (let i = 0; i &lt; this.vertex.length; i++) {
             // find the nearest face for the center of the circle
             let v = circLoc.subtract(this.vertex[i]);
             let projection = v.dot(this.faceNormal[i]);
@@ -312,7 +340,7 @@ export class Triangle extends RigidShape {
             let v1 = circLoc.subtract(this.vertex[nearestEdge]);
             let v2 = this.vertex[(nearestEdge + 2) % this.vertex.length].subtract(this.vertex[nearestEdge]);  // rectangle difference - nearestEdge + 2
             let dot = v1.dot(v2);
-            if (dot < 0) { // region R1
+            if (dot &lt; 0) { // region R1
                 // the center of circle is in corner region of vertex[nearestEdge]
                 let distance = v1.mag();
                 // compare distance with radius
@@ -345,7 +373,7 @@ export class Triangle extends RigidShape {
                         normal, circLoc.add(radiusVec));
                 } else {
                     // the center of circle is in face region of face[nearestEdge]
-                    if (bestDistance < otherCirc.height) {
+                    if (bestDistance &lt; otherCirc.height) {
                         let radiusVec = this.faceNormal[nearestEdge].scale(otherCirc.height);
                         collisionInfo.setInfo(otherCirc.height - bestDistance, this.faceNormal[nearestEdge].copy(), circLoc.subtract(radiusVec));
                     } else {
@@ -362,4 +390,26 @@ export class Triangle extends RigidShape {
         }
         return true;
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bullet.html">Bullet</a></li><li><a href="Bullet_Bullet.html">Bullet</a></li><li><a href="BulletSource.html">BulletSource</a></li><li><a href="BulletSource_BulletSource.html">BulletSource</a></li><li><a href="Circle_Circle.html">Circle</a></li><li><a href="CollisionInfo.html">CollisionInfo</a></li><li><a href="CollisionInfo_CollisionInfo.html">CollisionInfo</a></li><li><a href="DragArea.html">DragArea</a></li><li><a href="DragArea_DragArea.html">DragArea</a></li><li><a href="FuelTank.html">FuelTank</a></li><li><a href="FuelTank_FuelTank.html">FuelTank</a></li><li><a href="Mover_Mover.html">Mover</a></li><li><a href="PlayerShip.html">PlayerShip</a></li><li><a href="PlayerShip_PlayerShip.html">PlayerShip</a></li><li><a href="Rectangle_Rectangle.html">Rectangle</a></li><li><a href="RigidShape.html">RigidShape</a></li><li><a href="RigidShape_RigidShape.html">RigidShape</a></li><li><a href="SineWave.html">SineWave</a></li><li><a href="Terrain.html">Terrain</a></li><li><a href="Triangle_Triangle.html">Triangle</a></li><li><a href="Vector.html">Vector</a></li><li><a href="Vector_Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clickBtn">clickBtn</a></li><li><a href="global.html#displayUI">displayUI</a></li><li><a href="global.html#drawButton">drawButton</a></li><li><a href="global.html#drawLevelSky">drawLevelSky</a></li><li><a href="global.html#engineCore">engineCore</a></li><li><a href="global.html#gEngine">gEngine</a></li><li><a href="global.html#getMousePos">getMousePos</a></li><li><a href="global.html#handleKeyInput">handleKeyInput</a></li><li><a href="global.html#isInside">isInside</a></li><li><a href="global.html#lastRenderTime">lastRenderTime</a></li><li><a href="global.html#mainGame">mainGame</a></li><li><a href="global.html#playButton">playButton</a></li><li><a href="global.html#screen">screen</a></li><li><a href="global.html#setBunkers">setBunkers</a></li><li><a href="global.html#setDrag">setDrag</a></li><li><a href="global.html#setFuel">setFuel</a></li><li><a href="global.html#setScene">setScene</a></li><li><a href="global.html#setTerrain">setTerrain</a></li><li><a href="global.html#setUp">setUp</a></li><li><a href="global.html#sleep">sleep</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#ui">ui</a></li><li><a href="global.html#updateUI">updateUI</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 14 2022 21:38:52 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

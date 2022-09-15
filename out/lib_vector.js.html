@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/vector.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/vector.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {screen} from "../engineCore/screen.js";
+
+/**
+ * A class that represents a vector using Cartesian coordinates
+ * @class Vector
+ */
+export class Vector {
+    /**
+     * Constructor of the Vector class
+     * @param {number} x x coordinate of a vector
+     * @param {number} y y coordinate of a vector
+     * @param {number} x0 optional parameter, x coordinate of the vector origin
+     * @param {number} y0 optional parameter, y coordinate of the vector origin
+     */
+    constructor(x = 0, y = 0, x0 = 0, y0 = 0) {
+        this.x = x;
+        this.y = y;
+        this.x0 = x0;
+        this.y0 = y0;
+    }
+
+    /**
+     * Method to add two vectors
+     * @param a {Vector} vector added to a vector that called the method
+     * @returns {Vector} a product of vector addition
+     */
+    add(a) {
+       // this.x = this.x + a.x;
+        //this.y = this.y + a.y;
+        return new Vector(this.x + a.x, this.y + a.y)
+    }
+    /**
+     * Method to subtract two vectors
+     * @param a vector subtracted from a vector that called the method
+     * @return {Vector} product of vector subtraction
+     */
+    subtract(a) {
+        return new Vector(this.x - a.x, this.y - a.y)
+    }
+
+    /**
+     * Method to multiply (scale) a vector by a scalar n
+     * @param n scalar by which the vector is multiplied
+     * @return product of vector scaling
+     */
+    scale(n) {
+         return new Vector(n * this.x, n * this.y)
+    }
+
+    /**
+     * Method to calculate the magnitude of a vector
+     * @return {number} the magnitude of a vector that called it
+     */
+    mag() {
+        return Math.sqrt((this.x - this.x0) * (this.x - this.x0)
+            + (this.y - this.y0) * (this.y - this.y0));
+    }
+
+    /**
+     * Method to normalize the vector that called it,
+     * i.e. multiply the vector by a factor so that
+     * its magnitude is equal to 1
+     * @return normalized vector
+     */
+    normalize() {
+        let mag = this.mag();
+        let x, y;
+        if (mag !== 0) {
+            let diffX = Math.abs(this.x - this.x0);
+            let diffY = Math.abs(this.y - this.y0);
+            if (this.x >= this.x0) {
+                x = this.x0 + diffX / mag;
+            } else {
+                x = this.x0 - diffX / mag;
+            }
+            if (this.y &lt;= this.y0) {
+                y = this.y0 -  diffY / mag;
+            } else {
+                y = this.y0 + diffY / mag;
+            }
+        }
+        return new Vector(x,y);
+    }
+
+    /**
+     * Calculate dot product of two vectors
+     * @param a second vector to calculate the product with
+     * @return {number} product of the dot product operation
+     */
+    dot(a) {
+        return this.x * a.x + this.y * a.y;
+    }
+
+    /**
+     * Calculate cross product of two vectors
+     * @param a second vector to calculate the product with
+     * @returns {number} vector in z-axis stored as a number
+     */
+    cross(a) {
+        return (this.x * a.y - this.y * a.x);
+    }
+
+    /**
+     * Method to rotate a vector
+     * @param angle rotation angle
+     * @param {Vector} center rotation center
+     * @return {Vector} rotated vector
+     */
+    rotate(angle, center) {
+        let rotCenter = center ||  new Vector();
+        // switch to polar coordinates
+        let r = [];
+        let x = this.x - rotCenter.x;
+        let y = this.y - rotCenter.y;
+        r[0] = x * Math.cos(angle) - y * Math.sin(angle);
+        r[1] = x * Math.sin(angle) + y * Math.cos(angle);
+
+        r[0] += rotCenter.x;
+        r[1] += rotCenter.y;
+
+       return new Vector(r[0], r[1])
+
+    }
+
+    /**
+     * Draw the vector
+     * @param color vector color
+     */
+    draw(color) {
+        screen.mContext.save();
+        screen.mContext.beginPath();
+        screen.mContext.moveTo(this.x0, this.y0);
+        screen.mContext.lineTo(this.x, this.y);
+        screen.mContext.closePath();
+        screen.mContext.strokeStyle = color;
+        screen.mContext.lineWidth = 2;
+        screen.mContext.stroke();
+        screen.mContext.restore();
+    }
+
+    /**
+     * Copy the vector
+     * @return {Vector} vector that called the method
+     */
+    copy() {
+        let vector = new Vector();
+        vector.x = this.x;
+        vector.y = this.y;
+        vector.x0 = this.x0;
+        vector.y0 = this.y0;
+        vector.doMap = this.doMap;
+        return vector;
+    }
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bullet.html">Bullet</a></li><li><a href="Bullet_Bullet.html">Bullet</a></li><li><a href="BulletSource.html">BulletSource</a></li><li><a href="BulletSource_BulletSource.html">BulletSource</a></li><li><a href="Circle_Circle.html">Circle</a></li><li><a href="CollisionInfo.html">CollisionInfo</a></li><li><a href="CollisionInfo_CollisionInfo.html">CollisionInfo</a></li><li><a href="DragArea.html">DragArea</a></li><li><a href="DragArea_DragArea.html">DragArea</a></li><li><a href="FuelTank.html">FuelTank</a></li><li><a href="FuelTank_FuelTank.html">FuelTank</a></li><li><a href="Mover_Mover.html">Mover</a></li><li><a href="PlayerShip.html">PlayerShip</a></li><li><a href="PlayerShip_PlayerShip.html">PlayerShip</a></li><li><a href="Rectangle_Rectangle.html">Rectangle</a></li><li><a href="RigidShape.html">RigidShape</a></li><li><a href="RigidShape_RigidShape.html">RigidShape</a></li><li><a href="SineWave.html">SineWave</a></li><li><a href="Terrain.html">Terrain</a></li><li><a href="Triangle_Triangle.html">Triangle</a></li><li><a href="Vector.html">Vector</a></li><li><a href="Vector_Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clickBtn">clickBtn</a></li><li><a href="global.html#displayUI">displayUI</a></li><li><a href="global.html#drawButton">drawButton</a></li><li><a href="global.html#drawLevelSky">drawLevelSky</a></li><li><a href="global.html#engineCore">engineCore</a></li><li><a href="global.html#gEngine">gEngine</a></li><li><a href="global.html#getMousePos">getMousePos</a></li><li><a href="global.html#handleKeyInput">handleKeyInput</a></li><li><a href="global.html#isInside">isInside</a></li><li><a href="global.html#lastRenderTime">lastRenderTime</a></li><li><a href="global.html#mainGame">mainGame</a></li><li><a href="global.html#playButton">playButton</a></li><li><a href="global.html#screen">screen</a></li><li><a href="global.html#setBunkers">setBunkers</a></li><li><a href="global.html#setDrag">setDrag</a></li><li><a href="global.html#setFuel">setFuel</a></li><li><a href="global.html#setScene">setScene</a></li><li><a href="global.html#setTerrain">setTerrain</a></li><li><a href="global.html#setUp">setUp</a></li><li><a href="global.html#sleep">sleep</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#ui">ui</a></li><li><a href="global.html#updateUI">updateUI</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 14 2022 21:38:52 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

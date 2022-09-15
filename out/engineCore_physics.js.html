@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engineCore/physics.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engineCore/physics.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {gEngine} from "./core.js";
+import {screen} from "./screen.js";
+import {CollisionInfo} from "../lib/collisionInfo.js";
+// import data from './config.json' assert {type: 'json'};
+import {Vector} from "../lib/vector.js";
+
+function handleBullet(i, j) {
+    gEngine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
+    gEngine.Core.mAllObjects[i].velocity = new Vector();
+    gEngine.Core.mAllObjects[i].acceleration = new Vector();
+    gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
+}
+
+let _enginePhysics = (function () {
+    // number of relaxation iteration
+    const relaxationCount = data.relaxationCount;
+    // percentage of separation to project objects
+    const correctionRate = data.correctionRate;
+
+    /**
+     * Collision detection
+     * @type {function}
+     */
+    let collision = function () {
+        let collisionInfo = new CollisionInfo();
+        // relaxation loop
+        for (let k = 0; k &lt; relaxationCount; k++) {
+            // iterate over every pair of objects
+            for (let i = 0; i &lt; gEngine.Core.mAllObjects.length; i++) {
+
+                if (gEngine.Core.mAllObjects[i].massCenter !== null) {
+
+                    for (let j = i + 1; j &lt; gEngine.Core.mAllObjects.length; j++) {
+
+                        // ignore collisions between terrain elements, borders, bullet sources and borders
+                        // and player bullets and player
+                        if ((gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &amp;&amp;
+                            gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "border" &amp;&amp;
+                                gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "border" &amp;&amp;
+                                gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &amp;&amp;
+                                gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &amp;&amp;
+                                gEngine.Core.mAllObjects[j].additionalInfo !== "playerBullet") ||
+                            (gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource" &amp;&amp;
+                                gEngine.Core.mAllObjects[i].additionalInfo !== "playerBullet") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &amp;&amp;
+                                gEngine.Core.mAllObjects[j].additionalInfo === "player") ||
+                            (gEngine.Core.mAllObjects[i].additionalInfo === "player" &amp;&amp;
+                                gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet")) {
+                            continue;
+                            }
+
+                        if (gEngine.Core.mAllObjects[j].massCenter !== null) {
+                            // preliminary bound test
+                            if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
+                                console.log(gEngine.Core.mAllObjects[i].additionalInfo)
+                                console.log(gEngine.Core.mAllObjects[j].additionalInfo)
+                                console.log('--------------------------')
+                                // check if player hit a bunker
+                                if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &amp;&amp;
+                                    gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
+                                    console.log('hello')
+                                    gEngine.Core.mAllObjects[i].takeDamage();
+                                    continue;
+                                } else if  (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &amp;&amp;
+                                    gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
+                                    console.log('hello')
+
+                                    gEngine.Core.mAllObjects[j].takeDamage();
+                                    continue;
+                                }
+                                // collision detection with SAT
+                                if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
+                                    console.log(gEngine.Core.mAllObjects[i].additionalInfo)
+                                    console.log(gEngine.Core.mAllObjects[j].additionalInfo)
+                                    // decrease player lives when they crush into a terrain or get hit by an enemy bullet
+                                    if ((gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet")
+                                        &amp;&amp; gEngine.Core.mAllObjects[j].additionalInfo === "player") {
+                                        gEngine.Core.mAllObjects[j].loseLife();
+                                    } else if ((gEngine.Core.mAllObjects[j].additionalInfo === "bunkerBullet")
+                                         &amp;&amp; gEngine.Core.mAllObjects[i].additionalInfo === "player") {
+                                        gEngine.Core.mAllObjects[i].loseLife();
+                                    }
+                                    //end game when player crashes into terrain
+                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "terrain"
+                                        &amp;&amp; gEngine.Core.mAllObjects[j].additionalInfo === "player") {
+                                        gEngine.EndGame = true;
+                                    } else if (gEngine.Core.mAllObjects[j].additionalInfo === "terrain"
+                                        &amp;&amp; gEngine.Core.mAllObjects[i].additionalInfo === "player") {
+                                        gEngine.EndGame = true;
+                                    }
+                                    // delete bullets when they collide with each other or other objects
+                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
+                                        gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
+                                        handleBullet(i,j);
+                                        continue;
+                                    }
+                                    if (gEngine.Core.mAllObjects[j].additionalInfo === "bunkerBullet" ||
+                                        gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
+                                        handleBullet(j,i);
+                                        continue;
+                                    }
+                                    // the normal must always be from object i to object j
+                                    let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
+                                    if (collisionInfo.normal.dot(center) &lt; 0) {
+                                        collisionInfo.changeDirection();
+                                    }
+                                    let ctx = screen.mContext;
+                                    ctx.save();
+                                    ctx.beginPath();
+                                    // display collison info vector
+                                    collisionInfo.display();
+                                    ctx.closePath();
+                                    ctx.restore();
+                                    // resolve collision
+                                    resolveCollision(gEngine.Core.mAllObjects[i],
+                                        gEngine.Core.mAllObjects[j], collisionInfo)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Resolve collision using the Impulse Method
+     * @param s1 one of the colliding objects
+     * @param s2 one od the colliding objects
+     * @param {CollisionInfo} collisionInfo collision info calculated while collision detection
+     */
+    let resolveCollision = function (s1, s2, collisionInfo) {
+        // objects have no mass
+        if ((s1.massInverse === 0) &amp;&amp; (s2.massInverse === 0))
+            return;
+        // correct positions
+        positionalCorrection(s1, s2, collisionInfo);
+        let n = collisionInfo.normal.copy();
+        // angular velocity calculation
+        let start = collisionInfo.start.scale(s2.massInverse / (s1.massInverse + s2.massInverse));
+        let end = collisionInfo.end.scale(s1.massInverse / (s1.massInverse + s2.massInverse));
+        /**
+         * Collision position
+         * @type {Vector}
+         */
+        let p = start.add(end);
+        // rx is a vector from center of shape to the collision point p
+        let r1 = p.subtract(s1.massCenter);
+        let r2 = p.subtract(s2.massCenter);
+
+        // velocity = v_linear + v_angular cross R
+        let v1 = s1.velocity.add(new Vector(
+            -1 * s1.angularVelocity * r1.y,
+            s1.angularVelocity * r1.x));
+        let v2 = s2.velocity.add(new Vector(
+            -1 * s2.angularVelocity * r2.y,
+            s2.angularVelocity * r2.x));
+        let relativeVelocity = v2.subtract(v1);
+
+        // relative velocity in normal direction (in the collision point)
+        let relativeVelocityNormal = relativeVelocity.dot(n);
+
+        // if objects are already moving apart ignore
+        if (relativeVelocityNormal > 0) {
+            return;
+        }
+
+        // impulse response for each of the objects
+        let restitution = Math.min(s1.restitution, s2.restitution) || s1.restitution;
+        let friction = Math.min(s1.friction, s2.friction) || s1.friction;
+        // impulse in normal direction (from s1 to s2)
+        // R cross N
+        let R1xN = r1.cross(n);
+        let R2xN = r2.cross(n);
+        // impulse scalar
+        let jN = -(1 + restitution) * relativeVelocityNormal;
+        jN = jN / (s1.massInverse + s2.massInverse +
+                    R1xN * R1xN * s1.inertia +
+                    R2xN * R2xN * s2.inertia);
+
+        let impulse = n.scale(jN);
+        // impulse = F dt = m * delta(v)
+        // delta(v) = impulse / m
+        s1.velocity = s1.velocity.subtract(impulse.scale(s1.massInverse));
+        s2.velocity = s2.velocity.add(impulse.scale(s2.massInverse));
+        // update angular velocity based on normal
+        s1.angularVelocity -= R1xN * jN * s1.inertia;
+        s2.angularVelocity += R2xN * jN * s2.inertia;
+        // impulse in tangent direction
+        /**
+         * Tangent to a collision normal
+         * @type {Vector}
+         */
+        let tangent = relativeVelocity.subtract(n.scale(relativeVelocity.dot(n)));
+        // relativeVelocity.dot(tangent) should be less than 0
+        tangent.normalize().scale(-1);
+
+        let R1xT = r1.cross(tangent);
+        let R2xT = r2.cross(tangent);
+        // impulse scalar
+        let jT = - (1 + restitution) * relativeVelocity.dot(tangent) * friction;
+        jT = jT / (s1.massInverse + s2.massInverse +
+                        R1xT * R1xT * s1.inertia +
+                        R2xT * R2xT * s2.inertia);
+
+        // jT with friction should be less that jN
+        if (jT > jN) jT = jN;
+
+        // impulse has the direction from s1 to s2 (opposite direction to velocity)
+        impulse = tangent.scale(jT);
+
+        s1.velocity = s1.velocity.subtract(impulse.scale(s1.massInverse));
+        s2.velocity = s2.velocity.add(impulse.scale(s2.massInverse));
+        // update angular velocity based on normal
+        s1.angularVelocity -= R1xT * jT * s1.inertia;
+        s2.angularVelocity += R2xT * jT * s2.inertia;
+    }
+
+    /**
+     * Reduces overlaps between objects by the predefined constant correctionRate
+     * @param s1
+     * @param s2
+     * @param {CollisionInfo} collisionInfo
+     */
+    let positionalCorrection = function (s1, s2, collisionInfo) {
+        let num = collisionInfo.depth /
+            (s1.massInverse + s2.massInverse) * correctionRate;
+        /**
+         * @type {Vector}
+         */
+        let correctionAmount = collisionInfo.normal.scale(num);
+        s1.move(correctionAmount.scale(-s1.massInverse));
+        s2.move(correctionAmount.scale(s2.massInverse));
+    }
+
+    return {
+        collision: collision
+    };
+}());
+
+gEngine.Physics = _enginePhysics;
+export {gEngine};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bullet.html">Bullet</a></li><li><a href="Bullet_Bullet.html">Bullet</a></li><li><a href="BulletSource.html">BulletSource</a></li><li><a href="BulletSource_BulletSource.html">BulletSource</a></li><li><a href="Circle_Circle.html">Circle</a></li><li><a href="CollisionInfo.html">CollisionInfo</a></li><li><a href="CollisionInfo_CollisionInfo.html">CollisionInfo</a></li><li><a href="DragArea.html">DragArea</a></li><li><a href="DragArea_DragArea.html">DragArea</a></li><li><a href="FuelTank.html">FuelTank</a></li><li><a href="FuelTank_FuelTank.html">FuelTank</a></li><li><a href="Mover_Mover.html">Mover</a></li><li><a href="PlayerShip.html">PlayerShip</a></li><li><a href="PlayerShip_PlayerShip.html">PlayerShip</a></li><li><a href="Rectangle_Rectangle.html">Rectangle</a></li><li><a href="RigidShape.html">RigidShape</a></li><li><a href="RigidShape_RigidShape.html">RigidShape</a></li><li><a href="SineWave.html">SineWave</a></li><li><a href="Terrain.html">Terrain</a></li><li><a href="Triangle_Triangle.html">Triangle</a></li><li><a href="Vector.html">Vector</a></li><li><a href="Vector_Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#clickBtn">clickBtn</a></li><li><a href="global.html#displayUI">displayUI</a></li><li><a href="global.html#drawButton">drawButton</a></li><li><a href="global.html#drawLevelSky">drawLevelSky</a></li><li><a href="global.html#engineCore">engineCore</a></li><li><a href="global.html#gEngine">gEngine</a></li><li><a href="global.html#getMousePos">getMousePos</a></li><li><a href="global.html#handleKeyInput">handleKeyInput</a></li><li><a href="global.html#isInside">isInside</a></li><li><a href="global.html#lastRenderTime">lastRenderTime</a></li><li><a href="global.html#mainGame">mainGame</a></li><li><a href="global.html#playButton">playButton</a></li><li><a href="global.html#screen">screen</a></li><li><a href="global.html#setBunkers">setBunkers</a></li><li><a href="global.html#setDrag">setDrag</a></li><li><a href="global.html#setFuel">setFuel</a></li><li><a href="global.html#setScene">setScene</a></li><li><a href="global.html#setTerrain">setTerrain</a></li><li><a href="global.html#setUp">setUp</a></li><li><a href="global.html#sleep">sleep</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#ui">ui</a></li><li><a href="global.html#updateUI">updateUI</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 14 2022 21:38:52 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
