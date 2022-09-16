@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "documentation": "^14.0.0",
     "jsdoc": "^3.6.11"
   }
 }
