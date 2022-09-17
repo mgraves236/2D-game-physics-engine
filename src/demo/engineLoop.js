@@ -1,5 +1,6 @@
 import {drawLevelSky} from "../game/level/level.js";
 import {gEngine} from "../engineCore/core.js";
+import {screen} from "../engineCore/screen.js";
 
 
 
@@ -15,7 +16,7 @@ export function mainGame(currentTime) {
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
     if (secondsSinceLastRender < 1 / 60) return;
     lastRenderTime = currentTime;
-    drawLevelSky();
+    screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
     if (gEngine.Core.mAllObjects !== null) {
         // update and display or delete objects
         let i = 0;

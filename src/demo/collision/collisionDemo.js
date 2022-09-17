@@ -10,7 +10,7 @@ import data from './configCollision.json' assert {type: 'json'};
 // UI buttons
 document.getElementById("start").addEventListener("click", startDemo);
 document.getElementById("clear").addEventListener("click", clear);
-drawLevelSky();
+screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
 // shelf
 let top = new Rectangle(0, new Vector(250, 400), 300, 10, 45 * Math.PI / 180, 1, 0, false);
 top.display();
