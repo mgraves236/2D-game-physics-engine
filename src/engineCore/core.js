@@ -48,7 +48,7 @@ gEngine.EndGame = false;
 let _engineCore = (function () {
     let mAllObjects = [];
     let mDragAreas = [];
-    let mGravity = new Vector(0, data.accGravity);
+    let mGravity = new Vector(0, data.forceGravity);
 
         return {
         mAllObjects: mAllObjects,

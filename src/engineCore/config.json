@@ -1,7 +1,7 @@
 {
   "canvasWidth": 1500,
   "canvasHeight": 900,
-  "accGravity": 0.01,
+  "forceGravity": 0.01,
   "grav_comment": 0.03,
   "bulletMass": 5,
   "spaceshipMass": 1,
