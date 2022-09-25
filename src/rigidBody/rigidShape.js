@@ -33,10 +33,6 @@ export class RigidShape {
         this.velocity = new Vector();
         this.acceleration = new Vector();
         this.isGravity = gravity;
-        if (this.isGravity) {
-            let gravity = gEngine.Core.mGravity.scale(mass);
-           this.acceleration =  this.acceleration.add(gravity);
-        }
         this.accelerationDrag = new Vector();
         this.type = "";
         this.additionalInfo = "";
@@ -63,6 +59,10 @@ export class RigidShape {
         /**
          *  Symplectic Euler Integration
          */
+        if (this.isGravity) {
+            let gravity = gEngine.Core.mGravity.scale(this.mass);
+            this.applyForce(gravity)
+        }
         this.velocity = this.velocity.add(this.acceleration);
         if (this.type !== "circle") {
             for (let i = 0; i < this.vertex.length; i++) {
@@ -76,6 +76,8 @@ export class RigidShape {
         this.rotate(this.angularVelocity);
         this.angularAcceleration *= 0;
         this.updateDrag();
+        this.acceleration= this.acceleration.scale(0);
+
     }
 
     /**
@@ -87,8 +89,7 @@ export class RigidShape {
             if (this.isInside(area)) {
 
                 this.drag(area);
-                this.velocity = this.velocity.add(this.accelerationDrag);
-                this.accelerationDrag= this.accelerationDrag.scale(0);
+                this.velocity = this.velocity.add(this.acceleration);
             }
         }
     }
@@ -195,6 +196,6 @@ export class RigidShape {
     applyForce(force) {
         let f = force;
         f = f.scale(this.massInverse);
-        this.accelerationDrag = this.accelerationDrag.add(f);
+        this.acceleration = this.acceleration.add(f);
     }
 }
