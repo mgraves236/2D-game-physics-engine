@@ -5,7 +5,7 @@ import {DragArea} from "../../dragArea/dragArea.js";
 import {Vector} from "../../lib/vector.js";
 import {Mover} from "./mover.js";
 // create drag area
-let liquid = new DragArea(0, screen.mHeight / 2, screen.mWidth, screen.mHeight / 2, 0.1, true);
+let liquid = new DragArea(0, screen.mHeight / 2, screen.mWidth, screen.mHeight / 2, 0.3, true);
 liquid.display();
 document.getElementById("start").addEventListener("click", startDemo);
 document.getElementById("clear").addEventListener("click", clear);
