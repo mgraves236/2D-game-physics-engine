@@ -112,6 +112,7 @@ export class Vector {
         let r = [];
         let x = this.x - rotCenter.x;
         let y = this.y - rotCenter.y;
+        // rotation matrix
         r[0] = x * Math.cos(angle) - y * Math.sin(angle);
         r[1] = x * Math.sin(angle) + y * Math.cos(angle);
 
