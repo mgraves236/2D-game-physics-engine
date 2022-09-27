@@ -21,7 +21,6 @@ export function handleKeyInput(event) {
         gEngine.Player.velocity = new Vector();
     }
     if (keyCode === 16) { //shift
-        console.log(gEngine.Level.Fuel.Array)
         gEngine.Player.isRayOn = isKeyDown;
         let i = 0;
         // check if the player is in a fuel tank vicinity and if they can pick up the tank
