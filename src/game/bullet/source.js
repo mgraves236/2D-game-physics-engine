@@ -21,7 +21,7 @@ export class BulletSource extends Rectangle {
      * @param {number} interval interval in which bullets are propelled
      */
     constructor(number, loc, vel, velBull, angle = 0, limitX = [0, screen.mWidth], limitY = [0, screen.mHeight], interval = 4000) {
-        super(1, loc, 15, 20, angle);
+        super(1, loc, 15, 20, angle, 0, 0, false);
         this.additionalInfo = "bulletSource"
         this.numberOfBullets = number;
         this.velocity = new Vector();
@@ -56,20 +56,26 @@ export class BulletSource extends Rectangle {
     }
 
     update() {
+
         if (this.massCenter.x > this.limitX[1]) {
             this.velocity = new Vector(-this.velocity.x, this.velocity.y);
-            this.massCenter =  this.massCenter.add(this.velocity);
+            // update vertex and mass center position
+             super.update();
         } else if (this.massCenter.x <  this.limitX[0]) {
             this.velocity = new Vector(-this.velocity.x, this.velocity.y);
-            this.massCenter = this.massCenter.add(this.velocity);
+            // update vertex and mass center position
+            super.update();
         }  if (this.massCenter.y >  this.limitY[1]) {
             this.velocity = new Vector(this.velocity.x, -this.velocity.y);
-            this.massCenter = this.massCenter.add(this.velocity);
+            // update vertex and mass center position
+            super.update();
         } else if (this.massCenter.y < this.limitY[0]) {
             this.velocity =new Vector(this.velocity.x, -this.velocity.y);
-            this.massCenter = this.massCenter.add(this.velocity);
+            // update vertex and mass center position
+            super.update();
         } else {
-            this.massCenter = this.massCenter.add(this.velocity);
+            // update vertex and mass center position
+            super.update();
         }
         let currentMillis = new Date().getTime();
         if (currentMillis - this.previousMillis >= this.interval) {
@@ -83,7 +89,7 @@ export class BulletSource extends Rectangle {
     display() {
         let ctx = screen.mContext;
         ctx.save();
-        ctx.translate(this.massCenter.x + this.width / 2, this.massCenter.y + this.height / 2);
+        ctx.translate(this.massCenter.x, this.massCenter.y);
         ctx.rotate(this.angle);
         ctx.beginPath();
         ctx.rect( - this.width / 2, - this.height / 2, 15, 20);
@@ -93,6 +99,7 @@ export class BulletSource extends Rectangle {
         ctx.stroke();
         ctx.closePath();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.displayBounds();
     }
 
 }

@@ -1,16 +1,16 @@
 {
   "Triangle": {
-    "mass": 1,
-    "friction": 0.1,
-    "restitution": 0.2
+    "mass": 2,
+    "friction": 0.5,
+    "restitution": 0.1
   },
   "Circle": {
-    "mass": 4,
+    "mass": 40,
     "friction": 0.1,
     "restitution": 0.8
   },
  "Rectangle": {
-    "mass": 5,
+    "mass": 50,
     "friction": 0.1,
     "restitution": 0.2
   }

@@ -131,16 +131,21 @@ export class Triangle extends RigidShape {
             this.inertia = 0;
         } else {
             // inertia = mass * (2 * height * width^3) / 12
-            const value = 12;
+            const value = 36;
             this.inertia = this.mass *
                 (2 * this.height * this.width * this.width * this.width) / value;
-            this.inertia = this.inertia / 10000000000;
+            this.inertia = this.inertia / 1000000000;
             // this.inertia = 1 / this.inertia;
 
         }
     }
 
-    // Collision detection
+    /**
+     * Check if collision occurred, call specified methods to handle collision
+     * @param otherShape other shape in the collision event
+     * @param collisionInfo collision info
+     * @returns {boolean} did the collision occur
+     */
     collisionTest (otherShape, collisionInfo) {
         let status;
         if (otherShape.type === "circle") {

@@ -104,13 +104,13 @@ let _enginePhysics = (function () {
                                     let ctx = screen.mContext;
                                     ctx.save();
                                     ctx.beginPath();
-                                    // display collison info vector
+                                    // display collision info vector
                                     collisionInfo.display();
                                     ctx.closePath();
                                     ctx.restore();
                                     // resolve collision
-                                    resolveCollision(gEngine.Core.mAllObjects[i],
-                                        gEngine.Core.mAllObjects[j], collisionInfo)
+                                   resolveCollision(gEngine.Core.mAllObjects[i],
+                                       gEngine.Core.mAllObjects[j], collisionInfo)
                                 }
                             }
                         }
