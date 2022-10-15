@@ -1,6 +1,6 @@
-import { screen } from "../engineCore/screen.js";
-import { SineWave } from "../lib/sineWave.js";
-import {gEngine} from "../engineCore/core.js";
+import { screen } from "../../engineCore/screen.js";
+import { SineWave } from "../../lib/sineWave.js";
+import {gEngine} from "../../engineCore/core.js";
 
 /**
  * Class that represents a drag area

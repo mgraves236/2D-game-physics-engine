@@ -99,7 +99,6 @@ export class BulletSource extends Rectangle {
         ctx.stroke();
         ctx.closePath();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        this.displayBounds();
     }
 
 }
