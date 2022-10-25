@@ -48,7 +48,7 @@ export function setFuel() {
  * Create drag areas object on level
  */
 export function setDrag() {
-    new DragArea(500, 200, 300,100, data.liquidCoefficient, false);
+    new DragArea(new Vector(500, 200), 300,100, data.liquidCoefficient, false);
 }
 
 /**

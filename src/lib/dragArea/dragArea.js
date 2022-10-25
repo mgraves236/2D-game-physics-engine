@@ -9,25 +9,23 @@ import {gEngine} from "../../engineCore/core.js";
 export class DragArea {
     /**
      * DragArea class constructor
-     * @param x x coordinate of a starting point
-     * @param y y coordinate of a starting point
+     * @param loc location of right top vertex of the area
      * @param w area width
      * @param h area height
      * @param c drag coefficient
      * @param isWater true to display area as water
      */
-    constructor(x, y, w, h, c, isWater) {
+    constructor(loc, w, h, c, isWater) {
         this.c = c; // drag coefficient
-        this.x = x;
-        this.y = y;
+        this.loc = loc;
         this.w = w;
         this.h = h;
         this.theta1 = 0;
         this.theta2 = 0;
         this.isWater = isWater; // display as water or wind
         this.waveArray = [];
-        let wave1 = new SineWave(this.x, this.y, this.c);
-        let wave2 = new SineWave(this.x, this.y, this.c);
+        let wave1 = new SineWave(this.loc.x, this.loc.y, this.loc.c);
+        let wave2 = new SineWave(this.loc.x, this.loc.y, this.loc.c);
         let wave = [wave1, wave2];
         this.waveArray.push(wave);
         gEngine.Core.mDragAreas.push(this);
@@ -86,11 +84,11 @@ export class DragArea {
             for (let i = 0; i < this.w / 120; i++) {
 
                 if (j % 80 === 0) {
-                    var wave1 = new SineWave(this.x + i * 80, this.y + j, this.c);
-                    var wave2 = new SineWave(this.x + i * 80 + 2, this.y + j + 5, this.c);
+                    var wave1 = new SineWave(this.loc.x + i * 80, this.loc.y + j, this.c);
+                    var wave2 = new SineWave(this.loc.x + i * 80 + 2, this.loc.y + j + 5, this.c);
                 } else {
-                    var wave1 = new SineWave(this.x + (i + 1) * 40 + 40 * i, this.y + j, this.c);
-                    var wave2 = new SineWave(this.x + (i + 1) * 40 + 40 * i + 2, this.y + j + 5, this.c);
+                    var wave1 = new SineWave(this.loc.x + (i + 1) * 40 + 40 * i, this.loc.y + j, this.c);
+                    var wave2 = new SineWave(this.loc.x + (i + 1) * 40 + 40 * i + 2, this.loc.y + j + 5, this.c);
                 }
                 let wave = [wave1, wave2];
                 this.waveArray.push(wave);
@@ -112,7 +110,7 @@ export class DragArea {
         grd.addColorStop(1, "rgba(106,122,166,0.62)");
         grd.addColorStop(0, "rgba(222,216,215,0.62)");
         ctx.fillStyle = grd;
-        ctx.fillRect(this.x, this.y, this.w, this.h);
+        ctx.fillRect(this.loc.x, this.loc.y, this.w, this.h);
         ctx.restore();
     }
 

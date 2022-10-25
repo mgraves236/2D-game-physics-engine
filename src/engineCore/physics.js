@@ -250,10 +250,10 @@ let _enginePhysics = (function () {
     }
 
     let  isInside = function(area, object) {
-        return object.massCenter.x > area.x &&
-            object.massCenter.x < area.x + area.w &&
-            object.massCenter.y > area.y &&
-            object.massCenter.y < area.y + area.h;
+        return object.massCenter.x > area.loc.x &&
+            object.massCenter.x < area.loc.x + area.w &&
+            object.massCenter.y > area.loc.y &&
+            object.massCenter.y < area.loc.y + area.h;
     }
 
     let applyDrag = function(area, object) {
