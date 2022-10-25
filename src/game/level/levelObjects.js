@@ -3,7 +3,7 @@ import {Vector} from "../../lib/vector.js";
 import {gEngine} from "../../engineCore/core.js";
 import {FuelTank} from "../fuelTank.js";
 import {screen} from "../../engineCore/screen.js";
-import {DragArea} from "../dragArea/dragArea.js";
+import {DragArea} from "../../lib/dragArea/dragArea.js";
 import data from './../../engineCore/config.json' assert {type: 'json'};
 import {setTerrain} from "./terrain.js";
 import {PlayerShip} from "../playerShip.js";

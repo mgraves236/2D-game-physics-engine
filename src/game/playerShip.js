@@ -104,7 +104,6 @@ export class PlayerShip extends Triangle {
         // update vertex and mass center position
         super.update();
         // update velocity with drag if the object is in a drag area
-        super.updateDrag();
         // angle has to be in radians
         const degToRad = Math.PI / 180;
         // turning

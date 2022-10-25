@@ -50,7 +50,7 @@ let _engineCore = (function () {
     let mDragAreas = [];
     let mGravity = new Vector(0, data.forceGravity);
 
-        return {
+        return  {
         mAllObjects: mAllObjects,
         mDragAreas: mDragAreas,
         mGravity: mGravity,

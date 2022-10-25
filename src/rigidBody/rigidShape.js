@@ -33,9 +33,7 @@ export class RigidShape {
         this.velocity = new Vector();
         this.acceleration = new Vector();
         this.isGravity = gravity;
-        this.accelerationDrag = new Vector();
         this.type = "";
-        this.additionalInfo = "";
         this.mass = mass;
         if (mass === 0) {
             this.massInverse = 0;
@@ -61,7 +59,7 @@ export class RigidShape {
          */
         if (this.isGravity) {
             let gravity = gEngine.Core.mGravity.scale(this.mass);
-            this.applyForce(gravity)
+            gEngine.Physics.applyForce(this, gravity);
         }
         this.velocity = this.velocity.add(this.acceleration);
         if (this.type !== "circle") {
@@ -71,27 +69,13 @@ export class RigidShape {
         } else {
             this.startpoint = this.startpoint.add(this.velocity)
         }
-        this.massCenter = this.massCenter.add(this.velocity);
         this.angularVelocity += this.angularAcceleration;
+        this.massCenter = this.massCenter.add(this.velocity);
         this.rotate(this.angularVelocity);
         this.angularAcceleration *= 0;
-        this.updateDrag();
+        // this.updateDrag();
         this.acceleration= this.acceleration.scale(0);
 
-    }
-
-    /**
-     * Change Rigid Shape velocity due to drag
-     */
-    updateDrag() {
-        for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
-            let area = gEngine.Core.mDragAreas[i];
-            if (this.isInside(area)) {
-
-                this.drag(area);
-                this.velocity = this.velocity.add(this.acceleration);
-            }
-        }
     }
 
     /**
@@ -157,45 +141,7 @@ export class RigidShape {
             let radiusSum = this.boundsRadius + otherShape.boundsRadius;
             let distance = dis1To2.mag();
 
-            return !((distance > radiusSum));
+            return !((distance > radiusSum)) ;
         }
-    }
-
-    /**
-     * Is Rigid Shape inside a Drag Area
-     * @param area drag area
-     * @return {boolean} is inside
-     */
-    isInside(area) {
-        return this.massCenter.x > area.x &&
-            this.massCenter.x < area.x + area.w &&
-            this.massCenter.y > area.y &&
-            this.massCenter.y < area.y + area.h;
-    }
-
-    /**
-     * Apply drag to Rigid Shape if it is in a Drag Area
-     * @param {DragArea} dragObj
-     */
-    drag(dragObj) {
-        let speed = this.velocity.mag();
-        let dragMagnitude = dragObj.c * speed * speed;
-        let drag = new Vector();
-        drag.x = this.velocity.x;
-        drag.y = this.velocity.y;
-        drag = drag.normalize();
-        drag = drag.scale(dragMagnitude);
-        drag = drag.scale(-1);
-        this.applyForce(drag);
-    }
-
-    /**
-     * Apply drag force
-     * @param {Vector} force
-     */
-    applyForce(force) {
-        let f = force;
-        f = f.scale(this.massInverse);
-        this.acceleration = this.acceleration.add(f);
     }
 }

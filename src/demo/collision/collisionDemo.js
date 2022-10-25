@@ -23,6 +23,9 @@ function startDemo() {
     let triangle = new Triangle(data.Triangle.mass, new Vector(300, 200), 100,50, 0, data.Triangle.friction,data.Triangle.restitution, true);
     let circle = new Circle(data.Circle.mass, new Vector(300, 150),40, 0, data.Circle.friction, data.Circle.restitution);
     let rectangle = new Rectangle(data.Rectangle.mass, new Vector(250, 100),50, 50,0, data.Rectangle.friction,data.Rectangle.restitution, true);
+    triangle.velocity = new Vector(0, 2);
+    circle.velocity = new Vector(0, 2);
+    rectangle.velocity = new Vector(0, 2);
     info.innerHTML = "<h4>Triangle:</h4>" + "mass: " + triangle.mass
         + "<br>friction: " + triangle.friction
         + "<br>resitution: " + triangle.restitution +

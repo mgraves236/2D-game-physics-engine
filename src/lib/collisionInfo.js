@@ -32,7 +32,7 @@ export class CollisionInfo {
     /**
      * Change direction of the normal so that it points in the opposite direction
      */
-    changeDirection () {
+    changeDirection() {
         this.normal = this.normal.scale(-1);
         let n = this.start;
         this.start = this.end;

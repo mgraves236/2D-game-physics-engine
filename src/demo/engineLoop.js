@@ -14,9 +14,12 @@ export function mainGame(currentTime) {
 
     window.requestAnimationFrame(mainGame);
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-    if (secondsSinceLastRender < 1 / 60) return;
+    // if (secondsSinceLastRender < 1 / 60) return;
+    if (secondsSinceLastRender < 1 / 20) return;
     lastRenderTime = currentTime;
-    screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
+    // screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
+    screen.mContext.fillStyle = "rgba(0,0,0,0.1)";
+    screen.mContext.fillRect(0,0, screen.mWidth, screen.mHeight);
     if (gEngine.Core.mAllObjects !== null) {
         // update and display or delete objects
         let i = 0;
@@ -33,8 +36,10 @@ export function mainGame(currentTime) {
             gEngine.Core.mDragAreas[i].update();
         }
     }
+
     // run collision module
     gEngine.Physics.collision();
+    gEngine.Physics.drag();
 }
 
 gEngine.Core.initializeEngineCore = mainGame;

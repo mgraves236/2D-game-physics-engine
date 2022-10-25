@@ -60,7 +60,6 @@ export class Bullet extends Circle {
                 // bullet is out of canvas borders
                 this.massCenter =  new Vector(-100, -100);
             } else if (this.massCenter !== null){
-                super.updateDrag();
                 super.update();
             }
         });

@@ -78,6 +78,7 @@ function mainGame(currentTime) {
     // display UI
     displayUI();
     gEngine.Physics.collision();
+    gEngine.Physics.drag();
 }
 
 gEngine.Core.initializeEngineCore = mainGame;

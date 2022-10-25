@@ -230,8 +230,53 @@ let _enginePhysics = (function () {
         s2.move(correctionAmount.scale(s2.massInverse));
     }
 
+    /**
+     * Add drag to objects if they are in a drag area
+     */
+    let drag = function() {
+        console.log('hello')
+        /**
+         * Change Rigid Shape velocity due to drag
+         */
+        for(let j = 0; j < gEngine.Core.mAllObjects.length; j++) {
+            for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
+                let area = gEngine.Core.mDragAreas[i];
+                if (isInside(area, gEngine.Core.mAllObjects[j])) {
+                    console.log('hello2')
+                    applyDrag(area, gEngine.Core.mAllObjects[j]);
+                }
+            }
+        }
+    }
+
+    let  isInside = function(area, object) {
+        return object.massCenter.x > area.x &&
+            object.massCenter.x < area.x + area.w &&
+            object.massCenter.y > area.y &&
+            object.massCenter.y < area.y + area.h;
+    }
+
+    let applyDrag = function(area, object) {
+        let speed = object.velocity.mag();
+        let dragMagnitude = area.c * speed * speed;
+        let drag = new Vector();
+        drag.x = object.velocity.x;
+        drag.y = object.velocity.y;
+        drag = drag.normalize();
+        drag = drag.scale(dragMagnitude);
+        drag = drag.scale(-1);
+        applyForce(object, drag);
+    }
+
+    let applyForce = function(object, force) {
+        let f = force;
+        f = f.scale(object.massInverse);
+        object.acceleration = object.acceleration.add(f);
+    }
     return {
-        collision: collision
+        collision: collision,
+        drag: drag,
+        applyForce: applyForce
     };
 }());
 

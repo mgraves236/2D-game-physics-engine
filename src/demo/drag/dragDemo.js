@@ -1,11 +1,13 @@
 import {gEngine} from "../../engineCore/core.js";
 import {screen} from "../../engineCore/screen.js";
 import {drawLevelSky} from "../../game/level/level.js";
-import {DragArea} from "../../game/dragArea/dragArea.js";
+import {DragArea} from "../../lib/dragArea/dragArea.js";
 import {Vector} from "../../lib/vector.js";
 import {Mover} from "./mover.js";
 // create drag area
 let liquid = new DragArea(0, screen.mHeight / 2, screen.mWidth, screen.mHeight / 2, 0.3, true);
+liquid.display();
+liquid.display();
 liquid.display();
 document.getElementById("start").addEventListener("click", startDemo);
 document.getElementById("clear").addEventListener("click", clear);

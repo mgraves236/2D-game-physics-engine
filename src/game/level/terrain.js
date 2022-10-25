@@ -8,7 +8,7 @@ import {Circle} from "../../rigidBody/circle.js";
  * Set terrain on level
  */
 export function setTerrain() {
-    let terrain = new Terrain();
+    new Terrain();
 }
 
 /**

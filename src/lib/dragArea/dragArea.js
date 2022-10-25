@@ -1,5 +1,5 @@
 import { screen } from "../../engineCore/screen.js";
-import { SineWave } from "../../lib/sineWave.js";
+import { SineWave } from "../sineWave.js";
 import {gEngine} from "../../engineCore/core.js";
 
 /**
