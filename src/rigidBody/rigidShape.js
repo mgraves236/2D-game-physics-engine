@@ -1,4 +1,4 @@
-import {gEngine} from "../engineCore/core.js";
+import {Engine} from "../engineCore/core.js";
 import {Vector} from "../lib/vector.js";
 
 /**
@@ -46,7 +46,7 @@ export class RigidShape {
         this.additionalInfo = info;
 
         if (this.additionalInfo !== "fuelTank") {
-            gEngine.Core.mAllObjects.push(this);
+            Engine.Core.mAllObjects.push(this);
         }
     }
 
@@ -58,8 +58,8 @@ export class RigidShape {
          *  Symplectic Euler Integration
          */
         if (this.isGravity) {
-            let gravity = gEngine.Core.mGravity.scale(this.mass);
-            gEngine.Physics.applyForce(this, gravity);
+            let gravity = Engine.Core.mGravity.scale(this.mass);
+            Engine.Physics.applyForce(this, gravity);
         }
         this.velocity = this.velocity.add(this.acceleration);
         if (this.type !== "circle") {
@@ -114,9 +114,9 @@ export class RigidShape {
             if (this.isGravity) {
                 let accelerationTemp = this.acceleration.copy();
 
-                let gravity = gEngine.Core.mGravity.scale(mass);
+                let gravity = Engine.Core.mGravity.scale(mass);
                 accelerationTemp = accelerationTemp.subtract(gravity);
-                gravity = gEngine.Core.mGravity.scale(this.mass);
+                gravity = Engine.Core.mGravity.scale(this.mass);
                 this.acceleration =  this.acceleration.add(gravity);
             }
 
@@ -128,6 +128,15 @@ export class RigidShape {
     }
 
     displayBounds() {
+    }
+
+    /**
+     * Detect collision
+     * @param {Circle | Rectangle | Triangle} otherShape collided Circle
+     * @param {CollisionInfo} collisionInfo collision info
+     */
+    collisionTest (otherShape, collisionInfo) {
+
     }
 
     /**

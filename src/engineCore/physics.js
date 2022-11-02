@@ -1,14 +1,14 @@
-import {gEngine} from "./core.js";
+import {Engine} from "./core.js";
 import {screen} from "./screen.js";
 import {CollisionInfo} from "../lib/collisionInfo.js";
 import data from './config.json' assert {type: 'json'};
 import {Vector} from "../lib/vector.js";
 
 function handleBullet(i, j) {
-    gEngine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
-    gEngine.Core.mAllObjects[i].velocity = new Vector();
-    gEngine.Core.mAllObjects[i].acceleration = new Vector();
-    gEngine.Core.mAllObjects[i].accelerationDrag = new Vector();
+    Engine.Core.mAllObjects[i].massCenter = new Vector(-100, -100);
+    Engine.Core.mAllObjects[i].velocity = new Vector();
+    Engine.Core.mAllObjects[i].acceleration = new Vector();
+    Engine.Core.mAllObjects[i].accelerationDrag = new Vector();
 }
 
 let _enginePhysics = (function () {
@@ -26,78 +26,78 @@ let _enginePhysics = (function () {
         // relaxation loop
         for (let k = 0; k < relaxationCount; k++) {
             // iterate over every pair of objects
-            for (let i = 0; i < gEngine.Core.mAllObjects.length; i++) {
+            for (let i = 0; i < Engine.Core.mAllObjects.length; i++) {
 
-                if (gEngine.Core.mAllObjects[i].massCenter !== null) {
+                if (Engine.Core.mAllObjects[i].massCenter !== null) {
 
-                    for (let j = i + 1; j < gEngine.Core.mAllObjects.length; j++) {
+                    for (let j = i + 1; j < Engine.Core.mAllObjects.length; j++) {
 
                         // ignore collisions between terrain elements, borders, bullet sources and borders
                         // and player bullets and player
-                        if ((gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
-                            gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
-                            (gEngine.Core.mAllObjects[i].additionalInfo === "border" &&
-                                gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
-                            (gEngine.Core.mAllObjects[i].additionalInfo === "border" &&
-                                gEngine.Core.mAllObjects[j].additionalInfo === "terrain") ||
-                            (gEngine.Core.mAllObjects[i].additionalInfo === "terrain" &&
-                                gEngine.Core.mAllObjects[j].additionalInfo === "border") ||
-                            (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
-                                gEngine.Core.mAllObjects[j].additionalInfo !== "playerBullet") ||
-                            (gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource" &&
-                                gEngine.Core.mAllObjects[i].additionalInfo !== "playerBullet") ||
-                            (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
-                                gEngine.Core.mAllObjects[j].additionalInfo === "player") ||
-                            (gEngine.Core.mAllObjects[i].additionalInfo === "player" &&
-                                gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet")) {
+                        if ((Engine.Core.mAllObjects[i].additionalInfo === "terrain" &&
+                            Engine.Core.mAllObjects[j].additionalInfo === "terrain") ||
+                            (Engine.Core.mAllObjects[i].additionalInfo === "border" &&
+                                Engine.Core.mAllObjects[j].additionalInfo === "border") ||
+                            (Engine.Core.mAllObjects[i].additionalInfo === "border" &&
+                                Engine.Core.mAllObjects[j].additionalInfo === "terrain") ||
+                            (Engine.Core.mAllObjects[i].additionalInfo === "terrain" &&
+                                Engine.Core.mAllObjects[j].additionalInfo === "border") ||
+                            (Engine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
+                                Engine.Core.mAllObjects[j].additionalInfo !== "playerBullet") ||
+                            (Engine.Core.mAllObjects[j].additionalInfo === "bulletSource" &&
+                                Engine.Core.mAllObjects[i].additionalInfo !== "playerBullet") ||
+                            (Engine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
+                                Engine.Core.mAllObjects[j].additionalInfo === "player") ||
+                            (Engine.Core.mAllObjects[i].additionalInfo === "player" &&
+                                Engine.Core.mAllObjects[j].additionalInfo === "playerBullet")) {
                             continue;
                             }
 
-                        if (gEngine.Core.mAllObjects[j].massCenter !== null) {
+                        if (Engine.Core.mAllObjects[j].massCenter !== null) {
                             // preliminary bound test
-                            if (gEngine.Core.mAllObjects[i].boundTest(gEngine.Core.mAllObjects[j])) {
+                            if (Engine.Core.mAllObjects[i].boundTest(Engine.Core.mAllObjects[j])) {
                                 // check if player hit a bunker
-                                if (gEngine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
-                                    gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
-                                    gEngine.Core.mAllObjects[i].takeDamage();
+                                if (Engine.Core.mAllObjects[i].additionalInfo === "bulletSource" &&
+                                    Engine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
+                                    Engine.Core.mAllObjects[i].takeDamage();
                                     continue;
-                                } else if  (gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
-                                    gEngine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
+                                } else if  (Engine.Core.mAllObjects[i].additionalInfo === "playerBullet" &&
+                                    Engine.Core.mAllObjects[j].additionalInfo === "bulletSource") {
 
-                                    gEngine.Core.mAllObjects[j].takeDamage();
+                                    Engine.Core.mAllObjects[j].takeDamage();
                                     continue;
                                 }
                                 // collision detection with SAT
-                                if (gEngine.Core.mAllObjects[i].collisionTest(gEngine.Core.mAllObjects[j], collisionInfo)) {
+                                if (Engine.Core.mAllObjects[i].collisionTest(Engine.Core.mAllObjects[j], collisionInfo)) {
                                     // decrease player lives when they crush into a terrain or get hit by an enemy bullet
-                                    if ((gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet")
-                                        && gEngine.Core.mAllObjects[j].additionalInfo === "player") {
-                                        gEngine.Core.mAllObjects[j].loseLife();
-                                    } else if ((gEngine.Core.mAllObjects[j].additionalInfo === "bunkerBullet")
-                                         && gEngine.Core.mAllObjects[i].additionalInfo === "player") {
-                                        gEngine.Core.mAllObjects[i].loseLife();
+                                    if ((Engine.Core.mAllObjects[i].additionalInfo === "bunkerBullet")
+                                        && Engine.Core.mAllObjects[j].additionalInfo === "player") {
+                                        Engine.Core.mAllObjects[j].loseLife();
+                                    } else if ((Engine.Core.mAllObjects[j].additionalInfo === "bunkerBullet")
+                                         && Engine.Core.mAllObjects[i].additionalInfo === "player") {
+                                        Engine.Core.mAllObjects[i].loseLife();
                                     }
                                     //end game when player crashes into terrain
-                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "terrain"
-                                        && gEngine.Core.mAllObjects[j].additionalInfo === "player") {
-                                        gEngine.EndGame = true;
-                                    } else if (gEngine.Core.mAllObjects[j].additionalInfo === "terrain"
-                                        && gEngine.Core.mAllObjects[i].additionalInfo === "player") {
-                                        gEngine.EndGame = true;
+                                    if (Engine.Core.mAllObjects[i].additionalInfo === "terrain"
+                                        && Engine.Core.mAllObjects[j].additionalInfo === "player") {
+                                        Engine.EndGame = true;
+                                    } else if (Engine.Core.mAllObjects[j].additionalInfo === "terrain"
+                                        && Engine.Core.mAllObjects[i].additionalInfo === "player") {
+                                        Engine.EndGame = true;
                                     }
                                     // delete bullets when they collide with each other or other objects
-                                    if (gEngine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
-                                        gEngine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
+                                    if (Engine.Core.mAllObjects[i].additionalInfo === "bunkerBullet" ||
+                                        Engine.Core.mAllObjects[i].additionalInfo === "playerBullet") {
                                         handleBullet(i,j);
                                         continue;
                                     }
-                                    if (gEngine.Core.mAllObjects[j].additionalInfo === "bunkerBullet" ||
-                                        gEngine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
+                                    if (Engine.Core.mAllObjects[j].additionalInfo === "bunkerBullet" ||
+                                        Engine.Core.mAllObjects[j].additionalInfo === "playerBullet") {
                                         handleBullet(j,i);
                                         continue;
                                     }
                                     // the normal must always be from object i to object j
-                                    let center = gEngine.Core.mAllObjects[j].massCenter.subtract(gEngine.Core.mAllObjects[i].massCenter);
+                                    let center = Engine.Core.mAllObjects[j].massCenter.subtract(Engine.Core.mAllObjects[i].massCenter);
                                     if (collisionInfo.normal.dot(center) < 0) {
                                         collisionInfo.changeDirection();
                                     }
@@ -109,8 +109,8 @@ let _enginePhysics = (function () {
                                     ctx.closePath();
                                     ctx.restore();
                                     // resolve collision
-                                   resolveCollision(gEngine.Core.mAllObjects[i],
-                                       gEngine.Core.mAllObjects[j], collisionInfo)
+                                   resolveCollision(Engine.Core.mAllObjects[i],
+                                       Engine.Core.mAllObjects[j], collisionInfo)
                                 }
                             }
                         }
@@ -234,16 +234,15 @@ let _enginePhysics = (function () {
      * Add drag to objects if they are in a drag area
      */
     let drag = function() {
-        console.log('hello')
         /**
          * Change Rigid Shape velocity due to drag
          */
-        for(let j = 0; j < gEngine.Core.mAllObjects.length; j++) {
-            for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
-                let area = gEngine.Core.mDragAreas[i];
-                if (isInside(area, gEngine.Core.mAllObjects[j])) {
+        for(let j = 0; j < Engine.Core.mAllObjects.length; j++) {
+            for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
+                let area = Engine.Core.mDragAreas[i];
+                if (isInside(area, Engine.Core.mAllObjects[j])) {
                     console.log('hello2')
-                    applyDrag(area, gEngine.Core.mAllObjects[j]);
+                    applyDrag(area, Engine.Core.mAllObjects[j]);
                 }
             }
         }
@@ -280,5 +279,5 @@ let _enginePhysics = (function () {
     };
 }());
 
-gEngine.Physics = _enginePhysics;
-export {gEngine};
+Engine.Physics = _enginePhysics;
+export {Engine};

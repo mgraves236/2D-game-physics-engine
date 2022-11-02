@@ -5,27 +5,27 @@ import {Vector} from "../lib/vector.js";
  * Create a namespace to store all the physics engine core functionality
  * @type {{}|{}}
  */
-var gEngine = gEngine || {};
+var Engine = Engine || {};
 /**
  * Component to store objects and main game loop
  * @type {{}}
  */
-gEngine.Core = undefined;
+Engine.Core = undefined;
 /**
  * Component to store collision detection and resolving
  * @type {{}}
  */
-gEngine.Physics = undefined;
+Engine.Physics = undefined;
 /**
  * Component to store game objects and game data
  * @type {{}}
  */
-gEngine.Level = {};
+Engine.Level = {};
 /**
  * Component to store fuel objects
  * @type {{Array: *[], Index: number}}
  */
-gEngine.Level.Fuel = {
+Engine.Level.Fuel = {
     Array: [],
     Index: 0
 }
@@ -33,12 +33,12 @@ gEngine.Level.Fuel = {
  * Component to store a reference to a player ship
  * @type {PlayerShip}
  */
-gEngine.Player = undefined;
+Engine.Player = undefined;
 /**
  * Component to store game status
  * @type {boolean}
  */
-gEngine.EndGame = false;
+Engine.EndGame = false;
 
 /**
  * Initialize engine core
@@ -57,7 +57,7 @@ let _engineCore = (function () {
     };
 }());
 
-gEngine.Core = _engineCore;
-export {gEngine, _engineCore};
+Engine.Core = _engineCore;
+export {Engine, _engineCore};
 
 

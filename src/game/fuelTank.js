@@ -1,5 +1,5 @@
 import { screen } from "../engineCore/screen.js";
-import {gEngine} from "../engineCore/core.js";
+import {Engine} from "../engineCore/core.js";
 import {Rectangle} from "../rigidBody/rectangle.js";
 
 /**
@@ -26,13 +26,13 @@ export class FuelTank extends Rectangle {
      * @returns {boolean}
      */
     pickUp() {
-        if (( gEngine.Player.massCenter.x >  this.massCenter.x - 20) &&
-            ( gEngine.Player.massCenter.x <  this.massCenter.x + 20)) {
-            gEngine.Player.fuel += 200;
+        if (( Engine.Player.massCenter.x >  this.massCenter.x - 20) &&
+            ( Engine.Player.massCenter.x <  this.massCenter.x + 20)) {
+            Engine.Player.fuel += 200;
             return true;
-        } else if (( gEngine.Player.massCenter.y > this.massCenter.y - 20) &&
-            ( gEngine.Player.massCenter.y < this.massCenter.y + 20)) {
-            gEngine.Player.fuel += 200;
+        } else if (( Engine.Player.massCenter.y > this.massCenter.y - 20) &&
+            ( Engine.Player.massCenter.y < this.massCenter.y + 20)) {
+            Engine.Player.fuel += 200;
             return true;
         }
         return false;

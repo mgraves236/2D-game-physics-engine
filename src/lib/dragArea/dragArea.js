@@ -1,6 +1,6 @@
 import { screen } from "../../engineCore/screen.js";
 import { SineWave } from "../sineWave.js";
-import {gEngine} from "../../engineCore/core.js";
+import {Engine} from "../../engineCore/core.js";
 
 /**
  * Class that represents a drag area
@@ -28,7 +28,7 @@ export class DragArea {
         let wave2 = new SineWave(this.loc.x, this.loc.y, this.loc.c);
         let wave = [wave1, wave2];
         this.waveArray.push(wave);
-        gEngine.Core.mDragAreas.push(this);
+        Engine.Core.mDragAreas.push(this);
     }
 
     display() {

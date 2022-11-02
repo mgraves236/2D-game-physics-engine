@@ -1,5 +1,5 @@
 import {drawLevelSky} from "../game/level/level.js";
-import {gEngine} from "../engineCore/core.js";
+import {Engine} from "../engineCore/core.js";
 import {screen} from "../engineCore/screen.js";
 
 
@@ -20,26 +20,26 @@ export function mainGame(currentTime) {
     // screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
     screen.mContext.fillStyle = "rgba(0,0,0,0.1)";
     screen.mContext.fillRect(0,0, screen.mWidth, screen.mHeight);
-    if (gEngine.Core.mAllObjects !== null) {
+    if (Engine.Core.mAllObjects !== null) {
         // update and display or delete objects
         let i = 0;
-        while (i < gEngine.Core.mAllObjects.length) {
+        while (i < Engine.Core.mAllObjects.length) {
 
-                gEngine.Core.mAllObjects[i].update();
-                gEngine.Core.mAllObjects[i].display();
+                Engine.Core.mAllObjects[i].update();
+                Engine.Core.mAllObjects[i].display();
                 i++;
         }
     }
     // update drag areas
-    if (gEngine.Core.mDragAreas !== null) {
-        for (let i = 0; i < gEngine.Core.mDragAreas.length; i++) {
-            gEngine.Core.mDragAreas[i].update();
+    if (Engine.Core.mDragAreas !== null) {
+        for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
+            Engine.Core.mDragAreas[i].update();
         }
     }
 
     // run collision module
-    gEngine.Physics.collision();
-    gEngine.Physics.drag();
+    Engine.Physics.collision();
+    Engine.Physics.drag();
 }
 
-gEngine.Core.initializeEngineCore = mainGame;
+Engine.Core.initializeEngineCore = mainGame;

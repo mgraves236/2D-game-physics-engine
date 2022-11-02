@@ -21,7 +21,7 @@ export class Circle extends RigidShape {
     constructor(mass, center, radius, angle= 0, friction= 0, restitution = 0, gravity = true, info = "") {
         super(center, mass, angle, friction, restitution, gravity, info);
         this.type = "circle";
-        // radius stored as height so that it can be used in this.isInside()
+        // radius stored as height so that it can be used in Engine.Physics.drag.isInside()
         this.height = radius;
         this.boundsRadius = this.height;
         // start point of line in circle

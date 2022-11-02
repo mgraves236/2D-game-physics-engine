@@ -1,11 +1,11 @@
-import {gEngine} from "../../engineCore/core.js";
+import {Engine} from "../../engineCore/core.js";
 import {screen} from "../../engineCore/screen.js";
 import {drawLevelSky} from "../../game/level/level.js";
 import {DragArea} from "../../lib/dragArea/dragArea.js";
 import {Vector} from "../../lib/vector.js";
 import {Mover} from "./mover.js";
 // create drag area
-let liquid = new DragArea(new Vector(0, screen.mHeight / 2), screen.mWidth, screen.mHeight / 2, 0.3, true);
+let liquid = new DragArea(new Vector(0, screen.mHeight / 2), screen.mWidth, screen.mHeight / 2, 0.2, true);
 liquid.display();
 liquid.display();
 liquid.display();
@@ -30,12 +30,12 @@ function startDemo() {
             0.1*count, 0.1*count);
     }
 
-    window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
+    window.requestAnimationFrame(Engine.Core.initializeEngineCore);
 }
 
 function clear() {
     for (let i = 0; i < number * count; i++) {
-        gEngine.Core.mAllObjects.pop();
+        Engine.Core.mAllObjects.pop();
     }
     screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
     count = 0;

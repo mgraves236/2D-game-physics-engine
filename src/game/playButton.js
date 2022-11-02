@@ -1,6 +1,6 @@
 import {screen} from "../engineCore/screen.js";
 import {setScene} from "./level/levelObjects.js";
-import {gEngine} from "../engineCore/core.js";
+import {Engine} from "../engineCore/core.js";
 import {drawLevelSky} from "./level/level.js";
 
 let ctx = screen.mContext;
@@ -80,16 +80,16 @@ function isInside(pos, button) {
  */
 function startGame() {
     screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
-    gEngine.Core.mAllObjects = [];
-    gEngine.Core.mDragAreas = [];
-    gEngine.Core.mDragAreas = [];
-    gEngine.Level.Fuel = {
+    Engine.Core.mAllObjects = [];
+    Engine.Core.mDragAreas = [];
+    Engine.Core.mDragAreas = [];
+    Engine.Level.Fuel = {
         Array: [],
         Index: 0
     }
-    gEngine.EndGame = false;
+    Engine.EndGame = false;
     drawLevelSky();
     setScene();
     screen.mCanvas.removeEventListener('click', clickBtn);
-    window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
+    window.requestAnimationFrame(Engine.Core.initializeEngineCore);
 }

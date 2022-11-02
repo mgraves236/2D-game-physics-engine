@@ -1,5 +1,5 @@
 import {Vector} from "../lib/vector.js";
-import {gEngine} from "../engineCore/core.js";
+import {Engine} from "../engineCore/core.js";
 import {locations} from "./level/levelObjects.js";
 import {FuelTank} from "./fuelTank.js";
 
@@ -12,29 +12,29 @@ export function handleKeyInput(event) {
     const { keyCode, type } = event;
     const isKeyDown = type === 'keydown';
 
-    if (keyCode === 37) gEngine.Player.rotatingLeft = isKeyDown; // left arrow
-    if (keyCode === 39) gEngine.Player.rotatingRight = isKeyDown; // right arrow
-    if (keyCode === 38) gEngine.Player.engineOn = isKeyDown; // up arrow
+    if (keyCode === 37) Engine.Player.rotatingLeft = isKeyDown; // left arrow
+    if (keyCode === 39) Engine.Player.rotatingRight = isKeyDown; // right arrow
+    if (keyCode === 38) Engine.Player.engineOn = isKeyDown; // up arrow
 
-    if (keyCode === 32) gEngine.Player.shoot(); // space
+    if (keyCode === 32) Engine.Player.shoot(); // space
     if (keyCode === 40) { // down arrow
-        gEngine.Player.velocity = new Vector();
+        Engine.Player.velocity = new Vector();
     }
     if (keyCode === 16) { //shift
-        gEngine.Player.isRayOn = isKeyDown;
+        Engine.Player.isRayOn = isKeyDown;
         let i = 0;
         // check if the player is in a fuel tank vicinity and if they can pick up the tank
-        while (i < gEngine.Level.Fuel.Array.length) {
-                let isPicked = gEngine.Level.Fuel.Array[i].pickUp();
+        while (i < Engine.Level.Fuel.Array.length) {
+                let isPicked = Engine.Level.Fuel.Array[i].pickUp();
                 if (isPicked) {
                     // delete the picked up tank
-                    let length = gEngine.Level.Fuel.Array.length;
-                    let start = gEngine.Level.Fuel.Array.slice(0, i);
-                    let end = gEngine.Level.Fuel.Array.slice(i + 1, length + 1);
+                    let length = Engine.Level.Fuel.Array.length;
+                    let start = Engine.Level.Fuel.Array.slice(0, i);
+                    let end = Engine.Level.Fuel.Array.slice(i + 1, length + 1);
                     start = start.concat(end);
-                    gEngine.Level.Fuel.Array = start;
-                    gEngine.Level.Fuel.Index = gEngine.Level.Fuel.Index + 1;
-                    gEngine.Level.Fuel.Array.push( new FuelTank(locations[gEngine.Level.Fuel.Index % locations.length].loc, locations[gEngine.Level.Fuel.Index  % locations.length].angle  * Math.PI / 180));
+                    Engine.Level.Fuel.Array = start;
+                    Engine.Level.Fuel.Index = Engine.Level.Fuel.Index + 1;
+                    Engine.Level.Fuel.Array.push( new FuelTank(locations[Engine.Level.Fuel.Index % locations.length].loc, locations[Engine.Level.Fuel.Index  % locations.length].angle  * Math.PI / 180));
                 }
             i++;
         }

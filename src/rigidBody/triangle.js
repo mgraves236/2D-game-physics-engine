@@ -188,7 +188,7 @@ export class Triangle extends RigidShape {
 
     /**
      * Find the axis of the least penetration
-     * based on the support point with the least support point distant
+     * based on the support point with the least support point distance
      * @param {Rectangle | Triangle} otherShape other Rectangle or Triangle with which collision occurs
      * @param collisionInfo collision info
      * @return {boolean} hasSupport

@@ -1,6 +1,6 @@
 import {BulletSource} from "../bullet/source.js";
 import {Vector} from "../../lib/vector.js";
-import {gEngine} from "../../engineCore/core.js";
+import {Engine} from "../../engineCore/core.js";
 import {FuelTank} from "../fuelTank.js";
 import {screen} from "../../engineCore/screen.js";
 import {DragArea} from "../../lib/dragArea/dragArea.js";
@@ -40,9 +40,9 @@ let locations = [
  * Create fuel object on level
  */
 export function setFuel() {
-        gEngine.Level.Fuel.Index = 1;
-        gEngine.Level.Fuel.Array.push(new FuelTank(locations[0].loc, locations[0].angle * Math.PI / 180));
-        gEngine.Level.Fuel.Array.push(new FuelTank(locations[1].loc, locations[1].angle * Math.PI / 180));
+        Engine.Level.Fuel.Index = 1;
+        Engine.Level.Fuel.Array.push(new FuelTank(locations[0].loc, locations[0].angle * Math.PI / 180));
+        Engine.Level.Fuel.Array.push(new FuelTank(locations[1].loc, locations[1].angle * Math.PI / 180));
 }
 /**
  * Create drag areas object on level
@@ -62,8 +62,8 @@ export function setScene() {
     setDrag();
     let mPlayer = new PlayerShip(new Vector(900, 800));
     mPlayer.additionalInfo = "player";
-    gEngine.Player = mPlayer;
-    gEngine.Core.mAllObjects.forEach(object => object.display())
+    Engine.Player = mPlayer;
+    Engine.Core.mAllObjects.forEach(object => object.display())
 }
 
-export {locations, gEngine}
+export {locations, Engine}

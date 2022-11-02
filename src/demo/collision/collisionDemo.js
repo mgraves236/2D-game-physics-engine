@@ -1,4 +1,4 @@
-import {gEngine} from "../../engineCore/core.js";
+import {Engine} from "../../engineCore/core.js";
 import {screen} from "../../engineCore/screen.js";
 import {Vector} from "../../lib/vector.js";
 import {Rectangle} from "../../rigidBody/rectangle.js";
@@ -36,13 +36,13 @@ function startDemo() {
         + "<br>friction: " + rectangle.friction
         + "<br>resitution: " + rectangle.restitution;
 
-    window.requestAnimationFrame(gEngine.Core.initializeEngineCore);
+    window.requestAnimationFrame(Engine.Core.initializeEngineCore);
 }
 
 function clear() {
 
     for (let i = 0; i < 3 * count; i++) {
-        gEngine.Core.mAllObjects.pop();
+        Engine.Core.mAllObjects.pop();
     }
     screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
     count = 0;

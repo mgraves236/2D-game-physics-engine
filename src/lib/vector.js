@@ -149,7 +149,6 @@ export class Vector {
         vector.y = this.y;
         vector.x0 = this.x0;
         vector.y0 = this.y0;
-        vector.doMap = this.doMap;
         return vector;
     }
 }

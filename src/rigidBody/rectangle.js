@@ -63,7 +63,7 @@ export class Rectangle extends RigidShape {
     /**
      * Compute face normal vectors
      */
-    computeFaceNormal () {
+    computeFaceNormal() {
         this.faceNormal[0] = this.vertex[1].subtract(this.vertex[2]);
         this.faceNormal[1] = this.vertex[2].subtract(this.vertex[3]);
         this.faceNormal[2] = this.vertex[3].subtract(this.vertex[0]);
@@ -277,7 +277,7 @@ export class Rectangle extends RigidShape {
      * @param {Circle} otherCir collided Circle
      * @param {CollisionInfo} collisionInfo collision info
      */
-    collidedRectCirc (otherCir, collisionInfo) {
+    collidedRectCirc(otherCir, collisionInfo) {
         // compute the nearest edge
         // compute perpendicular distances between circle center to each of the edges of the rectangle
         // i.e. project vector created from subtracting vertex from circle center onto each of the face normals
