@@ -22,7 +22,6 @@ export class Bullet extends Circle {
     constructor(loc, vel, info = "bullet", r = 3, m = data.bulletMass, acc =  new Vector(), delay = 0) {
         super(m, loc, r);
         // initialize types
-        this.mass = m || data.bulletMass ;
         this.velocity = new Vector();
         /** bullet acceleration
          * @type {Vector}

@@ -43,7 +43,7 @@ export class BulletSource extends Rectangle {
     shoot() {
         let bulletsVel = this.velocityBullet.copy();
 
-        let loc2 = new Vector(this.massCenter.x + 10, this.massCenter.y + this.height / 2);
+        let loc2 = new Vector(this.massCenter.x + this.width / 2, this.massCenter.y + this.height / 2);
         new Bullet(loc2, bulletsVel, "bunkerBullet");
         this.shot = this.shot + 1;
     }
@@ -92,7 +92,7 @@ export class BulletSource extends Rectangle {
         ctx.translate(this.massCenter.x, this.massCenter.y);
         ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.rect( - this.width / 2, - this.height / 2, 15, 20);
+        ctx.rect( - this.width / 2, - this.height / 2, this.width, this.height);
         ctx.fill();
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 1;

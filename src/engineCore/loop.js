@@ -17,7 +17,7 @@ function mainGame(currentTime) {
     lastRenderTime = currentTime;
     drawLevelSky();
     if (Engine.Core.mAllObjects !== null) {
-        // how many bunkers are left in game
+        // // how many bunkers are left in game
         let number = 0;
         Engine.Level.bunkersNumber = (function (){
             Engine.Core.mAllObjects.forEach(object => {
@@ -37,7 +37,7 @@ function mainGame(currentTime) {
 
             setUp();
             return;
-        } else if (Engine.Player.lives === 0 || Engine.EndGame === true) {
+        } else if (Engine.Player.lives === 0 || Engine.EndGame === true || Engine.Player.fuel <= 0) {
             Engine.EndGame = true;
             screen.mContext.font = "bolder 60px Arial";
             screen.mContext.fillText("GAME OVER", screen.mWidth / 2 - 200, screen.mHeight / 2 - 30);
@@ -45,7 +45,7 @@ function mainGame(currentTime) {
             setUp();
             return;
         }
-        // display fuel
+        // // display fuel
         for (let i = 0; i < Engine.Level.Fuel.Array.length; i++) {
             Engine.Level.Fuel.Array[i].display();
         }
@@ -73,7 +73,7 @@ function mainGame(currentTime) {
             Engine.Core.mDragAreas[i].update();
         }
     }
-    //update UI
+    // update UI
     updateUI((Engine.Level.bunkersNumber) * 100, Engine.Player.lives, Engine.Player.fuel);
     // display UI
     displayUI();

@@ -14,11 +14,11 @@ import {drawLevelSky} from "./level.js";
  * Create bunkers object on level
  */
 export function setBunkers() {
-    new BulletSource(0, new Vector(470, 0  * screen.mHeight / 900), new Vector(1, 0), new Vector(0, 2), 0, [470, 1200], [-1000, 1000]);
-    new BulletSource(0, new Vector(0, 150  * screen.mHeight / 900), new Vector(0, 1), new Vector(5, -2), 45 * Math.PI / 180, [-1000, 1000], [150, 320], 4500);
+    new BulletSource(1000, new Vector(470, 0  * screen.mHeight / 900), new Vector(1, 0), new Vector(0, 2), 0, [470, 1200], [-1000, 1000]);
+    new BulletSource(1000, new Vector(0, 150  * screen.mHeight / 900), new Vector(0, 1), new Vector(5, -2), 45 * Math.PI / 180, [-1000, 1000], [150, 320], 4500);
     new BulletSource(1000, new Vector(1133, 200 * screen.mHeight / 900), new Vector(0, 0), new Vector(-4, 1), 24 * Math.PI / 180, [0, 0], [0, 0]);
-    new BulletSource(1000, new Vector(191, 670 * screen.mHeight / 900), new Vector(0, 0), new Vector(0.5, -6), 20 * Math.PI / 180, [0, 0], [0, 0], 4700);
-    new BulletSource(1000, new Vector(1360, 600 * screen.mHeight / 900), new Vector(0, 0), new Vector(-5, -1), -45 * Math.PI / 180, [0, 0], [0, 0], 4700);
+    new BulletSource(1000, new Vector(191, 675 * screen.mHeight / 900), new Vector(0, 0), new Vector(0.5, -6), 20 * Math.PI / 180, [0, 0], [0, 0], 4700);
+    new BulletSource(1000, new Vector(1370, 600 * screen.mHeight / 900), new Vector(0, 0), new Vector(-5, -1), -45 * Math.PI / 180, [0, 0], [0, 0], 4700);
     new BulletSource(1000, new Vector(815, 650  * screen.mHeight / 900), new Vector(0, 0), new Vector(4, -2), -55 * Math.PI / 180, [0, 0], [0, 0]);
 }
 
