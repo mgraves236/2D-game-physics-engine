@@ -23,10 +23,7 @@ export function mainGame(currentTime) {
     // screen.mContext.fillStyle = "rgba(0,0,0,0.15)";
     // screen.mContext.fillRect(0,0, screen.mWidth, screen.mHeight);
     // update drag areas
-    if (Engine.Core.mDragAreas !== null) {
-        for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
-            Engine.Core.mDragAreas[i].update();
-        }
+
     if (Engine.Core.mAllObjects !== null) {
         // update and display or delete object
         let i = 0;
@@ -38,6 +35,10 @@ export function mainGame(currentTime) {
             i++;
         }
     }
+    if (Engine.Core.mDragAreas !== null) {
+        for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
+            Engine.Core.mDragAreas[i].update();
+        }
     // update UI
     //     info.innerHTML = infoString.toString();
     }
