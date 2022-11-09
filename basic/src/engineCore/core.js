@@ -16,29 +16,7 @@ Engine.Core = undefined;
  * @type {{}}
  */
 Engine.Physics = undefined;
-/**
- * Component to store game objects and game data
- * @type {{}}
- */
-Engine.Level = {};
-/**
- * Component to store fuel objects
- * @type {{Array: *[], Index: number}}
- */
-Engine.Level.Fuel = {
-    Array: [],
-    Index: 0
-}
-/**
- * Component to store a reference to a player ship
- * @type {PlayerShip}
- */
-Engine.Player = undefined;
-/**
- * Component to store game status
- * @type {boolean}
- */
-Engine.EndGame = false;
+
 
 /**
  * Initialize engine core
