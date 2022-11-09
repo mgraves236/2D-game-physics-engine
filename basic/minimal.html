@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>A 2D Game Physics Engine</title>
+</head>
+<body style="background-color: black;">
+<canvas style="height:650px;" id="canvas"></canvas>
+</body>
+
+<!-- modules required for all engine functionalities to work -->
+<script type='module' src='src/engineCore/screen.js'></script>
+<script type='module' src='src/engineCore/core.js'></script>
+<script type='module' src='src/engineCore/physics.js'></script>
+<script type='module' src='src/engineCore/loop.js'></script>
+<script type='module' src='src/lib/vector.js'></script>
+<script type='module' src='src/lib/collisionInfo.js'></script>
+<script type='module' src='src/rigidBody/rigidShape.js'></script>
+<script type='module' src='src/rigidBody/rectangle.js'></script>
+<script type='module' src='src/rigidBody/triangle.js'></script>
+<script type='module' src='src/rigidBody/circle.js'></script>
+
+<script type='module'>
+  import {Engine} from './src/engineCore/core.js';
+  import {Vector} from './src/lib/vector.js';
+  import {Circle} from './src/rigidBody/circle.js';
+
+  let circle = new Circle(5, new Vector(300, 150),40, 0,0.1, 0.2);
+  window.requestAnimationFrame(Engine.Core.initializeEngineCore);
+</script>
+</html>
