@@ -938,3 +938,7 @@ footer {
   text-align: center;
   font-size: .5em;
 }
+
+article {
+  margin-top: 2em;
+}
