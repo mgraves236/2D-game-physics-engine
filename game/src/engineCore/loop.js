@@ -12,7 +12,7 @@ let lastRenderTime = 0;
 function mainGame(currentTime) {
 
     window.requestAnimationFrame(mainGame);
-    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
+    const secondsSinceLastRender = (currentTime - lastRenderTime);
     if (secondsSinceLastRender < 1 / 60) return;
     lastRenderTime = currentTime;
     drawLevelSky();
