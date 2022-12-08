@@ -24,6 +24,7 @@ export class Circle extends RigidShape {
         // radius stored as height so that it can be used in Engine.Physics.drag.isInside()
         this.height = radius;
         this.boundsRadius = this.height;
+        this.area = Math.PI * this.height * this.height;
         // start point of line in circle
         this.startpoint = new Vector(this.massCenter.x + this.height, this.massCenter.y);
         this.updateInertia();

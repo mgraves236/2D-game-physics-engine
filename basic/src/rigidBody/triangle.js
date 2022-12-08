@@ -27,9 +27,9 @@ export class Triangle extends RigidShape {
         // triangle base
         this.width = width;
         this.height = height;
-        let area = 1 / 2 * this.width * this.height;
+        this.area = 1 / 2 * this.width * this.height;
         let c = Math.sqrt(this.width * this.width / 4 + this.height * this.height);
-        this.boundsRadius = c * c * c / (4 * area);
+        this.boundsRadius = c * c * c / (4 * this.area);
         /**
          * Array to store vertex positions of the triangle
          * @type {Vector[]}

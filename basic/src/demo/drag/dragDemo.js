@@ -4,7 +4,7 @@ import {DragArea} from "../../lib/dragArea/dragArea.js";
 import {Vector} from "../../lib/vector.js";
 import {Mover} from "./mover.js";
 // create drag area
-let liquid = new DragArea(new Vector(0, screen.mHeight / 2), screen.mWidth, screen.mHeight / 2, 0.2, true);
+let liquid = new DragArea(new Vector(0, screen.mHeight / 2), screen.mWidth, screen.mHeight / 2, 0.001, true);
 liquid.display();
 liquid.display();
 liquid.display();

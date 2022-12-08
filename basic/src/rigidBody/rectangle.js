@@ -26,6 +26,7 @@ export class Rectangle extends RigidShape {
         this.type = "rectangle";
         this.width = width;
         this.height = height;
+        this.area = this.width * this.height;
         this.boundsRadius = Math.sqrt(this.width * this.width + this.height * this.height) / 2;
         /**
          * Array to store vertex positions of the rectangle

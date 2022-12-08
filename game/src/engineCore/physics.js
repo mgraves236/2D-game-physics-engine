@@ -241,7 +241,6 @@ let _enginePhysics = (function () {
             for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
                 let area = Engine.Core.mDragAreas[i];
                 if (isInside(area, Engine.Core.mAllObjects[j])) {
-                    console.log('hello2')
                     applyDrag(area, Engine.Core.mAllObjects[j]);
                 }
             }
@@ -257,7 +256,7 @@ let _enginePhysics = (function () {
 
     let applyDrag = function(area, object) {
         let speed = object.velocity.mag();
-        let dragMagnitude = area.c * speed * speed;
+        let dragMagnitude = area.c * speed * speed * object.area;
         let drag = new Vector();
         drag.x = object.velocity.x;
         drag.y = object.velocity.y;

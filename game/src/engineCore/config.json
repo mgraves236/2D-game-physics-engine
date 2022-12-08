@@ -4,8 +4,8 @@
   "forceGravity": 0.01,
   "grav_comment": 0.03,
   "bulletMass": 5,
-  "spaceshipMass": 1,
-  "liquidCoefficient": 0.02,
+  "spaceshipMass": 10,
+  "liquidCoefficient": 0.002,
   "thrust": 10,
   "relaxationCount": 15,
   "correctionRate": 0.8

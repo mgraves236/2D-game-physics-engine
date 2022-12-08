@@ -193,7 +193,7 @@ let _enginePhysics = (function () {
 
     let applyDrag = function(area, object) {
         let speed = object.velocity.mag();
-        let dragMagnitude = area.c * speed * speed;
+        let dragMagnitude = area.c * speed * speed * object.area;
         let drag = new Vector();
         drag.x = object.velocity.x;
         drag.y = object.velocity.y;
