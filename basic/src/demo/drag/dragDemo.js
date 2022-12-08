@@ -26,7 +26,7 @@ function startDemo() {
             m = r * 0.8;
         }
         let mover = new Mover(new Vector(50 + i * screen.mWidth / number, 0), new Vector(0.1,5), r, m, 0,
-            0.1*count, 0.1*count);
+            0.1*r, 0.1*r);
     }
 
     window.requestAnimationFrame(Engine.Core.initializeEngineCore);
