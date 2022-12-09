@@ -6,6 +6,9 @@ let info = document.getElementById("info");
 
 
 let lastRenderTime = 0;
+let FPS = 60;
+let frameTime = 1 / FPS;
+
 
 /**
  * Engine Loop
@@ -17,7 +20,7 @@ export function mainGame(currentTime) {
 
     window.requestAnimationFrame(mainGame);
     const secondsSinceLastRender = (currentTime - lastRenderTime);
-    if (secondsSinceLastRender < 1 / 60) return;
+    if (secondsSinceLastRender < frameTime) return;
     lastRenderTime = currentTime;
     screen.mContext.clearRect(0, 0, screen.mWidth, screen.mHeight);
     // screen.mContext.fillStyle = "rgba(0,0,0,0.15)";
@@ -26,6 +29,7 @@ export function mainGame(currentTime) {
 
     if (Engine.Core.mAllObjects !== null) {
         // update and display or delete object
+        // let start = new Date().getTime();
         let i = 0;
         while (i < Engine.Core.mAllObjects.length) {
             // infoString[i] = "velocity: (" +  Engine.Core.mAllObjects[i].velocity.x + ", " +  Engine.Core.mAllObjects[i].velocity.y + "),    " +
@@ -34,13 +38,16 @@ export function mainGame(currentTime) {
             Engine.Core.mAllObjects[i].display();
             i++;
         }
+        // let end = new Date().getTime();
+//         console.log(end - start);
+
     }
     if (Engine.Core.mDragAreas !== null) {
         for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
             Engine.Core.mDragAreas[i].update();
         }
-    // update UI
-    //     info.innerHTML = infoString.toString();
+        // update UI
+        //     info.innerHTML = infoString.toString();
     }
 
     // run collision module
@@ -49,3 +56,4 @@ export function mainGame(currentTime) {
 }
 
 Engine.Core.initializeEngineCore = mainGame;
+Engine.Core.frameTime = frameTime;

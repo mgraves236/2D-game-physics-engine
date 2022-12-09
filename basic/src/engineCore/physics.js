@@ -100,7 +100,6 @@ let _enginePhysics = (function () {
         let restitution = Math.min(s1.restitution, s2.restitution);
         restitution = restitution !== undefined ?  restitution : s1.restitution;
         let friction = Math.min(s1.friction, s2.friction);
-        console.log(friction)
         friction = friction !== undefined ?  friction : s1.friction;
 
         // impulse in normal direction (from s1 to s2)

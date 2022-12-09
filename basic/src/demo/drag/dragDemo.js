@@ -4,7 +4,7 @@ import {DragArea} from "../../lib/dragArea/dragArea.js";
 import {Vector} from "../../lib/vector.js";
 import {Mover} from "./mover.js";
 // create drag area
-let liquid = new DragArea(new Vector(0, screen.mHeight / 2), screen.mWidth, screen.mHeight / 2, 0.001, true);
+let liquid = new DragArea(new Vector(0, screen.mHeight / 2), screen.mWidth, screen.mHeight / 2, 0.0005, true);
 liquid.display();
 liquid.display();
 liquid.display();
@@ -25,7 +25,7 @@ function startDemo() {
         } else {
             m = r * 0.8;
         }
-        let mover = new Mover(new Vector(50 + i * screen.mWidth / number, 0), new Vector(0.1,5), r, m, 0,
+        let mover = new Mover(new Vector(50 + i * screen.mWidth / number, 0), new Vector(0.1,60), r, m, 0,
             0.1*r, 0.1*r);
     }
 

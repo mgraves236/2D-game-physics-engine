@@ -40,6 +40,7 @@ export class RigidShape {
         } else {
             this.massInverse = 1 / this.mass;
         }
+        this.area = 1;
         this.inertia = 0;
         this.friction = friction;
         this.restitution = restitution;
@@ -61,19 +62,64 @@ export class RigidShape {
             let gravity = Engine.Core.mGravity.scale(this.mass);
             Engine.Physics.applyForce(this, gravity);
         }
-        this.velocity = this.velocity.add(this.acceleration);
-        if (this.type !== "circle") {
-            for (let i = 0; i < this.vertex.length; i++) {
-                this.vertex[i] =  this.vertex[i].add(this.velocity);
-            }
-        } else {
-            this.startpoint = this.startpoint.add(this.velocity)
-        }
-        this.angularVelocity += this.angularAcceleration;
-        this.massCenter = this.massCenter.add(this.velocity);
-        this.rotate(this.angularVelocity);
+        // integration - Symplectic Euler Integration
+        let dt = Engine.Core.frameTime;
+        this.velocity = this.velocity.add(this.acceleration.scale(dt));
+        this.angularVelocity += this.angularAcceleration * dt;
+        this.move(this.velocity.scale(dt));
+        // this.massCenter = this.massCenter.add(this.velocity);
+        this.rotate(this.angularVelocity * dt);
+
+
+        // integration Runge-Kutta
+        // only gravity -- constant acceleration
+       //
+       //  let  isInside = function(area, object) {
+       //      return object.massCenter.x > area.loc.x &&
+       //          object.massCenter.x < area.loc.x + area.w &&
+       //          object.massCenter.y > area.loc.y &&
+       //          object.massCenter.y < area.loc.y + area.h;
+       //  }
+       //  let index = -10000;
+       //  let area = null;
+       //  for (let i = 0; i < Engine.Core.mDragAreas.length; i++) {
+       //      if (isInside(Engine.Core.mDragAreas[i], this)) {
+       //          index = i;
+       //          area = Engine.Core.mDragAreas[i];
+       //      }
+       //  }
+       //
+       // if(index === -10000) {
+       //      let k1_velocity = this.velocity.y;
+       //      let k1_acceleration = this.acceleration.y;
+       //      let k2_velocity = this.velocity.y + k1_acceleration + Engine.Core.frameTime * 0.5;
+       //      // in considered situation acceleration is constant
+       //      let k2_acceleration = k1_acceleration;
+       //      let k3_velocity = this.velocity.y + k2_acceleration + Engine.Core.frameTime * 0.5;
+       //      let k3_acceleration = k2_acceleration;
+       //      let k4_velocity = this.velocity.y + k3_acceleration + Engine.Core.frameTime;
+       //      let k4_acceleration = k3_acceleration;
+       //      this.velocity.y += (k1_acceleration + (k2_acceleration + k3_acceleration) * 2.0 + k4_acceleration) * 1 / 6 * Engine.Core.frameTime;
+       //      // this.massCenter.y += (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime;
+       //     this.move(new Vector(0, (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime));
+       //  } else {
+       //     // drag
+       //     let k1_velocity = this.velocity.y;
+       //     let k1_acceleration = this.acceleration.y - 0.5 * area.c * k1_velocity * k1_velocity * this.area;
+       //     let k2_velocity = this.velocity.y + k1_acceleration + Engine.Core.frameTime * 0.5;
+       //     // in considered situation acceleration is constant
+       //     let k2_acceleration = k1_acceleration - 0.5 * area.c * k2_velocity * k2_velocity * this.area;
+       //     let k3_velocity = this.velocity.y + k2_acceleration + Engine.Core.frameTime * 0.5;
+       //     let k3_acceleration = k2_acceleration - 0.5 * area.c * k3_velocity * k3_velocity * this.area;
+       //     let k4_velocity = this.velocity.y + k3_acceleration + Engine.Core.frameTime;
+       //     let k4_acceleration = k3_acceleration - 0.5 * area.c * k4_velocity * k4_velocity * this.area;
+       //     this.velocity.y += (k1_acceleration + (k2_acceleration + k3_acceleration) * 2.0 + k4_acceleration) * 1 / 6 * Engine.Core.frameTime;
+       //     // this.massCenter.y += (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime;
+       //     this.move(new Vector(0, (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime));
+       // }
+
+
         this.angularAcceleration *= 0;
-        // this.updateDrag();
         this.acceleration= this.acceleration.scale(0);
 
     }

@@ -2,6 +2,8 @@ import { screen } from "../../engineCore/screen.js";
 import { Vector } from "../../lib/vector.js";
 import { Engine } from "../../engineCore/core.js";
 import {Circle} from '../../rigidBody/circle.js'
+import {Rectangle} from "../../rigidBody/rectangle.js";
+import {Triangle} from "../../rigidBody/triangle.js";
 
 export class Mover extends Circle {
     /**
