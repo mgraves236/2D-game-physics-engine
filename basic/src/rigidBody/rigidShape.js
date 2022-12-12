@@ -1,6 +1,19 @@
 import {Engine} from "../engineCore/core.js";
 import {Vector} from "../lib/vector.js";
 
+function f(tn, vn, dt, area, c, mass) {
+    let speed = vn.mag();
+    let dragMagnitude = c * speed * speed * area;
+    let drag = new Vector();
+    drag.x = vn.x;
+    drag.y = vn.y;
+    drag = drag.normalize();
+    drag = drag.scale(dragMagnitude);
+    let gravity = Engine.Core.mGravity;
+    gravity.scale(mass);
+    return gravity.subtract(drag);
+}
+
 /**
  * Abstract class that represents a rigid body
  * @class RigidShape
@@ -88,34 +101,47 @@ export class RigidShape {
        //          area = Engine.Core.mDragAreas[i];
        //      }
        //  }
-       //
+       //  let dt = Engine.Core.frameTime/1000000000000000000000000000000000;
        // if(index === -10000) {
-       //      let k1_velocity = this.velocity.y;
-       //      let k1_acceleration = this.acceleration.y;
-       //      let k2_velocity = this.velocity.y + k1_acceleration + Engine.Core.frameTime * 0.5;
-       //      // in considered situation acceleration is constant
-       //      let k2_acceleration = k1_acceleration;
-       //      let k3_velocity = this.velocity.y + k2_acceleration + Engine.Core.frameTime * 0.5;
-       //      let k3_acceleration = k2_acceleration;
-       //      let k4_velocity = this.velocity.y + k3_acceleration + Engine.Core.frameTime;
-       //      let k4_acceleration = k3_acceleration;
-       //      this.velocity.y += (k1_acceleration + (k2_acceleration + k3_acceleration) * 2.0 + k4_acceleration) * 1 / 6 * Engine.Core.frameTime;
-       //      // this.massCenter.y += (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime;
-       //     this.move(new Vector(0, (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime));
+       //     let k1v = this.velocity.copy();
+       //     let k2v = f(dt * 0.5, this.velocity.add(k1v.scale(dt*0.5)), dt, this.area, 0, this.mass);
+       //
+       //     let k3v = f(dt * 0.5, this.velocity.add(k2v.scale(dt*0.5)), dt, this.area, 0, this.mass);
+       //     let k4v = f(dt, this.velocity.add(k2v.scale(dt)), dt, this.area, 0, this.mass);
+       //     let temp = k1v.add(k2v.scale(2))
+       //     temp.add(k3v.scale(3));
+       //     temp.add(k4v).scale(dt/6);
+       //     let vn1 = this.velocity.copy().add(temp);
+       //     this.velocity = vn1;
+       //
+       //     let k1x = this.velocity.copy();
+       //     let k2x = this.velocity.copy().add(k1v.scale(dt * 0.5));
+       //     let k3x = this.velocity.copy().add(k2v.scale(dt * 0.5));
+       //     let k4x = this.velocity.copy().add(k3v.scale(dt));
+       //     let xn1 =  k1x.copy().add(k2x.scale(2));
+       //     xn1.add(k3x.scale(2));
+       //     xn1.add(k4x).scale(dt / 6);
+       //     this.move(xn1);
        //  } else {
        //     // drag
-       //     let k1_velocity = this.velocity.y;
-       //     let k1_acceleration = this.acceleration.y - 0.5 * area.c * k1_velocity * k1_velocity * this.area;
-       //     let k2_velocity = this.velocity.y + k1_acceleration + Engine.Core.frameTime * 0.5;
-       //     // in considered situation acceleration is constant
-       //     let k2_acceleration = k1_acceleration - 0.5 * area.c * k2_velocity * k2_velocity * this.area;
-       //     let k3_velocity = this.velocity.y + k2_acceleration + Engine.Core.frameTime * 0.5;
-       //     let k3_acceleration = k2_acceleration - 0.5 * area.c * k3_velocity * k3_velocity * this.area;
-       //     let k4_velocity = this.velocity.y + k3_acceleration + Engine.Core.frameTime;
-       //     let k4_acceleration = k3_acceleration - 0.5 * area.c * k4_velocity * k4_velocity * this.area;
-       //     this.velocity.y += (k1_acceleration + (k2_acceleration + k3_acceleration) * 2.0 + k4_acceleration) * 1 / 6 * Engine.Core.frameTime;
-       //     // this.massCenter.y += (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime;
-       //     this.move(new Vector(0, (k1_velocity + (k2_velocity + k3_velocity) * 2.0 + k4_velocity) * 1 / 6 * Engine.Core.frameTime));
+       //     let k1v = this.velocity.copy();
+       //     let k2v = f(dt * 0.5, this.velocity.add(k1v.scale(dt*0.5)), dt, this.area, area.c, this.mass);
+       //     let k3v = f(dt * 0.5, this.velocity.add(k2v.scale(dt*0.5)), dt, this.area, area.c, this.mass);
+       //     let k4v = f(dt, this.velocity.add(k2v.scale(dt)), dt, this.area, area.c, this.mass);
+       //     let temp = k1v.add(k2v.scale(2))
+       //     temp.add(k3v.scale(3));
+       //     temp.add(k4v).scale(dt/6);
+       //     let vn1 = this.velocity.copy().add(temp);
+       //     this.velocity = vn1;
+       //
+       //     let k1x = this.velocity.copy();
+       //     let k2x = this.velocity.copy().add(k1v.scale(dt * 0.5));
+       //     let k3x = this.velocity.copy().add(k2v.scale(dt * 0.5));
+       //     let k4x = this.velocity.copy().add(k3v.scale(dt));
+       //     let xn1 =  k1x.copy().add(k2x.scale(2));
+       //     xn1.add(k3x.scale(2));
+       //     xn1.add(k4x).scale(dt / 6);
+       //     this.move(xn1);
        // }
 
 

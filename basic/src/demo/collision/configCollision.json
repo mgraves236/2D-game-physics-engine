@@ -2,7 +2,7 @@
   "Triangle": {
     "mass": 40,
     "friction": 0.1,
-    "restitution": 0.1
+    "restitution": 0.5
   },
   "Circle": {
     "mass": 40,

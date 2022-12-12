@@ -29,7 +29,7 @@ export function mainGame(currentTime) {
 
     if (Engine.Core.mAllObjects !== null) {
         // update and display or delete object
-        // let start = new Date().getTime();
+        let start = new Date().getTime();
         let i = 0;
         while (i < Engine.Core.mAllObjects.length) {
             // infoString[i] = "velocity: (" +  Engine.Core.mAllObjects[i].velocity.x + ", " +  Engine.Core.mAllObjects[i].velocity.y + "),    " +
@@ -38,8 +38,8 @@ export function mainGame(currentTime) {
             Engine.Core.mAllObjects[i].display();
             i++;
         }
-        // let end = new Date().getTime();
-//         console.log(end - start);
+        let end = new Date().getTime();
+        console.log(end - start);
 
     }
     if (Engine.Core.mDragAreas !== null) {
